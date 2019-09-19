@@ -12,4 +12,4 @@ location / {
 
 导入sql
 
-更改app/database.php数据库连接配置
+更改app/database.php数据库连接配置1
