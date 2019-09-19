@@ -38,7 +38,7 @@ class Wx
         $appid = $param['appid'];
         $encrypteData = urldecode($encrypteData);
         $iv = define_str_replace($iv);
-        $errCode = decryptData($appid, $session_key['session_key'], $encrypteData, $iv);
+        $errCode = decryptData($appid, $session_key, $encrypteData, $iv);
         var_dump($errCode);exit();
     }
 }
