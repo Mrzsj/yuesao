@@ -8,12 +8,16 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-
+if($_SERVER['HTTP_HOST'] == 'ys.nikm.cn'){
+    $mysql_config['hostname'] = '127.0.0.1';
+}else{
+    $mysql_config['hostname'] = '192.168.18.173';
+}
 return [
     // 数据库类型
     'type'            => 'mysql',
     // 服务器地址
-    'hostname'        => '192.168.18.173',
+    'hostname'        => $mysql_config['hostname'],
     // 数据库名
     'database'        => 'ys',
     // 用户名
