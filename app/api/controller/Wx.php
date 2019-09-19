@@ -5,10 +5,21 @@ class Wx
 {
     public function login()
     {
-        $get = input('get.');
+        $code = input('code');
+        $encrypteData = input('encrypteData');
+        $iv = input('iv');
+        if(empty($code)){
+            return ['status'=>0,'msg'=>'code不能为空'];
+        }
+        if(empty($encrypteData)){
+            return ['status'=>0,'msg'=>'encrypteData不能为空'];
+        }
+        if(empty($iv)){
+            return ['status'=>0,'msg'=>'iv不能为空'];
+        }
  		$param['appid'] = 'wxcd417936b51ed32a';    //小程序id
  		$param['secret'] = '43f4fa48efdf86e43a4a0b093e28189c';    //小程序密钥
- 		$param['js_code'] = define_str_replace($get['code']);
+ 		$param['js_code'] = define_str_replace($code);
  		$param['grant_type'] = 'authorization_code';
  		$http_key = httpCurl('https://api.weixin.qq.com/sns/jscode2session', $param, 'GET');
         $session_key = json_decode($http_key,true);
