@@ -1,0 +1,15 @@
+nginx伪静态
+
+location / {
+    if (!-e $request_filename){
+        rewrite  ^(.*)$  /index.php?s=$1  last;   break;
+    }
+}
+
+运行目录设置为public
+
+创建数据库
+
+导入sql
+
+更改app/database.php数据库连接配置
