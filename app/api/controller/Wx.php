@@ -26,8 +26,8 @@ class Wx
         //print_r(http_build_query($param));
         if (!empty($session_key['session_key'])) {
             $appid = $param['appid'];
-            $encrypteData = urldecode($get['encrypteData']);
-            $iv = define_str_replace($get['iv']);
+            $encrypteData = urldecode($encrypteData);
+            $iv = define_str_replace($iv);
             $errCode = decryptData($appid, $session_key['session_key'], $encrypteData, $iv);
             //把appid写入到数据库中
             $data['appid'] = $errCode['openId'];
