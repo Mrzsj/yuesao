@@ -8,7 +8,7 @@ class Upload extends Permissions{
         // 移动到框架应用根目录/public/uploads/ 目录下
         $info = $file->validate(['size'=>51200000 ,'ext'=>'jpg,jpeg,png'])->move(ROOT_PATH . 'public' . DS . 'uploads');
         if($info){
-            $path = DS.'upload'.$info->getSaveName();
+            $path = DS.'uploads'.DS.$info->getSaveName();
             showjson(['status'=>1,'path'=>$path,'msg'=>'上传成功']);
         }else{
             // 上传失败获取错误信息
