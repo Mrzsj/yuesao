@@ -4,15 +4,32 @@ namespace app\admin\controller;
 class Upload extends Permissions{
     public function img(){
         // 获取表单上传文件 例如上传了001.jpg
-        $file = request()->file('file');
-        // 移动到框架应用根目录/public/uploads/ 目录下
-        $info = $file->validate(['size'=>51200000 ,'ext'=>'jpg,jpeg,png'])->move(ROOT_PATH . 'public' . DS . 'uploads');
-        if($info){
-            $path = DS.'uploads'.DS.$info->getSaveName();
-            showjson(['status'=>1,'path'=>$path,'msg'=>'上传成功']);
+        if (!empty($_FILES['file'])) {
+            $suffix_name = strrchr($_FILES['file']['name'],'.');
+            $suffix_name = strtolower($suffix_name);
+            if (!($suffix_name == '.png' || $suffix_name == '.jpeg' || $suffix_name == '.jpg')) {
+                showjson(['status'=>0,'msg'=>'上传类型不合法']);
+            }
+            $file = request()->file('file');
+            // 移动到框架应用根目录/public/uploads/ 目录下
+            $info = $file->move(ROOT_PATH . 'public' . DS . 'uploads');
+            if($info){
+                $path = DS.'uploads'.DS.$info->getSaveName();
+                //打开原图 按照原图的比例生成一个最大为600*600的缩略图替换原图
+                $image = \think\Image::open(ROOT_PATH . 'public' . $path);
+                //判断上传类型压缩
+                if(input('type') == 'carousel'){
+                    $image->thumb(800, 800)->save(ROOT_PATH . 'public' . $path);
+                }else{
+                    $image->thumb(500, 500)->save(ROOT_PATH . 'public' . $path);
+                }
+                showjson(['status'=>1,'path'=>$path,'msg'=>'上传成功']);
+            }else{
+                // 上传失败获取错误信息
+                showjson(['status'=>0,'msg'=>'上传失败']);
+            }
         }else{
-            // 上传失败获取错误信息
-            showjson(['status'=>0,'msg'=>'上传失败']);
+            showjson(['status'=>0,'msg'=>'file字段不能为空']);
         }
     }
 }
