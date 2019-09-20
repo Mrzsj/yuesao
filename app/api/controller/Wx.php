@@ -46,7 +46,14 @@ class Wx
                 // 执行存入token操作
                 $token = insert_token($user_res['id']);
                 if($token['status']){
-                    return ['status'=>1,'msg'=>'登陆成功','token'=>$token['token'],'token_time'=>$token['token_time']];
+                    return [
+                        'status'=>1,
+                        'msg'=>'登陆成功',
+                        'token'=>$token['token'],
+                        'token_time'=>$token['token_time'],
+                        'nickname'=>$user_res['nickname'],
+                        'avatar_url'=>$user_res['avatar_url']
+                    ];
                 }else{
                     return ['status'=>0,'msg'=>'登陆失败'];
                 }
@@ -62,7 +69,14 @@ class Wx
                     $userid = Db::name('user')->getLastInsID();
                     $token = insert_token($userid);
                     if($token['status']){
-                        return ['status'=>1,'msg'=>'登陆成功','token'=>$token['token'],'token_time'=>$token['token_time']];
+                        return [
+                            'status'=>1,
+                            'msg'=>'登陆成功',
+                            'token'=>$token['token'],
+                            'token_time'=>$token['token_time'],
+                            'nickname'=>$res['nickName'],
+                            'avatar_url'=>$res['avatarUrl']
+                        ];
                     }else{
                         return ['status'=>0,'msg'=>'登陆失败'];
                     }
