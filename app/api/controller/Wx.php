@@ -1,10 +1,9 @@
 <?php
 namespace app\api\controller;
-
+use \think\Db;
 class Wx
 {
-    public function login()
-    {
+    public function login(){
         $code = input('code');
         if(empty($code)){
             return ['status'=>0,'msg'=>'code不能为空'];
@@ -37,8 +36,49 @@ class Wx
         $param['appid'] = 'wxcd417936b51ed32a';    //小程序id
         $appid = $param['appid'];
         $encrypteData = urldecode($encrypteData);
+        $encrypteData = define_str_replace($encrypteData);
         $iv = define_str_replace($iv);
         $errCode = decryptData($appid, $session_key, $encrypteData, $iv);
-        var_dump($errCode);exit();
+        $res = json_decode($errCode,true);
+        // $res = [];
+        // $res['openId'] = 'dsafasfsafasfas';
+        // $res['nickName'] = 'dasfasfasf';
+        // $res['avatarUrl'] = 'sdasdas';
+        if(!empty($res['openId'])){
+            $user_res = Db::name('user')->where('openid',$res['openId'])->find();
+            if(!empty($user_res)){
+                // 执行存入token操作
+                $token = insert_token($user_res['id']);
+                if($token['status']){
+                    return ['status'=>1,'msg'=>'登陆成功','token'=>$token['token'],'token_time'=>$token['token_time']];
+                }else{
+                    return ['status'=>0,'msg'=>'登陆失败'];
+                }
+            }else{
+                $data = [
+                    'openid'=>$res['openId'],
+                    'nickname'=>$res['nickName'],
+                    'avatar_url'=>$res['avatarUrl'],
+                    'create_time'=>time()
+                ];
+                $user_res = Db::name('user')->insert($data);
+                if(!empty($user_res)){
+                    $userid = Db::name('user')->getLastInsID();
+                    $token = insert_token($userid);
+                    if($token['status']){
+                        return ['status'=>1,'msg'=>'登陆成功','token'=>$token['token'],'token_time'=>$token['token_time']];
+                    }else{
+                        return ['status'=>0,'msg'=>'登陆失败'];
+                    }
+                }else{
+                    return ['status'=>0,'msg'=>'登陆失败'];
+                }
+            }
+        }else{
+            return ['status'=>0,'msg'=>'解密失败'];
+        }
+    }
+    public function token(){
+        echo get_token();
     }
 }
