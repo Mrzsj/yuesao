@@ -5,8 +5,7 @@
 // var_dump(cache('name'));
 // // 删除缓存数据
 // cache('name', NULL);
-function getRandomChar($length)
-{
+function getRandomChar($length){
     $str = null;
     $strPol = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz';
     $max = strlen($strPol) - 1;
@@ -34,5 +33,4 @@ function get_token(){
         echo json_encode(['status'=>-1,'msg'=>'token失效，请重新登陆']);
         exit();
     }
-    
 }

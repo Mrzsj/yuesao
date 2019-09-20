@@ -103,3 +103,7 @@ function format_bytes($size, $delimiter = '') {
 function jsondecode($arr){
     echo json_encode($arr);exit();
 }
+function showjson($arr){
+    echo json_encode($arr,JSON_UNESCAPED_UNICODE);
+    exit();
+}
