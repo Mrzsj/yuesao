@@ -22,12 +22,14 @@ class Information extends Permissions
             return ['status'=>0,'msg'=>'请输入正确的条数'];
         }
         $number = ($page - 1) * $limit;
-        $arr = Db::name('information')->order('id desc')->limit($number,$limit)->select();
+        $arr = Db::name('information')->order('sort desc')->limit($number,$limit)->select();
         foreach ($arr as $k => $v) {
             $arr[$k]['create_time'] = date('Y-m-d H:i:s',$arr[$k]['create_time']);
             $arr[$k]['update_time'] = date('Y-m-d H:i:s',$arr[$k]['update_time']);
         }
-        jsondecode(['data' => $arr]);
+        $count = Db::query("select count(id) from information");
+        $count = $count[0]['count(id)'];
+        jsondecode(['code' => 0,'count' => $count,'data' => $arr]);
     }
 
     //获取消息详情
@@ -45,7 +47,8 @@ class Information extends Permissions
 
     //编辑消息
     public function edit(){
-        $img = input('img');
+        $sort = input('sort');
+        $img = input('head_img');
         $title = input('title');
         $content = input('content');
         if (empty($img)) {
@@ -62,19 +65,21 @@ class Information extends Permissions
 
         if (!empty($id) && is_numeric($id)) {  //修改
             $update = [
+                'sort' => $sort,
                 'img' => $img,
                 'title' => $title,
                 'content' => $content,
                 'update_time'=>time()
             ];
             $res = Db::name('information')->where('id', $id)->update($update);
-            if (jsondecode($res) == 1) {  //返回值是影响行数
-                return ['status'=>1,'msg'=>'修改成功'];
+            if ($res == 1) {  //返回值是影响行数
+                jsondecode(['status'=>1,'msg'=>'修改成功']);
             }else{
-                return ['status'=>0,'msg'=>'修改失败'];
+                jsondecode(['status'=>0,'msg'=>'修改失败']);
             }
         }else{  //添加
             $insert = [
+                'sort' => $sort,
                 'img' => $img,
                 'title' => $title,
                 'content' => $content,
@@ -82,10 +87,10 @@ class Information extends Permissions
                 'update_time' => time()
             ];
             $res = Db::name('information')->insert($insert);
-            if (jsondecode($res) == 1) {
-                return ['status'=>1,'msg'=>'添加成功'];
+            if ($res == 1) {
+                jsondecode(['status'=>1,'msg'=>'添加成功']);
             }else{
-                return ['status'=>0,'msg'=>'添加失败'];
+                jsondecode(['status'=>0,'msg'=>'添加失败']);
             }
         }
     }
@@ -95,13 +100,13 @@ class Information extends Permissions
         $id = input('id');
         if (!empty($id) && is_numeric($id)) {
             $res = Db::name('information')->where('id',$id)->delete();
-            if (jsondecode($res) == 1) {
-                return ['status' => 1,'msg' => '删除成功'];
+            if ($res == 1) {
+                jsondecode(['status' => 1,'msg' => '删除成功']);
             }else{
-                return ['status' => 0,'msg' => '删除失败'];
+                jsondecode(['status' => 0,'msg' => '删除失败']);
             }
         }else{
-            return ['status' => 0,'msg' => 'id不合法'];
+            jsondecode(['status' => 0,'msg' => 'id不合法']);
         }
     }
 }
