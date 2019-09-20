@@ -39,11 +39,7 @@ class Wx
         $encrypteData = define_str_replace($encrypteData);
         $iv = define_str_replace($iv);
         $errCode = decryptData($appid, $session_key, $encrypteData, $iv);
-        $res = json_decode($errCode,true);
-        // $res = [];
-        // $res['openId'] = 'dsafasfsafasfas';
-        // $res['nickName'] = 'dasfasfasf';
-        // $res['avatarUrl'] = 'sdasdas';
+        $res = $errCode;
         if(!empty($res['openId'])){
             $user_res = Db::name('user')->where('openid',$res['openId'])->find();
             if(!empty($user_res)){
