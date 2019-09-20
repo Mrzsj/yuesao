@@ -32,6 +32,7 @@ function get_token(){
         return $userid;
     }else{
         echo json_encode(['status'=>-1,'msg'=>'token失效，请重新登陆']);
+        exit();
     }
     
 }
