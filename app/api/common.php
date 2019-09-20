@@ -28,7 +28,7 @@ function insert_token($userid){
 function get_token(){
     $token = \think\Request::instance()->header('token');
     $userid = cache($token);
-    if(!empty($token)){
+    if(!empty($userid)){
         return $userid;
     }else{
         echo json_encode(['status'=>-1,'msg'=>'token失效，请重新登陆']);
