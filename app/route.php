@@ -11,7 +11,7 @@
 
 use think\Route;
 //Route::rule('重写之后的url','重写之前的url')
-
+Route::rule('api/matchprocess','api/matchprocess/get');
 return [
     '__pattern__' => [
         'name' => '\w+',
