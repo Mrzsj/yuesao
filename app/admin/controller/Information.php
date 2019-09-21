@@ -30,7 +30,7 @@ class Information extends Permissions
             $list = $Information_model->search($number, $limit, $q);
         }
         $count = $Information_model->total();
-        jsondecode(['code' => 0,'count' => $count,'data' => $list]);
+        showjson(['code' => 0,'count' => $count,'data' => $list]);
     }
 
     //编辑消息
@@ -54,16 +54,16 @@ class Information extends Permissions
         if (!empty($id) && is_numeric($id)) {  //修改
             $res = $Information_model->edit($id, $sort, $img, $title, $content);
             if ($res == 1) {  //返回值是影响行数
-                jsondecode(['status'=>1,'msg'=>'修改成功']);
+                showjson(['status'=>1,'msg'=>'修改成功']);
             }else{
-                jsondecode(['status'=>0,'msg'=>'修改失败']);
+                showjson(['status'=>0,'msg'=>'修改失败']);
             }
         }else{  //添加
             $res = $Information_model->edit('', $sort, $img, $title, $content);
             if ($res == 1) {
-                jsondecode(['status'=>1,'msg'=>'添加成功']);
+                showjson(['status'=>1,'msg'=>'添加成功']);
             }else{
-                jsondecode(['status'=>0,'msg'=>'添加失败']);
+                showjson(['status'=>0,'msg'=>'添加失败']);
             }
         }
     }
@@ -75,12 +75,12 @@ class Information extends Permissions
         if (!empty($id) && is_numeric($id)) {
             $res = $Information_model->del($id);
             if ($res == 1) {
-                jsondecode(['status' => 1,'msg' => '删除成功']);
+                showjson(['status' => 1,'msg' => '删除成功']);
             }else{
-                jsondecode(['status' => 0,'msg' => '删除失败']);
+                showjson(['status' => 0,'msg' => '删除失败']);
             }
         }else{
-            jsondecode(['status' => 0,'msg' => 'id不合法']);
+            showjson(['status' => 0,'msg' => 'id不合法']);
         }
     }
 }

@@ -30,7 +30,7 @@ class Information
         if (!empty($id) && is_numeric($id)){
             $data = $Information_model->detail($id);
         }else{
-            jsondecode(['status' => 0,'msg' => 'id不合法']);
+            showjson(['status' => 0,'msg' => 'id不合法']);
         }
         return $data;
 

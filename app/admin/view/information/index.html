@@ -60,7 +60,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">消息内容</label>
         <div class="layui-input-block">
-            <textarea type="text" name="title"  placeholder="请输入消息内容" autocomplete="off" id="content" style="height: 300px"></textarea>
+            <textarea type="text" name="title" required  lay-verify="required" placeholder="请输入消息内容" autocomplete="off" id="content" style="height: 300px"></textarea>
         </div>
     </div>
     <div class="layui-form-item">
@@ -84,12 +84,6 @@
 </script>
 <script id="content" name="content" type="text/plain">
   这里写你的初始化内容
-</script>
-<script type="text/html" id="img_path">
-    {{#
-    console.log(d.content);
-    UE.getEditor('content').setContent(d.content, '');
-    }}
 </script>
 <script type="text/javascript" src="__PUBLIC__/ueditor/ueditor.config.js"></script>
 <!-- 编辑器源码文件 -->
@@ -124,7 +118,7 @@
                 {field:'sort',title: '排序',align: 'center'},
                 {field:'img',title: '图片',align: 'center',templet:'#imgs'},
                 {field:'title',title: '消息标题',align: 'center'},
-                {field:'content', title: '消息内容',align: 'center',templet:'#contents'},
+                {field:'content', title: '消息内容',align: 'center'},
                 {field:'create_time', title: '创建时间',align: 'center'},
                 {field:'update_time', title: '最后修改时间',align: 'center'},
                 {fixed:'right',title: '操作', align:'center', toolbar: '#buttons'}
@@ -150,7 +144,7 @@
             }else if(obj.event === 'edit'){  //编辑 赋值的是数据库参数
                 setTimeout(function () {  //定时器 赋值操作过快，编辑器运行时覆盖了原本赋的值
                     UE.getEditor('content').setContent(data.content);  //编辑器上赋值操作
-                },1000);
+                },200);
                 $('.head_img').show();
                 $('#img').val(data.img);
                 $('#img_show').attr('src',data.img);

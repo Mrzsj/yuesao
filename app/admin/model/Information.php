@@ -42,7 +42,7 @@ class Information extends Model
             ];
             $res = Db::name('information')->where('id', $id)->update($update);
         }else{
-            $update = [
+            $insert = [
                 'sort' => $sort,
                 'img' => $img,
                 'title' => $title,
@@ -50,7 +50,7 @@ class Information extends Model
                 'update_time' => time(),
                 'create_time' => time()
             ];
-            $res = Db::name('information')->insert($update);
+            $res = Db::name('information')->insert($insert);
         }
         return $res;
     }
