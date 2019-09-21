@@ -2,8 +2,8 @@
 
 namespace app\admin\controller;
 
-use app\admin\controller\Permissions;
-use \think\Db;
+use app\admin\controller\Permissions,
+    app\admin\model\Information AS Information_model;
 class Information extends Permissions
 {
     public function index()
@@ -15,6 +15,7 @@ class Information extends Permissions
     public function lists(){
         $page = input('page');
         $limit = input('limit');
+        $q = input('title');
         if (empty($page) || !is_numeric($page)) {
             return ['status'=>0,'msg'=>'请输入正确的页码'];
         }
@@ -22,31 +23,19 @@ class Information extends Permissions
             return ['status'=>0,'msg'=>'请输入正确的条数'];
         }
         $number = ($page - 1) * $limit;
-        $arr = Db::name('information')->order('sort desc')->limit($number,$limit)->select();
-        foreach ($arr as $k => $v) {
-            $arr[$k]['create_time'] = date('Y-m-d H:i:s',$arr[$k]['create_time']);
-            $arr[$k]['update_time'] = date('Y-m-d H:i:s',$arr[$k]['update_time']);
+        $Information_model = new Information_model();
+        if (empty($q)){
+            $list = $Information_model->getlist($number, $limit);
+        }else{
+            $list = $Information_model->search($number, $limit, $q);
         }
-        $count = Db::query("select count(id) from information");
-        $count = $count[0]['count(id)'];
-        jsondecode(['code' => 0,'count' => $count,'data' => $arr]);
-    }
-
-    //获取消息详情
-    public function detail(){
-        $id = input('id');
-        if (empty($id) || !is_numeric($id)) {
-            return ['status'=>0,'msg'=>'请输入正确的id格式'];
-        }
-        $arr = Db::name('information')->where('id', $id)->find();
-        $arr['create_time'] = date('Y-m-d H:i:s',$arr['create_time']);
-        $arr['update_time'] = date('Y-m-d H:i:s',$arr['update_time']);
-
-        jsondecode(['data' => $arr]);
+        $count = $Information_model->total();
+        jsondecode(['code' => 0,'count' => $count,'data' => $list]);
     }
 
     //编辑消息
     public function edit(){
+        $id = input('id');
         $sort = input('sort');
         $img = input('head_img');
         $title = input('title');
@@ -61,32 +50,16 @@ class Information extends Permissions
             return ['status'=>0,'msg'=>'请输入消息内容'];
         }
 
-        $id = input('id');
-
+        $Information_model = new Information_model();
         if (!empty($id) && is_numeric($id)) {  //修改
-            $update = [
-                'sort' => $sort,
-                'img' => $img,
-                'title' => $title,
-                'content' => $content,
-                'update_time'=>time()
-            ];
-            $res = Db::name('information')->where('id', $id)->update($update);
+            $res = $Information_model->edit($id, $sort, $img, $title, $content);
             if ($res == 1) {  //返回值是影响行数
                 jsondecode(['status'=>1,'msg'=>'修改成功']);
             }else{
                 jsondecode(['status'=>0,'msg'=>'修改失败']);
             }
         }else{  //添加
-            $insert = [
-                'sort' => $sort,
-                'img' => $img,
-                'title' => $title,
-                'content' => $content,
-                'create_time' => time(),
-                'update_time' => time()
-            ];
-            $res = Db::name('information')->insert($insert);
+            $res = $Information_model->edit('', $sort, $img, $title, $content);
             if ($res == 1) {
                 jsondecode(['status'=>1,'msg'=>'添加成功']);
             }else{
@@ -98,8 +71,9 @@ class Information extends Permissions
     //删除消息
     public function delete(){
         $id = input('id');
+        $Information_model = new Information_model();
         if (!empty($id) && is_numeric($id)) {
-            $res = Db::name('information')->where('id',$id)->delete();
+            $res = $Information_model->del($id);
             if ($res == 1) {
                 jsondecode(['status' => 1,'msg' => '删除成功']);
             }else{
