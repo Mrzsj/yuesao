@@ -34,7 +34,7 @@ class User extends Model{
         $res = Db::name('user')->where('id',$id)->update($data);
         return $res;
     }
-    public static function matron_get($id){
+    public static function user_get($id){
         $data = Db::name('user')->where('id',$id)->find();
         return $data;
     }

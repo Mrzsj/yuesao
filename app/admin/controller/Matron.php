@@ -37,7 +37,7 @@ class Matron extends Permissions
         if(empty($id)){
             showjson(['status'=>0,'msg'=>'id不合法']);
         }
-        $data = User::matron_get($id);
+        $data = User::user_get($id);
         if(!empty($data)){
             if($data['status'] == 1 || $data['status'] == 3){
                 showjson(['status'=>0,'msg'=>'请勿重复操作']);
