@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>寿县人APP后台管理</title>
+    <title>最新消息</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -124,7 +124,10 @@
                 {field:'update_time', title: '最后修改时间',align: 'center'},
                 {fixed:'right',title: '操作', align:'center', toolbar: '#buttons'}
             ]],
-            page: true//是否分页
+            page: true,//是否分页
+            done: function () {
+                hoverOpenImg();
+            }
         });
 
         //监听
@@ -211,6 +214,23 @@
             }
         });
     });
+
+    //鼠标触发事件
+    function hoverOpenImg() {
+        var img_show = null;
+        $('td img').hover(function () {
+            var kd = $(this).width();
+            var kd1 = kd * 5;
+            var kd2 = kd * 5 + 30;
+            var img = "<img class='img_msg' src='" + $(this).attr('src') + "' style='width:" + kd1 + "px;' />";
+            img_show = layer.tips(img, this, {
+                tips: [2, 'rgba(41,41,41,.1)']
+                , area: [kd2 + 'px']
+            });
+        }, function () {
+            layer.close(img_show);
+        });
+    }
 
     //编辑提交
     $('#submit').click(function(){
