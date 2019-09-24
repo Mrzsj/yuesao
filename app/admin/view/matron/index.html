@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="__PUBLIC__/font-awesome/css/font-awesome.min.css" media="all">
 </head>
 <body class="layui-layout-body" style="overflow-y:visible;">
-  <form class="layui-form">
+  <div class="layui-form">
     <blockquote class="layui-elem-quote quoteBox">
         <div class="layui-inline" style="margin-left: 1rem;">
             <input type="text" placeholder="姓名或者手机号" class="layui-input" id="name_mobile">
@@ -21,7 +21,7 @@
             <a class="layui-btn  layui-btn-normal" id="search">搜索</a>
         </div>
     </blockquote>
-</form>
+</div>
 <table class="layui-hide" id="table" lay-filter="table">
 
 </table>
@@ -67,7 +67,7 @@ layui.use(['table','form','layer'], function(){
     //field是取接口的字段值
     //width是宽度，不填则自动根据值的长度
       {field:'id', title: 'ID',align: 'center',width:100},
-      {field:'nickname',title: '用户',align: 'center',width:100},
+      {field:'nickname',title: '昵称',align: 'center',width:100},
       {field:'openid',title: 'openid',align: 'center'},
       {field:'avatar_url',title: '微信头像',align: 'center',width:100,templet:"#avatar"},
       {field:'name', title: '姓名',align: 'center',width:100},

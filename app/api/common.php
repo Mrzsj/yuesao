@@ -34,3 +34,7 @@ function get_token(){
         exit();
     }
 }
+function msg($status,$msg){
+    echo json_encode(['status'=>$status,'msg'=>$msg],JSON_UNESCAPED_UNICODE);
+    exit();
+}
