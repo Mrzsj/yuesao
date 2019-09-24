@@ -14,5 +14,9 @@ class Coupon extends Model{
         ->limit($number,$limit)
         ->select();
         return $data;
-	}
+    }
+    public function getone($id = 0){
+        $data = Db::name('coupon')->where('id',$id)->find();
+        return $data;
+    }
 }
