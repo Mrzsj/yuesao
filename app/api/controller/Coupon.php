@@ -58,7 +58,7 @@ class Coupon
         Db::startTrans();
         try{
             Db::name('coupon')->where('id', $id)->setInc('receive_num');
-            $res = Db::name('coupon_log')->insert($data);
+            Db::name('coupon_log')->insert($data);
             Db::commit();
             msg(1,'领取成功');
         } catch (Exception $e) {
