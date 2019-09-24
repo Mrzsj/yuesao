@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>用户协议</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <script src="__PUBLIC__/echarts/echarts.min.js"></script>
+    <link rel="stylesheet" href="__PUBLIC__/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="__PUBLIC__/font-awesome/css/font-awesome.min.css" media="all">
+</head>
+<body class="layui-layout-body" style="overflow-y:visible;">
+<div class="layui-form-item layui-form-text">
+    <label class="layui-form-label">内容</label>
+    <div class="layui-input-block">
+        <textarea name="desc" placeholder="" required  lay-verify="required" id="content" style="height: 25rem; width: 90%; margin-top: 50px">{$data['content']}</textarea>
+    </div>
+</div>
+<div class="layui-form-item">
+    <div class="layui-input-block">
+        <button class="layui-btn" id="submit">立即提交</button>
+    </div>
+</div>
+</div>
+</body>
+<script id="content" name="content" type="text/plain">
+  这里写你的初始化内容
+</script>
+<script type="text/javascript" src="__PUBLIC__/ueditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="__PUBLIC__/ueditor/ueditor.all.js"></script>
+<script type="text/javascript" src="__PUBLIC__/ueditor/lang/zh-cn/zh-cn.js"></script>
+<!-- 实例化编辑器 -->
+<script type="text/javascript">
+    var ue = UE.getEditor('content');
+</script>
+<script src="/static/public/jquery/jquery.min.js"></script>
+<script src="/static/public/layui/layui.js"></script>
+<script>
+    $('#submit').click(function(){
+        var data = {
+            content:UE.getEditor('content').getContent()
+        };
+        //console.log(data);return;
+        var url = "{:url('admin/about/edit')}";
+        $.post(url,data,function(res){
+            layer.msg(res.msg);
+        },'json');
+    })
+</script>
+</html>
