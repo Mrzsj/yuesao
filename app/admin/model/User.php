@@ -19,8 +19,8 @@ class User extends Model{
 		}
         return $data;
     }
-    public static function matron_count(){
-        $data = Db::name('user')->field('count(id)')->where('status','<>','0')->find();
+    public static function matron_count($where = ''){
+        $data = Db::name('user')->field('count(id)')->where('status','<>','0')->where($where)->find();
         return $data['count(id)'];
     }
     public static function matron_status($id,$status){

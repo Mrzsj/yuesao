@@ -104,3 +104,7 @@ function showjson($arr){
     echo json_encode($arr,JSON_UNESCAPED_UNICODE);
     exit();
 }
+function msg($status,$msg){
+    echo json_encode(['status'=>$status,'msg'=>$msg],JSON_UNESCAPED_UNICODE);
+    exit();
+}

@@ -25,7 +25,7 @@ class Matron extends Permissions
             $where = '';
         }
         $data = User::matron_list($number,$limit,$where);
-        $total = User::matron_count();
+        $total = User::matron_count($where);
         showjson(['code'=>0,'count'=>$total,'data'=>$data]);
     }
     public function status(){
