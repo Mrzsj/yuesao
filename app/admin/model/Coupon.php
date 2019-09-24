@@ -4,8 +4,8 @@ namespace app\admin\model;
 use \think\Model;
 use \think\Db;
 class Coupon extends Model{
-	public static function getlist($number,$limit){
-		$data = Db::name('coupon')->order('id desc')->limit($number,$limit)->select();
+	public static function getlist($number,$limit,$where=''){
+		$data = Db::name('coupon')->order('id desc')->where($where)->limit($number,$limit)->select();
 		foreach($data as $k => $v){
 			$data[$k]['start_time'] = date('Y-m-d H:i:s',$v['start_time']);
 			$data[$k]['end_time'] = date('Y-m-d H:i:s',$v['end_time']);
@@ -14,8 +14,8 @@ class Coupon extends Model{
 		}
 		return $data;
 	}
-	public static function total(){
-		$data = Db::name('coupon')->field('count(id)')->find();
+	public static function total($where=''){
+		$data = Db::name('coupon')->field('count(id)')->where($where)->find();
 		return $data['count(id)'];
 	}	
 	public static function del($id){

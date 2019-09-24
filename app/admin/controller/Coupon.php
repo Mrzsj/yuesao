@@ -20,8 +20,13 @@ class Coupon extends Permissions
             msg(0,'请输入正确的条数');
         }
         $number = ($page - 1) * $limit;
-        $data = coupon_model::getlist($number,$limit);
-        $total = coupon_model::total();
+        if(!empty(input('title'))){
+            $where = "title like '%".input('title')."%'";
+        }else{
+            $where = '';
+        }
+        $data = coupon_model::getlist($number,$limit,$where);
+        $total = coupon_model::total($where);
         showjson(['code'=>0,'count'=>$total,'data'=>$data]);
     }
     public function del(){

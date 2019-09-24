@@ -17,6 +17,12 @@
                 <div class="layui-inline" style="margin-left: 2rem;">
                     <a class="layui-btn add">添加优惠券</a>
                 </div>
+                <div class="layui-inline" style="margin-left: 1rem;">
+                    <input type="text" placeholder="优惠券名称" class="layui-input" id="title">
+                </div>
+                <div class="layui-inline" style="margin-left: 1rem;">
+                    <a class="layui-btn  layui-btn-normal" id="search">搜索</a>
+                </div>
         </blockquote>
     </form>
 <table class="layui-hide" id="table" lay-filter="table">
@@ -116,6 +122,23 @@ $('.add').click(function(){
         title:'添加优惠券'
     });
     layer.full(index);
+})
+$('#search').click(function(){
+      //传递where条件实现搜索，并且重载表格数据
+      layui.use('table', function(){
+            var table = layui.table;
+            table.reload('table', { //表格的id
+                url:"{:url('admin/coupon/list')}",
+                where:{
+                    'title':$('#title').val()
+                }
+            });
+      })
+})
+$(document).on('keydown', function(e){
+    if(e.keyCode == 13){
+        $('#search').click();
+    }
 })
 </script>
 </html>
