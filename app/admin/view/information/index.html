@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>寿县人APP后台管理</title>
+    <title>最新消息</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -13,18 +13,19 @@
     <link rel="stylesheet" href="__CSS__/admin-1.css" media="all">
 </head>
 <body class="layui-layout-body" style="overflow-y:visible;">
-<form class="layui-form">
+<div class="layui-form">
     <blockquote class="layui-elem-quote quoteBox">
         <div class="layui-inline" style="margin-left: 2rem;">
             <a class="layui-btn add">添加消息</a>
         </div>
-            <input class="layui-inline" style="margin-left: 2rem;height: 25px" id="search_title">
+        <div class="layui-inline" style="margin-left: 2rem;">
+            <input class="layui-input"  id="search_title">
         </div>
         <div class="layui-inline" style="margin-left: 1rem;">
             <a class="layui-btn  layui-btn-normal" id="search">搜索</a>
         </div>
     </blockquote>
-</form>
+</div>
 <table class="layui-hide" id="table" lay-filter="table">
 
 </table>
@@ -123,7 +124,10 @@
                 {field:'update_time', title: '最后修改时间',align: 'center'},
                 {fixed:'right',title: '操作', align:'center', toolbar: '#buttons'}
             ]],
-            page: true//是否分页
+            page: true,//是否分页
+            done: function () {
+                hoverOpenImg();
+            }
         });
 
         //监听
@@ -211,6 +215,23 @@
         });
     });
 
+    //鼠标触发事件
+    function hoverOpenImg() {
+        var img_show = null;
+        $('td img').hover(function () {
+            var kd = $(this).width();
+            var kd1 = kd * 5;
+            var kd2 = kd * 5 + 30;
+            var img = "<img class='img_msg' src='" + $(this).attr('src') + "' style='width:" + kd1 + "px;' />";
+            img_show = layer.tips(img, this, {
+                tips: [2, 'rgba(41,41,41,.1)']
+                , area: [kd2 + 'px']
+            });
+        }, function () {
+            layer.close(img_show);
+        });
+    }
+
     //编辑提交
     $('#submit').click(function(){
         var data = {
@@ -247,11 +268,12 @@
                     'title':$('#search_title').val(),
                 }
             });
-        })
+        });
     });
 
     //回车搜索
     $(document).on('keydown', function(e){
+        // console.log(e.keyCode);  //获取按键的数值
         if(e.keyCode == 13){
             layui.use('table', function(){
                 var table = layui.table;
@@ -261,7 +283,7 @@
                         'title':$('#search_title').val(),
                     }
                 });
-            })
+            });
         }
     })
 </script>
