@@ -11,6 +11,17 @@
     <link rel="stylesheet" href="__PUBLIC__/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="__PUBLIC__/font-awesome/css/font-awesome.min.css" media="all">
     <link rel="stylesheet" href="__CSS__/admin-1.css" media="all">
+    <style>
+        .edui-for-insertimage{
+            z-index:999999999!important;
+        }
+        .layui-layer-page{
+            z-index:5!important;
+        }
+        .layui-layer-shade{
+            z-index: 0!important;
+        }
+    </style>
 </head>
 <body class="layui-layout-body" style="overflow-y:visible;">
 <div class="layui-form">
@@ -49,19 +60,19 @@
     <div class="layui-form-item">
         <label class="layui-form-label">排序</label>
         <div class="layui-input-block">
-            <input type="text" name="title" required  lay-verify="required" placeholder="请输入排序" autocomplete="off" class="layui-input" id="sort">
+            <input type="text" name="title" placeholder="请输入排序" autocomplete="off" class="layui-input" id="sort">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">消息标题</label>
         <div class="layui-input-block">
-            <input type="text" name="title" required  lay-verify="required" placeholder="请输入消息标题" autocomplete="off" class="layui-input" id="title">
+            <input type="text" name="title" placeholder="请输入消息标题" autocomplete="off" class="layui-input" id="title">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">消息内容</label>
         <div class="layui-input-block">
-            <textarea type="text" name="title" required  lay-verify="required" placeholder="请输入消息内容" autocomplete="off" id="content" style="height: 300px"></textarea>
+            <textarea type="text" name="title" placeholder="请输入消息内容" autocomplete="off" id="content" style="height: 300px"></textarea>
         </div>
     </div>
     <div class="layui-form-item">
