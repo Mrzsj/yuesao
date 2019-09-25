@@ -8,7 +8,7 @@ class Upload{
             $suffix_name = strrchr($_FILES['file']['name'],'.');
             $suffix_name = strtolower($suffix_name);
             if (!($suffix_name == '.png' || $suffix_name == '.jpeg' || $suffix_name == '.jpg')) {
-                showjson(['status'=>0,'msg'=>'上传类型不合法']);
+                msg(0,'上传类型不合法');
             }
             $file = request()->file('file');
             // 移动到框架应用根目录/public/uploads/ 目录下
@@ -26,10 +26,10 @@ class Upload{
                 showjson(['status'=>1,'path'=>$path,'msg'=>'上传成功']);
             }else{
                 // 上传失败获取错误信息
-                showjson(['status'=>0,'msg'=>'上传失败']);
+                msg(0,'上传失败');
             }
         }else{
-            showjson(['status'=>0,'msg'=>'file字段不能为空']);
+            msg(0,'file字段不能为空');
         }
     }
 }

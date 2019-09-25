@@ -6,7 +6,7 @@ class Wx
     public function login(){
         $code = input('code');
         if(empty($code)){
-            return ['status'=>0,'msg'=>'code不能为空'];
+            msg(0,'code不能为空');
         }
  		$param['appid'] = 'wxcd417936b51ed32a';    //小程序id
  		$param['secret'] = '43f4fa48efdf86e43a4a0b093e28189c';    //小程序密钥
@@ -25,13 +25,13 @@ class Wx
         $encrypteData = input('encrypteData');
         $iv = input('iv');
         if(empty($session_key)){
-            return ['status'=>0,'msg'=>'session_key不能为空'];
+            msg(0,'session_key不能为空');
         }
         if(empty($encrypteData)){
-            return ['status'=>0,'msg'=>'encrypteData不能为空'];
+            msg(0,'encrypteData不能为空');
         }
         if(empty($iv)){
-            return ['status'=>0,'msg'=>'iv不能为空'];
+            msg(0,'iv不能为空');
         }
         $param['appid'] = 'wxcd417936b51ed32a';    //小程序id
         $appid = $param['appid'];
@@ -55,7 +55,7 @@ class Wx
                         'avatar_url'=>$user_res['avatar_url']
                     ];
                 }else{
-                    return ['status'=>0,'msg'=>'登陆失败'];
+                    msg(0,'登陆失败');
                 }
             }else{
                 $data = [
@@ -78,14 +78,14 @@ class Wx
                             'avatar_url'=>$res['avatarUrl']
                         ];
                     }else{
-                        return ['status'=>0,'msg'=>'登陆失败'];
+                        msg(0,'登陆失败');
                     }
                 }else{
-                    return ['status'=>0,'msg'=>'登陆失败'];
+                    msg(0,'登陆失败');
                 }
             }
         }else{
-            return ['status'=>0,'msg'=>'解密失败'];
+            msg(0,'解密失败');
         }
     }
     public function token(){

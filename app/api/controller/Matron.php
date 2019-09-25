@@ -12,24 +12,24 @@ class Matron
         $mobile = input('mobile');
         $name = input('name');
         if(empty($name)){
-            return ['status'=>0,'msg'=>'姓名不能为空'];
+            msg(0,'姓名不能为空');
         }
         // if (empty($mobile) || !preg_match("/^1[3456789]\d{9}$/", $mobile)) {
     	// 	return ['status'=>0,'msg'=>'请输入正确的手机号'];
         // }
         $data = User::user_get($userid);
         if($data['status'] == 1){
-            return ['status'=>0,'msg'=>'已经是月嫂，无需申请'];
+            msg(0,'已经是月嫂，无需申请');
         }
         if($data['status'] == 2){
-            return ['status'=>0,'msg'=>'已经申请入驻，请勿重复提交'];
+            msg(0,'已经申请入驻，请勿重复提交');
         }
         $data = ['status'=>2,'matron_create_time'=>time(),'name'=>$name,'mobile'=>$mobile];
         $res = Db::name('user')->where('id',$userid)->update($data);
         if($res == 1){
-            return ['status'=>1,'msg'=>'提交成功'];
+            msg(1,'提交成功');
         }else{
-            return ['status'=>0,'msg'=>'提交失败'];
+            msg(0,'提交失败');
         }
     }
     public function edit(){
@@ -57,11 +57,11 @@ class Matron
         ];
         $validate = new Validate($rule,$msg);
         if (!$validate->check($data)) {
-            return ['status'=>0,'msg'=>$validate->getError()];
+            msg(0,$validate->getError());
         }
         $user = User::user_get($userid);
         if($user['status'] != 1){
-            return ['status'=>-2,'msg'=>'您还不是月嫂，请申请入驻'];
+            msg(-2,'您还不是月嫂，请申请入驻');
         }
         $data['mobile'] = intval($data['mobile']);
         $data['year'] = intval($data['year']);
@@ -71,9 +71,9 @@ class Matron
         // }
         $res = model('matron')->temp($data,$userid);
         if($res){
-            return ['status'=>1,'msg'=>'修改成功，等待审核'];
+            msg(1,'修改成功，等待审核');
         }else{
-            return ['status'=>0,'msg'=>'修改失败'];
+            msg(0,'修改失败');
         }
     }
     public function data(){
@@ -81,7 +81,7 @@ class Matron
         $res = Db::name('user')->alias('u')->join('matron m','u.id=m.user_id')->select();
         return $res;
         if($res['status'] != 1){
-            return ['status'=>-2,'msg'=>'您还不是月嫂，请申请入驻'];
+            msg(-2,'您还不是月嫂，请申请入驻');
         }
         return $res;
         $data = [

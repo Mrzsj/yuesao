@@ -125,7 +125,5 @@ function msg($status,$msg){
     exit();
 }
 function ueditor_img_src($content = ''){
-    // echo '<img src="';
-    // echo '<img src="'.(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";exit();
     return str_replace('<img src="','<img src="'.(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]",$content);
 }
