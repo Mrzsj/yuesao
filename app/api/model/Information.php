@@ -12,7 +12,7 @@ class Information extends Model
     public function getList($number, $limit){
         $list = Db::name('information')->field(['img', 'title', 'content'])->order('sort asc')->limit($number, $limit)->select();
         foreach($list as $k => $v){
-            $data[$k]['img'] = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]" . str_replace("\\",'/',$v['img']);
+            $list[$k]['img'] = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]" . str_replace("\\",'/',$v['img']);
         }
         if(!empty($list)){
             return ['status'=>1, 'data'=>$list, 'msg'=>'获取消息成功'];
