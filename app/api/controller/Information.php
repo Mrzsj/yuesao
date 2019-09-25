@@ -20,6 +20,7 @@ class Information
         $number = ($page - 1) * $limit;
         $Information_model = new Information_model();
         $list = $Information_model->getList($number, $limit);
+        $data['content'] = ueditor_img_src($list['content']);
         return $list;
     }
 
@@ -32,6 +33,7 @@ class Information
         }else{
             showjson(['status' => 0,'msg' => 'id不合法']);
         }
+        $data['content'] = ueditor_img_src($data['content']);
         return $data;
 
     }
