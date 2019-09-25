@@ -67,4 +67,22 @@ class Coupon
             msg(0,'领取失败');
         }
     }
+    public function my(){
+        $userid = get_token();
+        $status = input('status');
+        $page = input('page');
+        $limit = input('limit');
+        if (empty($page) || !is_numeric($page)) {
+            msg(0,'请输入正确的页码');
+        }
+        if (empty($limit) || !is_numeric($limit)) {
+            msg(0,'请输入正确的条数');
+        }
+        if (empty($status) || !is_numeric($status)) {
+            msg(0,'请输入正确的状态');
+        }
+        $number = ($page - 1) * $limit;
+        $data = model('coupon')->my($number,$limit,$userid,$status);
+        return $data ? ['status'=>1,'data'=>$data] : ['status'=>0,'data'=>[]];
+    }
 }

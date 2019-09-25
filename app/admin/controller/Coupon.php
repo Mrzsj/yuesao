@@ -46,7 +46,7 @@ class Coupon extends Permissions
         $status = input('status');
         $id = input('id');
         if (empty($id) || !is_numeric($id)) {
-            msg(0,'请输入正确的页码');
+            msg(0,'请输入正确的id');
         }
         $id = intval($id);
         //前端传的布尔型  后端接收时是字符串的true false

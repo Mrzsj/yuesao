@@ -27,14 +27,10 @@ function insert_token($userid){
 function get_token(){
     $token = \think\Request::instance()->header('token');
     $userid = cache($token);
-    if(!empty($userid)){
+    if(!empty($userid) && is_numeric($userid)){
         return $userid;
     }else{
         echo json_encode(['status'=>-1,'msg'=>'token失效，请重新登陆']);
         exit();
     }
-}
-function msg($status,$msg){
-    echo json_encode(['status'=>$status,'msg'=>$msg],JSON_UNESCAPED_UNICODE);
-    exit();
 }

@@ -1,4 +1,4 @@
-nginxÎ±¾²Ì¬
+nginxä¼ªé™æ€
 
 location / {
     if (!-e $request_filename){
@@ -6,10 +6,10 @@ location / {
     }
 }
 
-ÔËĞĞÄ¿Â¼ÉèÖÃÎªpublic
+è¿è¡Œç›®å½•è®¾ç½®ä¸ºpublic
 
-´´½¨Êı¾İ¿â
+åˆ›å»ºæ•°æ®åº“
 
-µ¼Èësql
+å¯¼å…¥sql
 
-¸ü¸Äapp/database.phpÊı¾İ¿âÁ¬½ÓÅäÖÃ1
+æ›´æ”¹app/database.phpæ•°æ®åº“è¿æ¥é…ç½®1

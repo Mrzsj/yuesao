@@ -100,11 +100,3 @@ function format_bytes($size, $delimiter = '') {
     for ($i = 0; $size >= 1024 && $i < 5; $i++) $size /= 1024;
     return round($size, 2) . $delimiter . $units[$i];
 }
-function showjson($arr){
-    echo json_encode($arr,JSON_UNESCAPED_UNICODE);
-    exit();
-}
-function msg($status,$msg){
-    echo json_encode(['status'=>$status,'msg'=>$msg],JSON_UNESCAPED_UNICODE);
-    exit();
-}

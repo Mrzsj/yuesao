@@ -18,7 +18,7 @@ class Carousel extends Model{
 	public static function getlist(){
 		$data = Db::name('carousel')->field(['id','img_path'])->order('sort asc')->limit(0,10)->select();
 		foreach($data as $k => $v){
-			$data[$k]['img_url'] = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]" . $v['img_path'];
+			$data[$k]['img_url'] = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]" . str_replace("\\",'/',$v['img_path']);
 			unset($data[$k]['img_path']);
 		}
 		return $data;

@@ -43,14 +43,19 @@ class Matron extends Permissions
                 showjson(['status'=>0,'msg'=>'请勿重复操作']);
             }
         }
-        $res = User::matron_status($id,$status);
-        if($res){
+        Db::startTrans();
+        try{
+            User::matron_status($id,$status);
             if($status == 1){
+                model('matron')->add($data['id']);
+                Db::commit();
                 showjson(['status'=>1,'msg'=>'已审核通过']);
             }else if($status == 3){
                 showjson(['status'=>1,'msg'=>'已拒绝入驻']);
             }
-        }else{
+        } catch (Exception $e) {
+            // 回滚事务
+            Db::rollback();
             showjson(['status'=>0,'msg'=>'操作失败']);
         }
     }
