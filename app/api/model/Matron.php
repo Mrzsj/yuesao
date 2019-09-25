@@ -13,4 +13,7 @@ class Matron extends Model{
         ];
         return Db::name('matron')->where('user_id',$userid)->update($data);
     }
+    public function matron_get($userid){
+        return Db::name('matron')->where('user_id',$userid)->find();
+    }
 }

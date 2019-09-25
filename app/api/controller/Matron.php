@@ -59,6 +59,10 @@ class Matron
         if (!$validate->check($data)) {
             return ['status'=>0,'msg'=>$validate->getError()];
         }
+        $user = User::user_get($userid);
+        if($user['status'] != 1){
+            return ['status'=>-2,'msg'=>'您还不是月嫂，请申请入驻'];
+        }
         $data['mobile'] = intval($data['mobile']);
         $data['year'] = intval($data['year']);
         $data['households'] = intval($data['households']);
@@ -71,5 +75,29 @@ class Matron
         }else{
             return ['status'=>0,'msg'=>'修改失败'];
         }
+    }
+    public function data(){
+        $userid = get_token();
+        $res = Db::name('user')->alias('u')->join('matron m','u.id=m.user_id')->select();
+        return $res;
+        if($res['status'] != 1){
+            return ['status'=>-2,'msg'=>'您还不是月嫂，请申请入驻'];
+        }
+        return $res;
+        $data = [
+            'name'=>$res['name'],
+            'mobile'=>$res['mobile'],
+            'address'=>$res['address'],
+            'year'=>$res['address'],
+            'households'=>$res['households']
+        ];
+        if(!empty($res['head_img'])){
+            $data['head_img'] = $res['head_img'];
+            $data['head_url'] = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]" . str_replace("\\",'/',$res['head_img']);
+        }else{
+            $data['head_url'] = $res['avatar_url'];
+            $data['head_img'] = '';
+        }
+        return ['status'=>1,'data'=>$data];
     }
 }
