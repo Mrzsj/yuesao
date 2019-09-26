@@ -92,10 +92,9 @@ class Wx
         echo get_token();
     }
     public function get_token(){
-        $userid = 1;
-        $token = getRandomChar(32);
-        $token_time = config('token_time');
-        cache($token, $userid, $token_time);
-        echo $token;exit();
+        $id = input('id');
+        $userid = $id;
+        $res = insert_token($userid);
+        print_r($res);exit();
     }
 }

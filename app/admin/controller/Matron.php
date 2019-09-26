@@ -60,4 +60,20 @@ class Matron extends Permissions
             showjson(['status'=>0,'msg'=>'操作失败']);
         }
     }
+    public function index2(){
+        return $this->fetch();
+    }
+    public function matron_list(){
+        $page = input('page');
+        $limit = input('limit');
+        if (empty($page) || !is_numeric($page)) {
+          showjson(['status'=>0,'msg'=>'请输入正确的页码']);
+        }
+        if (empty($limit) || !is_numeric($limit)) {
+          showjson(['status'=>0,'msg'=>'请输入正确的条数']);
+        }
+        $number = ($page - 1) * $limit;
+        $data = model('matron')->list($number,$limit);
+        
+    }
 }

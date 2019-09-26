@@ -6,5 +6,11 @@ return [
     // 默认AJAX 数据返回格式,可选json xml ...
     'default_ajax_return'    => 'json',
     //token时效
-    'token_time'=>3600000,
+    'token_time'=>31536000*10,
+    'cache' => [ // 缓存
+        'token_expire' => 31536000*10, //1小时 =3600
+        'type'   => 'File',
+        'host'   => '127.0.0.1',
+        'port'   => '6379'
+    ],
 ];

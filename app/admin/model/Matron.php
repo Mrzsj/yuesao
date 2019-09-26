@@ -21,5 +21,13 @@ class Matron extends Model{
             }
         }
         return false;
-	}
+    }
+    public function list($number,$limit){
+        $data = Db::name('matron')
+        ->field(['id','nickname','openid','avatar_url','matron_create_time','matron_update_time','name','mobile','status'])
+        ->where('status','<>','0')
+        ->where($where)
+        ->limit($number,$limit)
+        ->select();
+    }
 }
