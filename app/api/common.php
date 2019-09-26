@@ -1,10 +1,4 @@
 <?php
-// // 设置缓存数据
-// cache('name', $value, 3600);
-// // 获取缓存数据
-// var_dump(cache('name'));
-// // 删除缓存数据
-// cache('name', NULL);
 function getRandomChar($length){
     $str = null;
     $strPol = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz';
@@ -18,7 +12,7 @@ function insert_token($userid){
     $token = getRandomChar(32);
     $token_time = config('token_time');
     if(!empty($userid) && is_numeric($userid)){
-        cache($token, $userid, $token_time);
+        think\Cache::set($token, $userid, $token_time);
         return ['status'=>1,'token'=>$token,'token_time'=>$token_time];
     }else{
         return ['status'=>0];
@@ -26,7 +20,7 @@ function insert_token($userid){
 }
 function get_token(){
     $token = \think\Request::instance()->header('token');
-    $userid = cache($token);
+    $userid = think\Cache::get($token);
     if(!empty($userid) && is_numeric($userid)){
         return $userid;
     }else{

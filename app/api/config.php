@@ -11,6 +11,11 @@ return [
         'token_expire' => 31536000*10, //1小时 =3600
         'type'   => 'File',
         'host'   => '127.0.0.1',
-        'port'   => '6379'
+        'port'   => '6379',
+        'path'   => ROOT_PATH."login".DS,
+        // 缓存前缀
+        'prefix' => '',
+        // 缓存有效期 0表示永久缓存
+        'expire' => 0,
     ],
 ];

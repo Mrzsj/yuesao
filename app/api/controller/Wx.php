@@ -92,6 +92,9 @@ class Wx
         echo get_token();
     }
     public function get_token(){
+        // echo ROOT_PATH."login".DS;exit();
+        // echo CACHE_PATH;exit();
+        //return \think\Config::get();exit();
         $id = input('id');
         $userid = $id;
         $res = insert_token($userid);
