@@ -2,6 +2,7 @@
 namespace app\api\controller;
 
 use \think\Db;
+use \think\Validate;
 class Coupon
 {
     public function list(){
