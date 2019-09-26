@@ -14,6 +14,9 @@ class Matron
         if(empty($name)){
             msg(0,'姓名不能为空');
         }
+        if (empty($mobile) || !is_numeric($mobile)) {
+            msg(0,'请输入正确的手机号');
+        }
         // if (empty($mobile) || !preg_match("/^1[3456789]\d{9}$/", $mobile)) {
     	// 	return ['status'=>0,'msg'=>'请输入正确的手机号'];
         // }
