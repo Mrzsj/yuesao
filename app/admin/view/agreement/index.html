@@ -44,7 +44,7 @@
             content:UE.getEditor('content').getContent()
         };
         //console.log(data);return;
-        var url = "{:url('admin/about/edit')}";
+        var url = "{:url('admin/agreement/edit')}";
         $.post(url,data,function(res){
             layer.msg(res.msg);
         },'json');

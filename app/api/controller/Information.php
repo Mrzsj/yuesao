@@ -20,8 +20,14 @@ class Information
         $number = ($page - 1) * $limit;
         $Information_model = new Information_model();
         $list = $Information_model->getList($number, $limit);
-        $data['content'] = ueditor_img_src($list['content']);
-        return $list;
+        foreach ($list as $k => $v){
+            $list[$k]['content'] = ueditor_img_src($v['content']);
+        }
+        if(!empty($list)){
+            return ['status'=>1, 'data'=>$list, 'msg'=>'获取最新消息成功'];
+        }else{
+            return ['status'=>0, 'data'=>[], 'msg'=>'暂无最新消息'];
+        }
     }
 
     public function detail(){
@@ -34,7 +40,10 @@ class Information
             showjson(['status' => 0,'msg' => 'id不合法']);
         }
         $data['content'] = ueditor_img_src($data['content']);
-        return $data;
-
+        if(!empty($data)){
+            return ['status'=>1, 'data'=>$data, 'msg'=>'获取最新消息成功'];
+        }else{
+            return ['status'=>0, 'data'=>[], 'msg'=>'暂无最新消息'];
+        }
     }
 }

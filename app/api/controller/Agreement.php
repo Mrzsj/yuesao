@@ -11,6 +11,7 @@ class Agreement
     public function detail(){
         $Agreement_model = new Agreement_model();
         $data = $Agreement_model->detail();
+        $data['content'] = ueditor_img_src($data['content']);
         if(!empty($data)){
             return ['status'=>1,'data'=>$data,'msg'=>'用户协议获取成功'];
         }else{
