@@ -36,7 +36,7 @@ class Coupon extends Model{
         ->where('status','1')
         ->where('user_id',$userid)
         ->where('expire_time',$judge_symbol,time())
-        ->order('id asc')
+        ->order('id desc')
         ->limit($number,$limit)
         ->select();
         if(!empty($data)){
