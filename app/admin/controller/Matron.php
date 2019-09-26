@@ -51,6 +51,7 @@ class Matron extends Permissions
                 Db::commit();
                 showjson(['status'=>1,'msg'=>'已审核通过']);
             }else if($status == 3){
+                Db::commit();
                 showjson(['status'=>1,'msg'=>'已拒绝入驻']);
             }
         } catch (Exception $e) {
