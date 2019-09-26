@@ -34,9 +34,11 @@ class Coupon
         if($coupon['total'] <= $coupon['receive_num']){
             msg(0,'优惠券已领完');
         }
-        $res = Db::name('coupon_log')->where('type','1')->where('user_id',$userid)->find();
-        if(!empty($res)){
-            msg(0,'您不是新人，无法领取');
+        if($coupon['type'] == 1){
+            $res = Db::name('coupon_log')->where('type','1')->where('user_id',$userid)->find();
+            if(!empty($res)){
+                msg(0,'您不是新人，无法领取');
+            }
         }
         $res = Db::name('coupon_log')->where('coupon_id',$id)->where('user_id',$userid)->find();
         if(!empty($res)){
