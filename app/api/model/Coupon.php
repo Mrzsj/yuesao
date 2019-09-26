@@ -6,13 +6,23 @@ use \think\Db;
 class Coupon extends Model{
 	public function getlist($number,$limit){
         $data = Db::name('coupon')
-        ->field(['title','face_value','type','validity_time','full'])
-        ->where('status','1')
-        ->where('start_time','<',time())
-        ->where('end_time','>',time())
-        ->order('id asc')
+        ->alias('c')
+        ->field(['c.id','c.title','c.face_value','c.type','c.validity_time','c.full','l.id as l_id'])
+        ->where('c.status','1')
+        ->where('c.start_time','<',time())
+        ->where('c.end_time','>',time())
+        ->order('c.id asc')
+        ->join('coupon_log l','c.id=l.coupon_id','left')
         ->limit($number,$limit)
         ->select();
+        foreach($data as $k => $v){
+            if(!empty($v['l_id'])){
+                $data[$k]['is_receive'] = 1;
+            }else{
+                $data[$k]['is_receive'] = 0;
+            }
+            unset($data[$k]['l_id']);
+        }
         return $data;
     }
     public function getone($id = 0){

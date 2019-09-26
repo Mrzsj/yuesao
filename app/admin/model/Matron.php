@@ -23,7 +23,12 @@ class Matron extends Model{
         return false;
     }
     public function list($number,$limit){
-        Db::name('user')->alias('u')->join('matron m','u.id=m.user_id')->select();
+        $res = Db::name('matron')
+        ->alias('m')
+        ->field(['m.*','u.status as u_status','u.name','u.mobile'])
+        ->join('user u','u.id=m.user_id')
+        ->select();
+        echo json_encode($res);exit();
         $data = Db::name('matron')
         ->field(['id','nickname','openid','avatar_url','matron_create_time','matron_update_time','name','mobile','status'])
         ->where('status','<>','0')
