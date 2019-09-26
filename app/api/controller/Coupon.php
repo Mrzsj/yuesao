@@ -80,8 +80,20 @@ class Coupon
         if (empty($limit) || !is_numeric($limit)) {
             msg(0,'请输入正确的条数');
         }
-        if (empty($status) || !is_numeric($status)) {
-            msg(0,'请输入正确的状态');
+        // if (empty($status) || !is_numeric($status)) {
+        //     msg(0,'请输入正确的状态');
+        // }
+        $data['status'] = $status;
+        $rule = [
+            'status'  => 'require|in:0,1',
+        ];
+        $msg = [
+            'status.require' => '请输入正确的状态码',
+            'status.in'     => '请输入正确的状态码',
+        ];
+        $validate = new Validate($rule,$msg);
+        if (!$validate->check($data)) {
+            msg(0,$validate->getError());
         }
         $number = ($page - 1) * $limit;
         $data = model('coupon')->my($number,$limit,$userid,$status);

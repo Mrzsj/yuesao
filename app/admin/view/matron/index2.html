@@ -25,6 +25,50 @@
 <table class="layui-hide" id="table" lay-filter="table">
 
 </table>
+<div id="edit" class="layui-form" style="display: none;margin:1rem 3rem;">
+        <div class="layui-form-item">
+                <label class="layui-form-label">姓名</label>
+                <div class="layui-input-block">
+                  <input type="text" name="title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                </div>
+        </div>
+        <div class="layui-form-item">
+                <label class="layui-form-label">联系电话</label>
+                <div class="layui-input-block">
+                  <input type="text" name="title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                </div>
+        </div>
+        <div class="layui-form-item img">
+          <label class="layui-form-label">头像</label>
+          <div class="layui-input-block">
+              <img src="" alt="" id="img_show" style="width:5rem;height: 5rem;">
+          </div>
+        </div>
+        <div class="layui-form-item">
+                <label class="layui-form-label">联系地址</label>
+                <div class="layui-input-block">
+                  <input type="text" name="title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                </div>
+        </div>
+        <div class="layui-form-item">
+                <label class="layui-form-label">护理经验</label>
+                <div class="layui-input-block">
+                  <input type="text" name="title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                </div>
+        </div>
+        <div class="layui-form-item">
+                <label class="layui-form-label">服务家庭数</label>
+                <div class="layui-input-block">
+                  <input type="text" name="title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                </div>
+        </div>
+        <div class="layui-form-item">
+          <div class="layui-input-block">
+            <button class="layui-btn" lay-filter="formDemo" id="submit">审核通过</button>
+            <button class="layui-btn layui-btn-danger" lay-filter="formDemo" id="submit">拒绝修改资料</button>
+          </div>
+        </div>
+      </div>
 </body>
 <script type="text/html" id="avatar">
     <div>
@@ -133,10 +177,16 @@ layui.use(['table','form','layer'], function(){
       //data就是一行的数据
       var data = obj.data;
       if(obj.event === 'edit'){
-        console.log(data.temp);
         console.log('edit操作');
       }else if(obj.event === 'is_data'){
-        console.log('is_data');
+        console.log(data.temp);
+        layer.open({
+            type: 1,
+            title:'资料审核',
+            skin: 'layui-layer-rim', //加上边框
+            area: ['50rem;', '30rem;'], //宽高
+            content: $('#edit'),
+          });
       }
     });
 });
