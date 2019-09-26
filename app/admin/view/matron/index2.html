@@ -26,9 +26,134 @@
 
 </table>
 </body>
+<script type="text/html" id="avatar">
+    <div>
+      <a href="#">
+        <img src="{{d.avatar_url}}" style="width: 30px">
+      </a>
+    </div>
+</script>
+<script type="text/html" id="buttons">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <!-- 此处写else if报错，原因未知，先改为if -->
+    {{# if(d.is_data_audit == 2){ }}
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="is_data">资料审核</a>
+    {{# } if(d.is_data_audit == 1){ }}
+        <span style="green">资料已审核</span>
+    {{# } if(d.is_data_audit == 0){ }}
+        <span style="gray">资料未提交</span>
+    {{# } if(d.is_data_audit == 3){ }}
+        <span style="red">资料已拒绝</span>
+    {{# } }}
+</script>
+<script type="text/html" id="status">
+    <input type="checkbox" data-id="{{d.id}}" name="status" lay-skin="switch" {{# if(d.status == 1){ }}checked{{# } }} lay-filter="is_status" lay-text="显示|隐藏">
+</script>
 <script src="__PUBLIC__/jquery/jquery.min.js"></script>
 <script src="__PUBLIC__/layui/layui.js"></script>
 <script type="text/javascript">
-
+layui.use(['table','form','layer'], function(){
+  var table = layui.table;
+  var form = layui.form;
+  var layer = layui.layer;
+  table.render({
+    elem: '#table' //表格id
+    ,url:"{:url('admin/matron/matron_list')}"//list接口地址
+    ,cellMinWidth: 80 //全局定义常规单元格的最小宽度
+    ,height: 'full-120',
+    page: true,
+    limits: [15, 25, 45, 60],
+    limit: 15
+    ,cols: [[
+    //align属性是文字在列表中的位置 可选参数left center right
+    //sort属性是排序功能
+    //title是这列的标题
+    //field是取接口的字段值
+    //width是宽度，不填则自动根据值的长度
+      {field:'id', title: 'ID',align: 'center',width:100},
+      {field:'nickname',title: '昵称',align: 'center',width:100},
+      {field:'openid',title: 'openid',align: 'center',width:250},
+      {field:'avatar_url',title: '微信头像',align: 'center',width:100,templet:"#avatar"},
+      {field:'name', title: '姓名',align: 'center',width:100},
+      {field:'mobile', title: '手机号',align: 'center',width:220},
+      {field:'address', title: '联系地址',align: 'center'},
+      {field:'year', title: '工作年限',align: 'center',width:120},
+      {field:'households', title: '服务家庭数',align: 'center',width:120},
+      {field:'age', title: '年龄',align: 'center',width:120},
+      {field:'star', title: '月嫂星级',align: 'center',width:120,templet:function(d){
+          if(d.star == 2){
+              return '二星月嫂';
+          }else if(d.star == 3){
+              return '三星月嫂';
+          }else if(d.star == 4){
+              return '四星月嫂';
+          }else if(d.star == 5){
+              return '五星月嫂';
+          }else if(d.star == 6){
+              return '六星月嫂';
+          }else if(d.star == 7){
+              return '金牌月嫂';
+          }else if(d.star == 8){
+              return '月子管家';
+          }else{
+              return '';
+          }
+      }},
+      {field:'label', title: '月嫂标签',align: 'center'},
+      {field:'region', title: '所属地区',align: 'center',width:100,templet:function(d){
+          if(d.region == 1){
+              return '福州';
+          }else if(d.region == 2){
+              return '马来西亚';
+          }else{
+              return '';
+          }
+      }},
+      {field:'native_place', title: '月嫂籍贯',align: 'center',width:100},
+      {field:'price', title: '月嫂26天价格',align: 'center',width:120},
+      {field:'status', title: '是否显示',align: 'center',width:100,templet:'#status'},
+      {field:'create_time', title: '入驻时间',align: 'center',width:220},
+      {field:'update_time', title: '最后操作时间',align: 'center',width:220},
+      {fixed:'right',title: '操作', align:'center', toolbar: '#buttons',width:180}
+    ]],
+    done: function () {
+        hoverOpenImg();
+    }
+  });
+  form.on('switch(is_status)', function (obj) {
+        //找被点击的div同级的input上的data-id
+        var id = obj.othis.siblings("input").data('id');
+        var bool = obj.elem.checked;
+        $.post("{:url('admin/matron/matron_status')}",{id:id,status:bool},function(res){
+            console.log(res);
+        },'json')
+  });
+  //监听
+  table.on('tool(table)', function(obj){
+      //data就是一行的数据
+      var data = obj.data;
+      if(obj.event === 'edit'){
+        console.log(data.temp);
+        console.log('edit操作');
+      }else if(obj.event === 'is_data'){
+        console.log('is_data');
+      }
+    });
+});
+function hoverOpenImg() {
+        var img_show = null;
+        $('td img').hover(function () {
+            var kd = $(this).width();
+            var kd1 = kd * 5;
+            var kd2 = kd * 5 + 30;
+            var img = "<img class='img_msg' src='" + $(this).attr('src') + "' style='width:" + kd1 + "px;' />";
+            img_show = layer.tips(img, this, {
+                tips: [2, 'rgba(41,41,41,.1)']
+                , area: [kd2 + 'px']
+            });
+        }, function () {
+            layer.close(img_show);
+        });
+    }
 </script>
 </html>

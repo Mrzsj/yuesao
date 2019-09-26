@@ -41,6 +41,7 @@ class Coupon extends Model{
         ->select();
         if(!empty($data)){
             foreach($data as $k => $v){
+                $data[$k]['face_value'] = intval($v['face_value']);
                 $data[$k]['expire_time'] = date('Y-m-d H:i:s',$v['expire_time']); 
             }
         }

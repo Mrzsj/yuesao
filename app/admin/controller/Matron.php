@@ -74,6 +74,19 @@ class Matron extends Permissions
         }
         $number = ($page - 1) * $limit;
         $data = model('matron')->list($number,$limit);
-        
+        $total = model('matron')->count();
+        showjson(['code'=>0,'count'=>$total,'data'=>$data]);
+    }
+    public function matron_status(){
+        $status = input('status');
+        $id = input('id');
+        if (empty($id) || !is_numeric($id)) {
+            msg(0,'请输入正确的id');
+        }
+        $id = intval($id);
+        //前端传的布尔型  后端接收时是字符串的true false
+        $status == 'true' ? $status = 1 : $status = 0;
+        $res = Db::name('matron')->where('id',$id)->update(['status'=>$status,'update_time'=>time()]);
+        $res ? msg(1,'修改成功') : msg(0,'修改失败');
     }
 }

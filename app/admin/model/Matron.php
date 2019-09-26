@@ -23,17 +23,26 @@ class Matron extends Model{
         return false;
     }
     public function list($number,$limit){
-        $res = Db::name('matron')
-        ->alias('m')
-        ->field(['m.*','u.status as u_status','u.name','u.mobile'])
-        ->join('user u','u.id=m.user_id')
-        ->select();
-        echo json_encode($res);exit();
         $data = Db::name('matron')
-        ->field(['id','nickname','openid','avatar_url','matron_create_time','matron_update_time','name','mobile','status'])
-        ->where('status','<>','0')
-        ->where($where)
+        ->alias('m')
+        ->field(['m.*','u.openid','u.nickname','u.name','u.mobile','u.avatar_url'])
+        ->join('user u','u.id=m.user_id')
         ->limit($number,$limit)
         ->select();
+        foreach($data as $k => $v){
+            if(!empty($v['head_img'])){
+                $data[$k]['avatar_url'] = $v['head_img'];
+            }
+            $data[$k]['temp'] = unserialize($v['temp']);
+            $data[$k]['create_time'] = date('Y-m-d H:i:s',$v['create_time']);
+            $data[$k]['update_time'] = date('Y-m-d H:i:s',$v['update_time']); 
+        }
+        return $data;
+    }
+    public function count(){
+        $data = Db::name('matron')
+        ->field(['count(id)'])
+        ->find();
+        return $data['count(id)'];
     }
 }
