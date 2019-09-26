@@ -81,12 +81,15 @@ class Matron
     }
     public function data(){
         $userid = get_token();
-        $res = Db::name('user')->alias('u')->join('matron m','u.id=m.user_id')->select();
-        return $res;
+        $res = Db::name('user')
+        ->alias('u')
+        ->field(['u.name','u.mobile','u.status','u.avatar_url','m.address','m.year','m.households','m.head_img'])
+        ->where('u.id',$userid)
+        ->join('matron m','u.id=m.user_id')
+        ->find();
         if($res['status'] != 1){
             msg(-2,'您还不是月嫂，请申请入驻');
         }
-        return $res;
         $data = [
             'name'=>$res['name'],
             'mobile'=>$res['mobile'],
