@@ -26,7 +26,7 @@ class Information
         if(!empty($list)){
             return ['status'=>1, 'data'=>$list];
         }else{
-            return ['status'=>0, 'data'=>[]];
+            return ['status'=>0, 'msg'=>'暂无最新消息'];
         }
     }
 
@@ -43,7 +43,7 @@ class Information
         if(!empty($data)){
             return ['status'=>1, 'data'=>$data];
         }else{
-            return ['status'=>0, 'data'=>[]];
+            return ['status'=>0, 'msg'=>'指定最新消息不存在'];
         }
     }
 }

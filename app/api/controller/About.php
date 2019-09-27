@@ -15,7 +15,7 @@ class About
         if(!empty($data)){
             return ['status'=>1,'data'=>$data];
         }else{
-            return ['status'=>0,'data'=>[]];
+            return ['status'=>0, 'msg'=>'关于我们内容不存在'];
         }
     }
 }

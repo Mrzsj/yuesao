@@ -15,7 +15,7 @@ class Agreement
         if(!empty($data)){
             return ['status'=>1,'data'=>$data];
         }else{
-            return ['status'=>0,'data'=>[]];
+            return ['status'=>0,'msg'=>'用户协议不存在'];
         }
     }
 }

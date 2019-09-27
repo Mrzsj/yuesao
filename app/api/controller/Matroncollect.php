@@ -22,7 +22,7 @@ class Matroncollect
         if(!empty($list)){
             return ['status'=>1, 'data'=>$list];
         }else{
-            return ['status'=>0, 'data'=>[]];
+            return ['status'=>0, 'msg'=>'暂未收藏月嫂'];
         }
     }
 
