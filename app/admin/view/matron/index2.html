@@ -35,37 +35,37 @@
         <div class="layui-form-item">
                 <label class="layui-form-label">联系电话</label>
                 <div class="layui-input-block">
-                  <input type="text" name="title" placeholder="请输入标题" class="layui-input" disabled="disabled">
+                  <input type="text" name="title" placeholder="请输入标题" class="layui-input" disabled="disabled" id="mobile">
                 </div>
         </div>
         <div class="layui-form-item img">
           <label class="layui-form-label">头像</label>
           <div class="layui-input-block">
-              <img src="" alt="" id="img_show" style="width:5rem;height: 5rem;">
+              <img src="" alt="" style="width:5rem;height: 5rem;" id="head_img">
           </div>
         </div>
         <div class="layui-form-item">
                 <label class="layui-form-label">联系地址</label>
                 <div class="layui-input-block">
-                  <input type="text" name="title" placeholder="请输入标题" class="layui-input" disabled="disabled">
+                  <input type="text" name="title" placeholder="请输入标题" class="layui-input" disabled="disabled" id="address">
                 </div>
         </div>
         <div class="layui-form-item">
                 <label class="layui-form-label">护理经验</label>
                 <div class="layui-input-block">
-                  <input type="text" name="title" placeholder="请输入标题" class="layui-input" disabled="disabled">
+                  <input type="text" name="title" placeholder="请输入标题" class="layui-input" disabled="disabled" id="year">
                 </div>
         </div>
         <div class="layui-form-item">
                 <label class="layui-form-label">服务家庭数</label>
                 <div class="layui-input-block">
-                  <input type="text" name="title" placeholder="请输入标题" class="layui-input" disabled="disabled">
+                  <input type="text" name="title" placeholder="请输入标题" class="layui-input" disabled="disabled" id="households">
                 </div>
         </div>
         <div class="layui-form-item">
           <div class="layui-input-block">
-            <button class="layui-btn" lay-filter="formDemo" id="submit">审核通过</button>
-            <button class="layui-btn layui-btn-danger" lay-filter="formDemo" id="submit">拒绝月嫂修改资料</button>
+            <button class="layui-btn is_data_status" data-status="1">审核通过</button>
+            <button class="layui-btn layui-btn-danger is_data_status" data-status="3">拒绝月嫂修改资料</button>
           </div>
         </div>
       </div>
@@ -96,6 +96,7 @@
 <script src="__PUBLIC__/jquery/jquery.min.js"></script>
 <script src="__PUBLIC__/layui/layui.js"></script>
 <script type="text/javascript">
+var id;
 layui.use(['table','form','layer'], function(){
   var table = layui.table;
   var form = layui.form;
@@ -180,6 +181,13 @@ layui.use(['table','form','layer'], function(){
         console.log('edit操作');
       }else if(obj.event === 'is_data'){
         console.log(data.temp);
+        $('#name').val(data.temp.name);
+        $('#mobile').val(data.temp.mobile);
+        $('#address').val(data.temp.address);
+        $('#head_img').attr('src',data.temp.head_img);
+        $('#households').val(data.temp.households);
+        $('#year').val(data.temp.year);
+        id = data.id;
         layer.open({
             type: 1,
             title:'资料审核',
@@ -205,5 +213,19 @@ function hoverOpenImg() {
             layer.close(img_show);
         });
     }
+$('.is_data_status').click(function(){
+    $.post("{:url('admin/matron/data_status')}",{id:id,status:$(this).data('status')},function(res){
+        if(res.status == 1){
+            layer.closeAll();
+            layui.use('table', function(){
+                var table = layui.table;
+                table.reload('table', { //表格的id
+                    url:"{:url('admin/matron/matron_list')}",
+                });
+          })
+        }
+        layer.msg(res.msg);
+    },'json')
+})
 </script>
 </html>

@@ -89,4 +89,9 @@ class Matron extends Permissions
         $res = Db::name('matron')->where('id',$id)->update(['status'=>$status,'update_time'=>time()]);
         $res ? msg(1,'修改成功') : msg(0,'修改失败');
     }
+    public function data_status(){
+        $id = input('id');
+        $status = input('status');
+        
+    }
 }
