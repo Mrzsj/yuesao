@@ -55,7 +55,7 @@ class Wx
                         'avatar_url'=>$user_res['avatar_url']
                     ];
                 }else{
-                    msg(0,'登陆失败');
+                    msg(0,'登陆出错,请重新登陆');
                 }
             }else{
                 $data = [
@@ -78,14 +78,14 @@ class Wx
                             'avatar_url'=>$res['avatarUrl']
                         ];
                     }else{
-                        msg(0,'登陆失败');
+                        msg(0,'登陆出错,请重新登陆');
                     }
                 }else{
-                    msg(0,'登陆失败');
+                    msg(0,'登陆出错,请重新登陆');
                 }
             }
         }else{
-            msg(0,'请重新登陆');
+            msg(0,'登陆出错,请重新登陆');
         }
     }
     public function token(){
