@@ -25,9 +25,10 @@ class Matron extends Model{
     public function list($number,$limit){
         $data = Db::name('matron')
         ->alias('m')
-        ->field(['m.*','u.openid','u.nickname','u.name','u.mobile','u.avatar_url'])
+        ->field(['m.*','u.openid','u.nickname','u.name','u.mobile','u.avatar_url','u.id as u_id'])
         ->join('user u','u.id=m.user_id')
         ->limit($number,$limit)
+        ->order('u.id desc')
         ->select();
         foreach($data as $k => $v){
             if(!empty($v['head_img'])){
@@ -44,5 +45,12 @@ class Matron extends Model{
         ->field(['count(id)'])
         ->find();
         return $data['count(id)'];
+    }
+    public function getone($id){
+        $data = Db::name('matron')
+        ->where('id',$id)
+        ->find();
+        $data['temp'] = unserialize($data['temp']);
+        return $data;
     }
 }

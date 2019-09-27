@@ -9,6 +9,7 @@ class User extends Model{
         ->field(['id','nickname','openid','avatar_url','matron_create_time','matron_update_time','name','mobile','status'])
         ->where('status','<>','0')
         ->where($where)
+        ->order('id desc')
         ->limit($number,$limit)
         ->select();
 		foreach($data as $k => $v){

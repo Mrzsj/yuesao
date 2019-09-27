@@ -25,7 +25,7 @@
 <table class="layui-hide" id="table" lay-filter="table">
 
 </table>
-<div id="edit" class="layui-form" style="display: none;margin:1rem 3rem;">
+<div id="edit" class="layui-form layui-form-pane" style="display: none;margin:1rem 3rem;">
         <div class="layui-form-item">
                 <label class="layui-form-label">姓名</label>
                 <div class="layui-input-block">
@@ -51,7 +51,7 @@
                 </div>
         </div>
         <div class="layui-form-item">
-                <label class="layui-form-label">护理经验</label>
+                <label class="layui-form-label">工作年限</label>
                 <div class="layui-input-block">
                   <input type="text" name="title" placeholder="请输入标题" class="layui-input" disabled="disabled" id="year">
                 </div>
@@ -83,11 +83,11 @@
     {{# if(d.is_data_audit == 2){ }}
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="is_data">资料审核</a>
     {{# } if(d.is_data_audit == 1){ }}
-        <span style="green">资料已审核</span>
+        <span style="color:green">资料已审核</span>
     {{# } if(d.is_data_audit == 0){ }}
-        <span style="gray">资料未提交</span>
+        <span style="color:gray">资料未提交</span>
     {{# } if(d.is_data_audit == 3){ }}
-        <span style="red">资料已拒绝</span>
+        <span style="color:red">资料已拒绝</span>
     {{# } }}
 </script>
 <script type="text/html" id="status">
@@ -115,13 +115,14 @@ layui.use(['table','form','layer'], function(){
     //title是这列的标题
     //field是取接口的字段值
     //width是宽度，不填则自动根据值的长度
-      {field:'id', title: 'ID',align: 'center',width:100},
+      {field:'u_id', title: '用户ID',align: 'center',width:100},
       {field:'nickname',title: '昵称',align: 'center',width:100},
       {field:'openid',title: 'openid',align: 'center',width:250},
-      {field:'avatar_url',title: '微信头像',align: 'center',width:100,templet:"#avatar"},
+      {field:'avatar_url',title: '头像',align: 'center',width:100,templet:"#avatar"},
       {field:'name', title: '姓名',align: 'center',width:100},
       {field:'mobile', title: '手机号',align: 'center',width:220},
-      {field:'address', title: '联系地址',align: 'center'},
+    //   {field:'id', title: '月嫂ID',align: 'center',width:100},
+      {field:'address', title: '联系地址',align: 'center',width:200},
       {field:'year', title: '工作年限',align: 'center',width:120},
       {field:'households', title: '服务家庭数',align: 'center',width:120},
       {field:'age', title: '年龄',align: 'center',width:120},
@@ -178,7 +179,13 @@ layui.use(['table','form','layer'], function(){
       //data就是一行的数据
       var data = obj.data;
       if(obj.event === 'edit'){
-        console.log('edit操作');
+        var index = layer.open({
+            type: 2,
+            content: "{:url('admin/matron/edit')}"+'?id='+data.id,
+            maxmin: true,
+            title:'月嫂编辑'
+        });
+        layer.full(index);
       }else if(obj.event === 'is_data'){
         console.log(data.temp);
         $('#name').val(data.temp.name);

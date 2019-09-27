@@ -4,6 +4,7 @@ namespace app\admin\controller;
 use \think\Db;
 use app\admin\controller\Permissions;
 use app\admin\model\User;
+use \think\Validate;
 class Matron extends Permissions
 {
     public function index(){
@@ -92,6 +93,96 @@ class Matron extends Permissions
     public function data_status(){
         $id = input('id');
         $status = input('status');
-        
+        if (empty($id) || !is_numeric($id)) {
+            msg(0,'请输入正确的id');
+        }
+        if (empty($id) || !is_numeric($status)) {
+            msg(0,'请输入正确的status');
+        }
+        if(!($status == 1 || $status == 3)){
+            msg(0,'请输入正确的status');
+        }
+        Db::startTrans();
+        try{
+            $res = Db::name('matron')->where('id',$id)->update(['is_data_audit'=>$status,'update_time'=>time()]);
+            if($status == 1){
+                $matron = model('matron')->getone($id);
+                $matron_data = [
+                    'head_img'=>$matron['temp']['head_img'],
+                    'address'=>$matron['temp']['address'],
+                    'year'=>$matron['temp']['year'],
+                    'households'=>$matron['temp']['households']
+                    ];
+                $user_data = [
+                    'name'=>$matron['temp']['name'],
+                    'mobile'=>$matron['temp']['mobile'],
+                    ];
+                Db::name('matron')->where('id',$id)->update($matron_data);
+                Db::name('user')->where('id',$matron['user_id'])->update($user_data);
+            }
+            Db::commit();
+            msg(1,'操作成功');
+        }catch (Exception $e) {
+            // 回滚事务
+            Db::rollback();
+            msg(0,'操作失败');
+        }
+    }
+    public function edit(){
+        $id = input('id');
+        $matron = model('matron')->getone($id);
+        $this->assign('data',$matron);
+        return $this->fetch();
+    }
+    public function post(){
+        $data = input('post.');
+        $rule = [
+            'address'  => 'require',
+            'year' => 'require|number',
+            'households'=>'require|number',
+            'age'=>'require|number',
+            'star'=>'require|in:2,3,4,5,6,7,8',
+            'introduce'  => 'require',
+            'label'  => 'require',
+            'region'  => 'require|in:1,2',
+            'native_place'  => 'require',
+            'price'  => 'require|number',
+            'id'  => 'require|number',
+        ];
+        $msg = [
+            'address.require' => '地址不能为空',
+            'year.require'     => '年龄不能为空',
+            'year.number'     => '请输入正确的年龄',
+            'households.require'   => '服务家庭数不能为空',
+            'households.number'  => '请输入正确的服务家庭数',
+            'age.require'        => '年龄不能为空',
+            'age.number' => '请输入正确的年龄',
+            'star.require' => '月嫂星级不能为空',
+            'star.in' => '请输入正确的月嫂星级',
+            'introduce.require' => '月嫂介绍不能为空',
+            'label.require' => '月嫂标签不能为空',
+            'region.require' => '所属地区不能为空',
+            'region.in' => '请输入正确的地区',
+            'native_place.require' => '月嫂籍贯不能为空',
+            'price.require'        => '价格不能为空',
+            'price.number' => '请输入正确的价格',
+        ];
+        $validate = new Validate($rule,$msg);
+        if (!$validate->check($data)) {
+            msg(0,$validate->getError());
+        }
+        $data['year'] = intval($data['year']);
+        $data['households'] = intval($data['households']);
+        $data['age'] = intval($data['age']);
+        $data['id'] = intval($data['id']);
+        $data['price'] = number_format($data['price'],2);
+        $id = $data['id'];
+        unset($data['id']);
+        try {
+            Db::name('matron')->where('id',$id)->update($data);
+            msg(1,'提交成功');
+        } catch (Exception $e) {
+            msg(0,'提交失败');
+        }
     }
 }
