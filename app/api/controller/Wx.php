@@ -85,7 +85,7 @@ class Wx
                 }
             }
         }else{
-            msg(0,'解密失败');
+            msg(0,'请重新登陆');
         }
     }
     public function token(){
