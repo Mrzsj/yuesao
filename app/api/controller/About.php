@@ -13,9 +13,9 @@ class About
         $data = $About_model->detail();
         $data['content'] = ueditor_img_src($data['content']);
         if(!empty($data)){
-            return ['status'=>1,'data'=>$data,'msg'=>'关于我们内容获取成功'];
+            return ['status'=>1,'data'=>$data];
         }else{
-            return ['status'=>0,'data'=>[],'msg'=>'关于我们内容不存在'];
+            return ['status'=>0,'data'=>[]];
         }
     }
 }

@@ -20,9 +20,9 @@ class Matroncollect
         $Mcollect_model = new Mcollect_model();
         $list = $Mcollect_model->getList($number, $limit);
         if(!empty($list)){
-            return ['status'=>1, 'data'=>$list, 'msg'=>'月嫂收藏成功'];
+            return ['status'=>1, 'data'=>$list];
         }else{
-            return ['status'=>0, 'data'=>[], 'msg'=>'暂未收藏月嫂'];
+            return ['status'=>0, 'data'=>[]];
         }
     }
 

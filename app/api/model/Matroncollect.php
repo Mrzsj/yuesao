@@ -28,7 +28,7 @@ class Matroncollect extends Model
             }else{
                 $list[$k]['head_img'] = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]" . str_replace("\\",'/',$v['head_img']);
             }
-            unset($list[$k]['head_img']['id']);
+//            unset($list[$k]['head_img']['id']);
             $list[$k]['head_img'] = $list[$k]['head_img']['avatar_url'];
         }
         if(!empty($list)){

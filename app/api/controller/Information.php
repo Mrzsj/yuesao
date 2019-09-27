@@ -24,9 +24,9 @@ class Information
             $list[$k]['content'] = ueditor_img_src($v['content']);
         }
         if(!empty($list)){
-            return ['status'=>1, 'data'=>$list, 'msg'=>'获取最新消息成功'];
+            return ['status'=>1, 'data'=>$list];
         }else{
-            return ['status'=>0, 'data'=>[], 'msg'=>'暂无最新消息'];
+            return ['status'=>0, 'data'=>[]];
         }
     }
 
@@ -41,9 +41,9 @@ class Information
         }
         $data['content'] = ueditor_img_src($data['content']);
         if(!empty($data)){
-            return ['status'=>1, 'data'=>$data, 'msg'=>'获取最新消息成功'];
+            return ['status'=>1, 'data'=>$data];
         }else{
-            return ['status'=>0, 'data'=>[], 'msg'=>'暂无最新消息'];
+            return ['status'=>0, 'data'=>[]];
         }
     }
 }
