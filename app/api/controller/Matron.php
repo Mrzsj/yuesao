@@ -140,6 +140,10 @@ class Matron
         $page = input('page');
         $limit = input('limit');
         $region = input('region');
+        $star = input('star');
+        $orderby_price = input('orderby_price');
+        $year = input('year');
+        $age = input('age');
         if (empty($page) || !is_numeric($page)) {
           showjson(['status'=>0,'msg'=>'请输入正确的页码']);
         }
@@ -149,8 +153,48 @@ class Matron
         if (empty($region) || !is_numeric($region)) {
             showjson(['status'=>0,'msg'=>'请输入正确的区域代码']);
         }
+        $where = '';
+        if(!empty($star)){
+            $star = intval($star);
+            if($star>=2 || $star<=8){
+                $where .= 'm.star='.$star;
+            }else{
+                return ['status'=>0,'msg'=>'传入的star不正确'];
+            }
+        }
+        if($year){
+            $year = explode('-',$year);
+            if(count($year) == 2){
+                if(!empty($where)){
+                    $where .= ' and m.year between '.$year[0]." and ".$year[1];
+                }else{
+                    $where .= 'm.year between '.$year[0]." and ".$year[1];
+                }
+            }
+        }
+        if($age){
+            $age = explode('-',$age);
+            if(count($age) == 2){
+                if(!empty($where)){
+                    $where .= ' and m.age between '.$age[0]." and ".$age[1];
+                }else{
+                    $where .= 'm.age between '.$age[0]." and ".$age[1];
+                }
+            }
+        }
+        if(!empty($orderby_price)){
+            if($orderby_price == 1){
+                $order_by = 'm.price asc';
+            }else if($orderby_price == 2){
+                $order_by = 'm.price desc';
+            }else{
+                $order_by = 'u.id desc';
+            }
+        }else{
+            $order_by = 'u.id desc';
+        }
         $number = ($page - 1) * $limit;
-        $data = model('matron')->list($number,$limit,$region);
+        $data = model('matron')->list($number,$limit,$region,$where,$order_by);
         if(empty($data)){
             return ['status'=>0,'data'=>[]];
         }

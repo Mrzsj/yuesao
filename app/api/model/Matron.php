@@ -28,15 +28,16 @@ class Matron extends Model{
         ->order('u.id desc')
         ->select();
     }
-    public function list($number,$limit,$region){
+    public function list($number,$limit,$region,$where='',$order_by){
         return Db::name('matron')
         ->alias('m')
         ->field(['m.id','m.star','m.introduce','m.head_img','u.name','u.avatar_url','m.age','m.price','m.native_place','m.year'])
         ->join('user u','u.id=m.user_id')
+        ->where($where)
         ->where('m.status','1')
         ->where('m.region',$region)
         ->limit($number,$limit)
-        ->order('u.id desc')
+        ->order($order_by)
         ->select();
     }
     public function detail($id){
