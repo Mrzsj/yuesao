@@ -127,3 +127,20 @@ function msg($status,$msg){
 function ueditor_img_src($content = ''){
     return str_replace('<img src="','<img src="'.(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]",$content);
 }
+function get_star_name($star){
+    if($star == 2){
+        return '二星月嫂';
+    }else if($star == 3){
+        return '三星月嫂';
+    }else if($star == 4){
+        return '四星月嫂';
+    }else if($star == 5){
+        return '五星月嫂';
+    }else if($star == 6){
+        return '六星月嫂';
+    }else if($star == 7){
+        return '金牌月嫂';
+    }else if($star == 8){
+        return '月子管家';
+    }
+}

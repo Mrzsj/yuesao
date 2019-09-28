@@ -130,21 +130,7 @@ class Matron
             }else{
                 $data[$k]['head_url'] = $v['avatar_url'];
             }
-            if($v['star'] == 2){
-                $data[$k]['star_name'] = '二星月嫂';
-            }else if($v['star'] == 3){
-                $data[$k]['star_name'] = '三星月嫂';
-            }else if($v['star'] == 4){
-                $data[$k]['star_name'] = '四星月嫂';
-            }else if($v['star'] == 5){
-                $data[$k]['star_name'] = '五星月嫂';
-            }else if($v['star'] == 6){
-                $data[$k]['star_name'] = '六星月嫂';
-            }else if($v['star'] == 7){
-                $data[$k]['star_name'] = '金牌月嫂';
-            }else if($v['star'] == 8){
-                $data[$k]['star_name'] = '月子管家';
-            }
+            $data[$k]['star_name'] = get_star_name($v['star']);
             unset($data[$k]['head_img']);
             unset($data[$k]['avatar_url']);
         }
@@ -174,21 +160,7 @@ class Matron
             }else{
                 $data[$k]['head_url'] = $v['avatar_url'];
             }
-            if($v['star'] == 2){
-                $data[$k]['star_name'] = '二星月嫂';
-            }else if($v['star'] == 3){
-                $data[$k]['star_name'] = '三星月嫂';
-            }else if($v['star'] == 4){
-                $data[$k]['star_name'] = '四星月嫂';
-            }else if($v['star'] == 5){
-                $data[$k]['star_name'] = '五星月嫂';
-            }else if($v['star'] == 6){
-                $data[$k]['star_name'] = '六星月嫂';
-            }else if($v['star'] == 7){
-                $data[$k]['star_name'] = '金牌月嫂';
-            }else if($v['star'] == 8){
-                $data[$k]['star_name'] = '月子管家';
-            }
+            $data[$k]['star_name'] = get_star_name($v['star']);
             unset($data[$k]['head_img']);
             unset($data[$k]['avatar_url']);
         }
@@ -208,21 +180,7 @@ class Matron
         }else{
             $data['head_url'] = $data['avatar_url'];
         }
-        if($data['star'] == 2){
-            $data['star_name'] = '二星月嫂';
-        }else if($data['star'] == 3){
-            $data['star_name'] = '三星月嫂';
-        }else if($data['star'] == 4){
-            $data['star_name'] = '四星月嫂';
-        }else if($data['star'] == 5){
-            $data['star_name'] = '五星月嫂';
-        }else if($data['star'] == 6){
-            $data['star_name'] = '六星月嫂';
-        }else if($data['star'] == 7){
-            $data['star_name'] = '金牌月嫂';
-        }else if($data['star'] == 8){
-            $data['star_name'] = '月子管家';
-        }
+        $data['star_name'] = get_star_name($data['star']);
         $data['label'] = preg_replace("/\s(?=\s)/","\\1",$data['label']);
         $data['label'] = explode(' ',$data['label']);
         unset($data['head_img']);
