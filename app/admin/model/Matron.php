@@ -22,11 +22,12 @@ class Matron extends Model{
         }
         return false;
     }
-    public function list($number,$limit){
-        $data = Db::name('matron')
+    public function list($number,$limit,$where){
+        $data = Db::name('matron')        
         ->alias('m')
         ->field(['m.*','u.openid','u.nickname','u.name','u.mobile','u.avatar_url','u.id as u_id'])
         ->join('user u','u.id=m.user_id')
+        ->where($where)
         ->limit($number,$limit)
         ->order('u.id desc')
         ->select();
@@ -40,11 +41,14 @@ class Matron extends Model{
         }
         return $data;
     }
-    public function count(){
+    public function count($where){
         $data = Db::name('matron')
-        ->field(['count(id)'])
+        ->alias('m')
+        ->field(['count(m.id)'])
+        ->join('user u','u.id=m.user_id')
+        ->where($where)
         ->find();
-        return $data['count(id)'];
+        return $data['count(m.id)'];
     }
     public function getone($id){
         $data = Db::name('matron')

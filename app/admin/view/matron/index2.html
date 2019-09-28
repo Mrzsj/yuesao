@@ -17,7 +17,42 @@
         <div class="layui-inline" style="margin-left: 1rem;">
             <input type="text" placeholder="姓名或者手机号" class="layui-input" id="name_mobile">
         </div>
-        <div class="layui-inline" style="margin-left: 1rem;">
+        <div class="layui-inline">
+                <select name="region" lay-verify="required" id="region">
+                    <option value="0">全部地区</option>
+                    <option value="1">福州</option>
+                    <option value="2">马来西亚</option>
+                </select>
+        </div>
+        <div class="layui-inline">
+                <select name="year" lay-verify="required" id="year">
+                    <option value="0">请选择工作年限</option>
+                    <option value="0-1">1年以内</option>
+                    <option value="1-3">1到3年</option>
+                    <option value="3-5">3到5年</option>
+                    <option value="5-99">5年以上</option>
+                </select>
+        </div>
+        <div class="layui-inline">
+                <select name="households" lay-verify="required" id="households">
+                    <option value="0">请选择服务家庭数</option>
+                    <option value="0-5">5个以下</option>
+                    <option value="5-10">5-10个</option>
+                    <option value="10-20">10-20个</option>
+                    <option value="20-9999">20个以上</option>
+                </select>
+        </div>
+        <div class="layui-inline">
+                <select name="age" lay-verify="required" id="age">
+                    <option value="0">请选择年龄</option>
+                    <option value="0-40">40岁以下</option>
+                    <option value="40-45">40-45岁</option>
+                    <option value="45-50">45-50岁</option>
+                    <option value="50-60">50-60岁</option>
+                    <option value="60-99">60岁以上</option>
+                </select>
+        </div>
+        <div class="layui-inline">
             <a class="layui-btn  layui-btn-normal" id="search">搜索</a>
         </div>
     </blockquote>
@@ -93,14 +128,18 @@
 <script type="text/html" id="status">
     <input type="checkbox" data-id="{{d.id}}" name="status" lay-skin="switch" {{# if(d.status == 1){ }}checked{{# } }} lay-filter="is_status" lay-text="显示|隐藏">
 </script>
+<script type="text/html" id="is_home_page">
+    <input type="checkbox" data-id="{{d.id}}" name="is_home_page" lay-skin="switch" {{# if(d.is_home_page == 1){ }}checked{{# } }} lay-filter="is_home_page" lay-text="显示|隐藏">
+</script>
 <script src="__PUBLIC__/jquery/jquery.min.js"></script>
 <script src="__PUBLIC__/layui/layui.js"></script>
 <script type="text/javascript">
 var id;
-layui.use(['table','form','layer'], function(){
+layui.use(['table','form','layer','util'], function(){
   var table = layui.table;
   var form = layui.form;
   var layer = layui.layer;
+
   table.render({
     elem: '#table' //表格id
     ,url:"{:url('admin/matron/matron_list')}"//list接口地址
@@ -158,6 +197,7 @@ layui.use(['table','form','layer'], function(){
       {field:'native_place', title: '月嫂籍贯',align: 'center',width:100},
       {field:'price', title: '月嫂26天价格',align: 'center',width:120},
       {field:'status', title: '是否显示',align: 'center',width:100,templet:'#status'},
+      {field:'is_home_page', title: '首页显示',align: 'center',width:100,templet:'#is_home_page'},
       {field:'create_time', title: '入驻时间',align: 'center',width:220},
       {field:'update_time', title: '最后操作时间',align: 'center',width:220},
       {fixed:'right',title: '操作', align:'center', toolbar: '#buttons',width:180}
@@ -165,6 +205,14 @@ layui.use(['table','form','layer'], function(){
     done: function () {
         hoverOpenImg();
     }
+  });
+  form.on('switch(is_home_page)', function (obj) {
+        //找被点击的div同级的input上的data-id
+        var id = obj.othis.siblings("input").data('id');
+        var bool = obj.elem.checked;
+        $.post("{:url('admin/matron/matron_is_home_page')}",{id:id,is_home_page:bool},function(res){
+            console.log(res);
+        },'json')
   });
   form.on('switch(is_status)', function (obj) {
         //找被点击的div同级的input上的data-id
@@ -233,6 +281,22 @@ $('.is_data_status').click(function(){
         }
         layer.msg(res.msg);
     },'json')
+})
+$('#search').click(function(){
+      //传递where条件实现搜索，并且重载表格数据
+      layui.use('table', function(){
+            var table = layui.table;
+            table.reload('table', { //表格的id
+                url:"{:url('admin/matron/matron_list')}",
+                where:{
+                    'name_mobile':$('#name_mobile').val(),
+                    'region':$('#region').val(),
+                    'year':$('#year').val(),
+                    'households':$('#households').val(),
+                    'age':$('#age').val(),
+                }
+            });
+      })
 })
 </script>
 </html>

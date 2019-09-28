@@ -74,8 +74,56 @@ class Matron extends Permissions
           showjson(['status'=>0,'msg'=>'请输入正确的条数']);
         }
         $number = ($page - 1) * $limit;
-        $data = model('matron')->list($number,$limit);
-        $total = model('matron')->count();
+        $where = '';
+        $name_mobile = input('name_mobile');
+        $region = input('region');
+        $year = input('year');
+        $households = input('households');
+        $age = input('age');
+        if(!empty($region) && is_numeric($region)){
+            $region = intval($region);
+            $where .= 'm.region='.$region;
+        }
+        if($year){
+            $year = explode('-',$year);
+            if(count($year) == 2){
+                if(!empty($where)){
+                    $where .= ' and m.year between '.$year[0]." and ".$year[1];
+                }else{
+                    $where .= 'm.year between '.$year[0]." and ".$year[1];
+                }
+            }
+        }
+        if($households){
+            $households = explode('-',$households);
+            if(count($households) == 2){
+                if(!empty($where)){
+                    $where .= ' and m.households between '.$households[0]." and ".$households[1];
+                }else{
+                    $where .= 'm.households between '.$households[0]." and ".$households[1];
+                }
+            }
+        }
+        if($age){
+            $age = explode('-',$age);
+            if(count($age) == 2){
+                if(!empty($where)){
+                    $where .= ' and m.age between '.$age[0]." and ".$age[1];
+                }else{
+                    $where .= 'm.age between '.$age[0]." and ".$age[1];
+                }
+            }
+        }
+        if($name_mobile){
+            if(!empty($where)){
+                $where = $where . " and (u.mobile like '%".input('name_mobile')."%' or u.name like '%".input('name_mobile')."%')";
+            }else{
+                $where = $where . "u.mobile like '%".input('name_mobile')."%' or u.name like '%".input('name_mobile')."%'";
+            }
+        }
+        //echo $where;exit();
+        $data = model('matron')->list($number,$limit,$where);
+        $total = model('matron')->count($where);
         showjson(['code'=>0,'count'=>$total,'data'=>$data]);
     }
     public function matron_status(){
@@ -88,6 +136,18 @@ class Matron extends Permissions
         //前端传的布尔型  后端接收时是字符串的true false
         $status == 'true' ? $status = 1 : $status = 0;
         $res = Db::name('matron')->where('id',$id)->update(['status'=>$status,'update_time'=>time()]);
+        $res ? msg(1,'修改成功') : msg(0,'修改失败');
+    }
+    public function matron_is_home_page(){
+        $is_home_page = input('is_home_page');
+        $id = input('id');
+        if (empty($id) || !is_numeric($id)) {
+            msg(0,'请输入正确的id');
+        }
+        $id = intval($id);
+        //前端传的布尔型  后端接收时是字符串的true false
+        $is_home_page == 'true' ? $is_home_page = 1 : $is_home_page = 0;
+        $res = Db::name('matron')->where('id',$id)->update(['is_home_page'=>$is_home_page,'update_time'=>time()]);
         $res ? msg(1,'修改成功') : msg(0,'修改失败');
     }
     public function data_status(){
