@@ -106,4 +106,128 @@ class Matron
         }
         return ['status'=>1,'data'=>$data];
     }
+    public function home_page_list(){
+        $page = input('page');
+        $limit = input('limit');
+        $region = input('region');
+        if (empty($page) || !is_numeric($page)) {
+          showjson(['status'=>0,'msg'=>'请输入正确的页码']);
+        }
+        if (empty($limit) || !is_numeric($limit)) {
+          showjson(['status'=>0,'msg'=>'请输入正确的条数']);
+        }
+        if (empty($region) || !is_numeric($region)) {
+            showjson(['status'=>0,'msg'=>'请输入正确的区域代码']);
+        }
+        $number = ($page - 1) * $limit;
+        $data = model('matron')->home_page_list($number,$limit,$region);
+        if(empty($data)){
+            return ['status'=>0,'data'=>[]];
+        }
+        foreach($data as $k => $v){
+            if(!empty($v['head_img'])){
+                $data[$k]['head_url'] = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]" .str_replace("\\",'/',$v['head_img']);
+            }else{
+                $data[$k]['head_url'] = $v['avatar_url'];
+            }
+            if($v['star'] == 2){
+                $data[$k]['star_name'] = '二星月嫂';
+            }else if($v['star'] == 3){
+                $data[$k]['star_name'] = '三星月嫂';
+            }else if($v['star'] == 4){
+                $data[$k]['star_name'] = '四星月嫂';
+            }else if($v['star'] == 5){
+                $data[$k]['star_name'] = '五星月嫂';
+            }else if($v['star'] == 6){
+                $data[$k]['star_name'] = '六星月嫂';
+            }else if($v['star'] == 7){
+                $data[$k]['star_name'] = '金牌月嫂';
+            }else if($v['star'] == 8){
+                $data[$k]['star_name'] = '月子管家';
+            }
+            unset($data[$k]['head_img']);
+            unset($data[$k]['avatar_url']);
+        }
+        return ['status'=>1,'data'=>$data];
+    }
+    public function list(){
+        $page = input('page');
+        $limit = input('limit');
+        $region = input('region');
+        if (empty($page) || !is_numeric($page)) {
+          showjson(['status'=>0,'msg'=>'请输入正确的页码']);
+        }
+        if (empty($limit) || !is_numeric($limit)) {
+          showjson(['status'=>0,'msg'=>'请输入正确的条数']);
+        }
+        if (empty($region) || !is_numeric($region)) {
+            showjson(['status'=>0,'msg'=>'请输入正确的区域代码']);
+        }
+        $number = ($page - 1) * $limit;
+        $data = model('matron')->list($number,$limit,$region);
+        if(empty($data)){
+            return ['status'=>0,'data'=>[]];
+        }
+        foreach($data as $k => $v){
+            if(!empty($v['head_img'])){
+                $data[$k]['head_url'] = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]" .str_replace("\\",'/',$v['head_img']);
+            }else{
+                $data[$k]['head_url'] = $v['avatar_url'];
+            }
+            if($v['star'] == 2){
+                $data[$k]['star_name'] = '二星月嫂';
+            }else if($v['star'] == 3){
+                $data[$k]['star_name'] = '三星月嫂';
+            }else if($v['star'] == 4){
+                $data[$k]['star_name'] = '四星月嫂';
+            }else if($v['star'] == 5){
+                $data[$k]['star_name'] = '五星月嫂';
+            }else if($v['star'] == 6){
+                $data[$k]['star_name'] = '六星月嫂';
+            }else if($v['star'] == 7){
+                $data[$k]['star_name'] = '金牌月嫂';
+            }else if($v['star'] == 8){
+                $data[$k]['star_name'] = '月子管家';
+            }
+            unset($data[$k]['head_img']);
+            unset($data[$k]['avatar_url']);
+        }
+        return ['status'=>1,'data'=>$data];
+    }
+    public function detail(){
+        $id = input('id');
+        if (empty($id) || !is_numeric($id)) {
+            showjson(['status'=>0,'msg'=>'请输入正确的ID']);
+        }
+        $data = model('matron')->detail($id);
+        if(empty($data) || $data['status'] == 0){
+            return ['status'=>0,'msg'=>'请求出错,请刷新重试'];
+        }
+        if(!empty($data['head_img'])){
+            $data['head_url'] = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]" .str_replace("\\",'/',$data['head_img']);
+        }else{
+            $data['head_url'] = $data['avatar_url'];
+        }
+        if($data['star'] == 2){
+            $data['star_name'] = '二星月嫂';
+        }else if($data['star'] == 3){
+            $data['star_name'] = '三星月嫂';
+        }else if($data['star'] == 4){
+            $data['star_name'] = '四星月嫂';
+        }else if($data['star'] == 5){
+            $data['star_name'] = '五星月嫂';
+        }else if($data['star'] == 6){
+            $data['star_name'] = '六星月嫂';
+        }else if($data['star'] == 7){
+            $data['star_name'] = '金牌月嫂';
+        }else if($data['star'] == 8){
+            $data['star_name'] = '月子管家';
+        }
+        $data['label'] = preg_replace("/\s(?=\s)/","\\1",$data['label']);
+        $data['label'] = explode(' ',$data['label']);
+        unset($data['head_img']);
+        unset($data['avatar_url']);
+        unset($data['status']);
+        return ['status'=>1,'data'=>$data];
+    }
 }

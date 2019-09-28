@@ -12,6 +12,7 @@
 use think\Route;
 //Route::rule('重写之后的url','重写之前的url')
 Route::rule('api/matchprocess','api/matchprocess/get');
+Route::rule('api/matron/home/page/list','api/matron/home_page_list');
 return [
     '__pattern__' => [
         'name' => '\w+',
