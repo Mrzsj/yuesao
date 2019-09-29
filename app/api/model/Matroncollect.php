@@ -38,6 +38,19 @@ class Matroncollect extends Model
         }
     }
 
+    public function add($id){
+        //获取月嫂的详情
+        $detail = Db::name('matroncollect')->where('matron_id', $id)->find();
+        if (empty($detail)){
+            $insert = [
+                'matron_id' => $id,
+                'create_time' => time()
+            ];
+            $data = Db::name('matroncollect')->insert($insert);
+        }
+        return $data;
+    }
+
     public function del($id){
         $res = Db::name('matroncollect')->where('id', $id)->delete();
         return $res;

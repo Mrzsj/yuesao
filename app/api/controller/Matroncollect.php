@@ -26,6 +26,21 @@ class Matroncollect
         }
     }
 
+    public function add(){
+        $id = input('id');
+        $Mcollect_model = new Mcollect_model();
+        if (!empty($id) && is_numeric($id)) {
+            $data = $Mcollect_model->add($id);
+            if ($data == 1) {
+                showjson(['status' => 1, 'msg' => '收藏成功']);
+            } else {
+                showjson(['status' => 0, 'msg' => '收藏失败']);
+            }
+        }else{
+            showjson(['status' => 0,'msg' => 'id不合法']);
+        }
+    }
+
     public function delete(){
         $id = input('id');
         $Mcollect_model = new Mcollect_model();
