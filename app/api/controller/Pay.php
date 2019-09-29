@@ -73,7 +73,7 @@ class Pay{
             fwrite($myfile, json_encode($data));
             fwrite($myfile, json_encode($msg));
             fclose($myfile);
-        } 
+        }
         echo '<xml>
           <return_code><![CDATA[SUCCESS]]></return_code>
           <return_msg><![CDATA[OK]]></return_msg>

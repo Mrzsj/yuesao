@@ -88,13 +88,13 @@
         <div class="layui-form-item">
                 <label class="layui-form-label">工作年限</label>
                 <div class="layui-input-block">
-                  <input type="text" name="title" placeholder="请输入标题" class="layui-input" disabled="disabled" id="year">
+                  <input type="text" name="title" placeholder="请输入标题" class="layui-input" disabled="disabled" id="edit_year">
                 </div>
         </div>
         <div class="layui-form-item">
                 <label class="layui-form-label">服务家庭数</label>
                 <div class="layui-input-block">
-                  <input type="text" name="title" placeholder="请输入标题" class="layui-input" disabled="disabled" id="households">
+                  <input type="text" name="title" placeholder="请输入标题" class="layui-input" disabled="disabled" id="edit_households">
                 </div>
         </div>
         <div class="layui-form-item">
@@ -240,8 +240,8 @@ layui.use(['table','form','layer','util'], function(){
         $('#mobile').val(data.temp.mobile);
         $('#address').val(data.temp.address);
         $('#head_img').attr('src',data.temp.head_img);
-        $('#households').val(data.temp.households);
-        $('#year').val(data.temp.year);
+        $('#edit_households').val(data.temp.households);
+        $('#edit_year').val(data.temp.year);
         id = data.id;
         layer.open({
             type: 1,
