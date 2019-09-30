@@ -171,11 +171,13 @@ class Matron extends Permissions
                     'head_img'=>$matron['temp']['head_img'],
                     'address'=>$matron['temp']['address'],
                     'year'=>$matron['temp']['year'],
-                    'households'=>$matron['temp']['households']
+                    'households'=>$matron['temp']['households'],
+                    'update_time'=>time()
                     ];
                 $user_data = [
                     'name'=>$matron['temp']['name'],
                     'mobile'=>$matron['temp']['mobile'],
+                    'update_time'=>time()
                     ];
                 Db::name('matron')->where('id',$id)->update($matron_data);
                 Db::name('user')->where('id',$matron['user_id'])->update($user_data);

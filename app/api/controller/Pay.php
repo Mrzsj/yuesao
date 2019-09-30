@@ -9,12 +9,14 @@ class Pay{
         $KEY="abef3c0b40dd00c283551204db78fd77"; //商户号key
 
         $orderid = input('id');
+        $userid = get_token();
         if(!empty($orderid)){
             $orderid = intval($orderid);
             $order_res = Db::name('order')
             ->alias('o')
             ->field(['o.payable_price','u.openid','o.ordersn'])
             ->where('o.id',$orderid)
+            ->where('u.id',$userid)
             ->join('user u','u.id=o.user_id')
             ->find();
             if(!$order_res){
