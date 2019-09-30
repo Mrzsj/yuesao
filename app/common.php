@@ -142,7 +142,9 @@ function get_star_name($star){
         return '金牌月嫂';
     }else if($star == 8){
         return '月子管家';
-    }
+    }else{
+		return '暂无等级';
+	}
 }
 	/**
 	 * 用户post方法请求xml信息用的
@@ -260,4 +262,12 @@ function get_star_name($star){
 	}
 	function domain_name(){
 		return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
+	}
+	function star_value($star = ''){
+		$res = \think\Db::name('commission_setting')->where('star',$star)->find();
+		if(!empty($res)){
+			return $res['proportion'];
+		}else{
+			return '';
+		}
 	}
