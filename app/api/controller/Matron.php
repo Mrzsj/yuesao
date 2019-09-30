@@ -94,7 +94,7 @@ class Matron
             'name'=>$res['name'],
             'mobile'=>$res['mobile'],
             'address'=>$res['address'],
-            'year'=>$res['address'],
+            'year'=>$res['year'],
             'households'=>$res['households']
         ];
         if(!empty($res['head_img'])){
