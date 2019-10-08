@@ -8,6 +8,9 @@ class Commission extends Permissions
     public function setting(){
         return $this->fetch();
     }
+    public function index(){
+        echo '佣金列表';
+    }
     public function setting_edit(){
         $post = input('post.');
         if(isset($post['star']) && count($post['star']) == 7){
