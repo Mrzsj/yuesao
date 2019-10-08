@@ -36,6 +36,7 @@ class Matroncollect
         if (!empty($matron_id) && is_numeric($matron_id)){
             if (empty($res)) {
                 $data = $Mcollect_model->add($matron_id, $user_id);
+                var_dump($data);exit();
                 if ($data == 1) {
                     showjson(['status' => 1, 'msg' => '收藏成功']);
                 } else {
