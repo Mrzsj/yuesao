@@ -9,11 +9,12 @@ use think\Db;
 
 class Matroncollect extends Model
 {
-    public function getList($number, $limit){
+    public function getList($number, $limit, $user_id){
         $list = Db::name('matroncollect')
             ->alias('mc')
             ->join('matron m', 'mc.matron_id = m.id')
             ->field('m.id, mc.matron_id, m.head_img, m.price, m.introduce')
+            ->where('mc.user_id', $user_id)
             ->order('mc.create_time desc')
             ->limit($number, $limit)
             ->select();
@@ -38,18 +39,18 @@ class Matroncollect extends Model
         }
     }
 
-    public function add($id,$user_id){
+    public function add($matron_id, $user_id){
         //获取未收藏月嫂的详情
-        $res = Db::name('matron')->where('id', $id)->find();
+        $res = Db::name('matron')->where('id', $matron_id)->find();
         //获取已收藏月嫂的详情
-        $detail = Db::name('matroncollect')->where('matron_id', $id)->find();
+        $detail = Db::name('matroncollect')->where('matron_id', $matron_id)->find();
         $data = 0;
         if ($res['status'] == 1){
             if (empty($detail)){
                 $insert = [
-                    'matron_id' => $id,
-                    'create_time' => time(),
-                    'user_id'=>$user_id,
+                    'matron_id' => $matron_id,
+                    'user_id' => $user_id,
+                    'create_time' => time()
                 ];
                 $data = Db::name('matroncollect')->insert($insert);
             }

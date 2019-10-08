@@ -4,12 +4,14 @@
 namespace app\api\controller;
 
 use app\api\model\Matroncollect AS Mcollect_model;
+use think\Db;
 
 class Matroncollect
 {
     public function lists(){
         $page = input('page');
         $limit = input('limit');
+        $user_id = get_token();
         if (empty($page) || !is_numeric($page)) {
             return ['status'=>0,'msg'=>'请输入正确的页码'];
         }
@@ -18,7 +20,7 @@ class Matroncollect
         }
         $number = ($page - 1) * $limit;
         $Mcollect_model = new Mcollect_model();
-        $list = $Mcollect_model->getList($number, $limit);
+        $list = $Mcollect_model->getList($number, $limit, $user_id);
         if(!empty($list)){
             return ['status'=>1, 'data'=>$list];
         }else{
@@ -27,33 +29,46 @@ class Matroncollect
     }
 
     public function add(){
-        $userid = get_token();
-        $id = input('id');
+        $user_id = get_token();
+        $matron_id = input('matron_id');
         $Mcollect_model = new Mcollect_model();
-        if (!empty($id) && is_numeric($id)) {
-            $data = $Mcollect_model->add($id,$userid);
-            if ($data == 1) {
-                showjson(['status' => 1, 'msg' => '收藏成功']);
-            } else {
-                showjson(['status' => 0, 'msg' => '收藏失败']);
+        $res = Db::name('matroncollect')->where('matron_id', $matron_id)->where('user_id', $user_id)->find();
+        if (empty($res)){
+            if (!empty($matron_id) && is_numeric($matron_id)) {
+                $data = $Mcollect_model->add($matron_id, $user_id);
+                if ($data == 1) {
+                    showjson(['status' => 1, 'msg' => '收藏成功']);
+                } else {
+                    showjson(['status' => 0, 'msg' => '收藏失败']);
+                }
+            }else{
+                showjson(['status' => 0,'msg' => 'id不合法']);
             }
         }else{
-            showjson(['status' => 0,'msg' => 'id不合法']);
+            showjson(['status' => 0, 'msg' => '该用户已收藏该月嫂，请勿重复操作']);
         }
+
+
     }
 
     public function delete(){
         $id = input('id');
+        $user_id = get_token();
         $Mcollect_model = new Mcollect_model();
-        if (!empty($id) && is_numeric($id)) {
-            $res = $Mcollect_model->del($id);
-            if ($res == 1) {
-                showjson(['status' => 1,'msg' => '删除成功']);
+        $res = Db::name('matroncollect')->where('id', $id)->where('user_id', $user_id)->find();
+        if (!empty($res)){
+            if (!empty($id) && is_numeric($id)) {
+                $res = $Mcollect_model->del($id);
+                if ($res == 1) {
+                    showjson(['status' => 1,'msg' => '删除成功']);
+                }else{
+                    showjson(['status' => 0,'msg' => '删除失败']);
+                }
             }else{
-                showjson(['status' => 0,'msg' => '删除失败']);
+                showjson(['status' => 0,'msg' => 'id不合法']);
             }
         }else{
-            showjson(['status' => 0,'msg' => 'id不合法']);
+            showjson(['status' => 0,'msg' => '该用户没有收藏该月嫂，请重新操作']);
         }
     }
 }
