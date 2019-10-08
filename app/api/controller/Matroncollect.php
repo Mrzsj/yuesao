@@ -33,8 +33,8 @@ class Matroncollect
         $matron_id = input('matron_id');
         $Mcollect_model = new Mcollect_model();
         $res = Db::name('matroncollect')->where('matron_id', $matron_id)->where('user_id', $user_id)->find();
-        if (empty($res)){
-            if (!empty($matron_id) && is_numeric($matron_id)) {
+        if (!empty($matron_id) && is_numeric($matron_id)){
+            if (empty($res)) {
                 $data = $Mcollect_model->add($matron_id, $user_id);
                 if ($data == 1) {
                     showjson(['status' => 1, 'msg' => '收藏成功']);
@@ -42,10 +42,10 @@ class Matroncollect
                     showjson(['status' => 0, 'msg' => '收藏失败']);
                 }
             }else{
-                showjson(['status' => 0,'msg' => 'id不合法']);
+                showjson(['status' => 0, 'msg' => '该用户已收藏该月嫂，请勿重复操作']);
             }
         }else{
-            showjson(['status' => 0, 'msg' => '该用户已收藏该月嫂，请勿重复操作']);
+            showjson(['status' => 0,'msg' => 'id不合法']);
         }
 
 
@@ -56,8 +56,8 @@ class Matroncollect
         $user_id = get_token();
         $Mcollect_model = new Mcollect_model();
         $res = Db::name('matroncollect')->where('id', $id)->where('user_id', $user_id)->find();
-        if (!empty($res)){
-            if (!empty($id) && is_numeric($id)) {
+        if (!empty($id) && is_numeric($id)){
+            if (!empty($res)) {
                 $res = $Mcollect_model->del($id);
                 if ($res == 1) {
                     showjson(['status' => 1,'msg' => '删除成功']);
@@ -65,10 +65,10 @@ class Matroncollect
                     showjson(['status' => 0,'msg' => '删除失败']);
                 }
             }else{
-                showjson(['status' => 0,'msg' => 'id不合法']);
+                showjson(['status' => 0,'msg' => '该用户没有收藏该月嫂，请重新操作']);
             }
         }else{
-            showjson(['status' => 0,'msg' => '该用户没有收藏该月嫂，请重新操作']);
+            showjson(['status' => 0,'msg' => 'id不合法']);
         }
     }
 }
