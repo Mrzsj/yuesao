@@ -43,7 +43,7 @@ class Order extends Model{
 			'update_time'=>time()
 		];
         try {
-            Db::name("order")->where('id',$id)->update($data);
+			Db::name("order")->where('id',$id)->update($data);
             msg(1,'操作成功');
         } catch (Exception $e) {
             msg(0,'操作失败');

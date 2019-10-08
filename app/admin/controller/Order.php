@@ -65,11 +65,24 @@ class Order extends Permissions{
         if($res['is_receive'] != 0){
 			msg(0,'这笔订单已经发放过佣金,请勿重复发放');
         }
+        $data = [
+			'order_id'=>$res['id'],
+			'ordersn'=>$res['ordersn'],
+			'matron_id'=>$res['matron_id'],
+			'days'=>$res['days'],
+			'commission'=>$res['commission'],
+			'create_time'=>time(),
+			'update_time'=>time(),
+        ];
+        Db::startTrans();
         try {
             Db::name("order")->where('id',$id)->update(['update_time'=>time(),'is_receive'=>1]);
+            Db::name("commission_log")->insert($data);
             //此处缺少向佣金记录表插入操作
+            Db::commit();
             msg(1,'操作成功');
         } catch (Exception $e) {
+            Db::rollback();
             msg(0,'操作失败');
         }
     }
