@@ -150,11 +150,32 @@ layui.use(['table','form','layer','laydate'], function(){
       //data就是一行的数据
       var data = obj.data;
       if(obj.event === 'pay'){
-        layer.msg('确认支付操作');
+        layer.confirm('确认这笔订单已支付吗', function(index){
+              $.post("{:url('admin/order/pay')}",{id:data.id},function(res){
+                if (res.status == 1) {
+                    $('#search').click();
+                }
+                layer.msg(res.msg);
+              },'json')
+          });
       }else if(obj.event === 'cancel'){
-        layer.msg('取消订单操作');
+        layer.confirm('确认取消这笔订单吗', function(index){
+              $.post("{:url('admin/order/cancel')}",{id:data.id},function(res){
+                if (res.status == 1) {
+                    $('#search').click();
+                }
+                layer.msg(res.msg);
+              },'json')
+          });
       }else if(obj.event === 'complete'){
-        layer.msg('确认完成操作');
+        layer.confirm('确认这笔订单已完成吗', function(index){
+              $.post("{:url('admin/order/complete')}",{id:data.id},function(res){
+                if (res.status == 1) {
+                    $('#search').click();
+                }
+                layer.msg(res.msg);
+              },'json')
+          });
       }else if(obj.event === 'commission'){
         layer.msg('发放佣金操作');
       }

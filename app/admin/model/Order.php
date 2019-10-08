@@ -33,22 +33,20 @@ class Order extends Model{
 				msg(0,'订单必须处于待付款状态');
 			}
 		}
-		if($status == 1 || $status == 3){
-			$res = Db::name('order')->where('id',$id)->find();
-			if(empty($res) || $res['status'] != 0){
-				msg(0,'订单必须处于待付款状态');
+		if($status == 2){
+			if(empty($res) || $res['status'] != 1){
+				msg(0,'订单必须处于已付款状态');
 			}
 		}
-        $data = [
-            'status'=>1,
-            'update_time'=>time(),
-            'wx_transaction_id'=>'',
-        ];
+		$data = [
+			'status'=>$status,
+			'update_time'=>time()
+		];
         try {
             Db::name("order")->where('id',$id)->update($data);
-            msg(1,'确认支付成功');
+            msg(1,'操作成功');
         } catch (Exception $e) {
-            msg(0,'确认支付失败');
+            msg(0,'操作失败');
         }
 	}
 }

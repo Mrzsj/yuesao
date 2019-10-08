@@ -230,6 +230,7 @@ class Matron
         unset($data['head_img']);
         unset($data['avatar_url']);
         unset($data['status']);
+        $data['price'] = intval($data['price']);
         return ['status'=>1,'data'=>$data];
     }
 }

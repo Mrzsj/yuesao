@@ -51,7 +51,7 @@ class Order extends Permissions{
         model('order')->status(3);
     }
     public function complete(){
-        $id = input('id');
+        model('order')->status(2);
     }
     public function commission(){
         $id = input('id');

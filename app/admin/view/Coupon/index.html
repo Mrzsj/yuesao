@@ -101,7 +101,7 @@ layui.use(['table','form','layer'], function(){
                     obj.del();//删除表格这行数据
                 }
                 layer.msg(res.msg);
-              })
+              },'json')
           });
       }else if(obj.event === 'edit'){
         var index = layer.open({
