@@ -48,6 +48,8 @@ class Matroncollect extends Model
                 'create_time' => time()
             ];
             $data = Db::name('matroncollect')->insert($insert);
+            echo 111;
+            var_dump($data);exit();
         }
         return $data;
     }
