@@ -22,4 +22,33 @@ class Order extends Model{
 		$res = Db::name('coupon')->where('id',$id)->delete();
 		return $res;
 	}
+	public function status($status){
+		$id = input('id');
+		if (empty($id) || !is_numeric($id)) {
+            msg(0,'请输入正确的id');
+		}
+		$res = Db::name('order')->where('id',$id)->find();
+		if($status == 1 || $status == 3){
+			if(empty($res) || $res['status'] != 0){
+				msg(0,'订单必须处于待付款状态');
+			}
+		}
+		if($status == 1 || $status == 3){
+			$res = Db::name('order')->where('id',$id)->find();
+			if(empty($res) || $res['status'] != 0){
+				msg(0,'订单必须处于待付款状态');
+			}
+		}
+        $data = [
+            'status'=>1,
+            'update_time'=>time(),
+            'wx_transaction_id'=>'',
+        ];
+        try {
+            Db::name("order")->where('id',$id)->update($data);
+            msg(1,'确认支付成功');
+        } catch (Exception $e) {
+            msg(0,'确认支付失败');
+        }
+	}
 }

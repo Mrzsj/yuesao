@@ -71,10 +71,10 @@ class Order{
             $coupon_log['full'] = 0;
         }
         $total_price = ($post['days']-26)*($matron['price']/26) + $matron['price'];
-        $total_price = number_format($total_price,2);
+        $total_price = sprintf("%.2f", $total_price);
         if($total_price>=$coupon_log['full']){
             $payable_price = $total_price - $coupon_log['face_value'];
-            $payable_price = number_format($payable_price,2);
+            $payable_price = sprintf("%.2f", $payable_price);
         }else{
             msg(0,'优惠券满减金额没有达到订单金额');
         }
@@ -100,7 +100,7 @@ class Order{
         $data['ordersn'] =  false;
         $data['matron_star'] = $matron['star'];
         $data['matron_proportion'] = star_value($matron['star']);
-        $data['commission'] = number_format($data['payable_price']*(star_value($matron['star'])/100),2);
+        $data['commission'] = sprintf("%.2f", $data['payable_price']*(star_value($matron['star'])/100));
         while(!$data['ordersn']){
             $data['ordersn'] = date('YmdHis').mt_rand(10000,99999);
             if(Db::name('order')->where('ordersn',$data['ordersn'])->find()){

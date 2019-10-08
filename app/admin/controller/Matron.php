@@ -237,7 +237,7 @@ class Matron extends Permissions
         $data['households'] = intval($data['households']);
         $data['age'] = intval($data['age']);
         $data['id'] = intval($data['id']);
-        $data['price'] = number_format($data['price'],2);
+        $data['price'] = sprintf("%.2f", $data['price']);
         $id = $data['id'];
         unset($data['id']);
         try {

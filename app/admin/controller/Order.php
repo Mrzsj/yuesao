@@ -1,6 +1,6 @@
 <?php
 namespace app\admin\controller;
-
+use \think\Db;
 class Order extends Permissions{
     public function index(){
         return $this->fetch();
@@ -26,26 +26,34 @@ class Order extends Permissions{
                 $where .= 'create_time between '. strtotime($time_arr[0]) . ' and ' . strtotime($time_arr[1]);
             }
         }
-        if(!empty($where)){
-            if(is_numeric($status) && $status != '9'){
+        if(is_numeric($status) && $status != '9'){
+            if(!empty($where)){
                 $where .= " and status=".$status;
-            }
-        }else{
-            if(is_numeric($status) && $status != '9'){
+            }else{
                 $where = "status=".$status;
             }
         }
-        if(!empty($where)){
-            if(is_numeric($region)){
-                $where .= " and region=".$region;
-            }
-        }else{
-            if(is_numeric($region)){
+        if(!empty($region) && is_numeric($region)){
+            if(!empty($where)){
+                 $where .= " and region=".$region;
+            }else{
                 $where = "region=".$region;
             }
         }
         $data = model('order')->getlist($number,$limit,$where,$name);
         $total = model('order')->total($where,$name);
         showjson(['code'=>0,'count'=>$total,'data'=>$data]);
+    }
+    public function pay(){
+        model('order')->status(1);
+    }
+    public function cancel(){
+        model('order')->status(3);
+    }
+    public function complete(){
+        $id = input('id');
+    }
+    public function commission(){
+        $id = input('id');
     }
 }

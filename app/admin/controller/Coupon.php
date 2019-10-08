@@ -115,8 +115,8 @@ class Coupon extends Permissions
         }else{
             msg(0,'请输入正确的领取时间范围');
         }
-        $data['face_value'] = number_format($data['face_value'],2);
-        $data['full'] = number_format($data['full'],2);
+        $data['face_value'] = sprintf("%.2f",  $data['face_value']);
+        $data['full'] = sprintf("%.2f",  $data['full']);
         $data['update_time'] = time();
         if(empty(input('id'))){
             //新增

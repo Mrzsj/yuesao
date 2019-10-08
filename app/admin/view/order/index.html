@@ -33,7 +33,7 @@
                         <option value="0">待付款</option>
                         <option value="1">已付款</option>
                         <option value="2">已完成</option>
-                        <option value="3">取消订单</option>
+                        <option value="3">已取消订单</option>
                         <option value="4">申请退款中</option>
                         <option value="5">退款完成</option>
                     </select>
@@ -149,8 +149,14 @@ layui.use(['table','form','layer','laydate'], function(){
       console.log(obj);
       //data就是一行的数据
       var data = obj.data;
-      if(obj.event === 'del'){
-
+      if(obj.event === 'pay'){
+        layer.msg('确认支付操作');
+      }else if(obj.event === 'cancel'){
+        layer.msg('取消订单操作');
+      }else if(obj.event === 'complete'){
+        layer.msg('确认完成操作');
+      }else if(obj.event === 'commission'){
+        layer.msg('发放佣金操作');
       }
     });
 });
