@@ -40,6 +40,7 @@ class Matroncollect extends Model
 
     public function add($matron_id, $user_id){
         $res = Db::name('matron')->where('id', $matron_id)->find();
+        var_dump($res);exit();
         $data = 0;
         if ($res['status'] == 1){
             $insert = [
@@ -48,8 +49,6 @@ class Matroncollect extends Model
                 'create_time' => time()
             ];
             $data = Db::name('matroncollect')->insert($insert);
-            echo 111;
-            var_dump($data);exit();
         }
         return $data;
     }
