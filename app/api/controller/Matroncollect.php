@@ -31,7 +31,6 @@ class Matroncollect
     public function add(){
         $user_id = get_token();
         $matron_id = input('matron_id');
-        var_dump($matron_id);exit();
         $Mcollect_model = new Mcollect_model();
         $res = Db::name('matroncollect')->where('matron_id', $matron_id)->where('user_id', $user_id)->find();
         if (!empty($matron_id) && is_numeric($matron_id)){
