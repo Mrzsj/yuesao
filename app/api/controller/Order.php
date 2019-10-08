@@ -98,8 +98,11 @@ class Order{
         $data['create_time'] = time();
         $data['update_time'] = time();
         $data['ordersn'] =  false;
+        $data['matron_star'] = $matron['star'];
+        $data['matron_proportion'] = star_value($matron['star']);
+        $data['commission'] = number_format($data['payable_price']*(star_value($matron['star'])/100),2);
         while(!$data['ordersn']){
-            $data['ordersn'] = date('YmdHis').mt_rand(1,99999);
+            $data['ordersn'] = date('YmdHis').mt_rand(10000,99999);
             if(Db::name('order')->where('ordersn',$data['ordersn'])->find()){
                 $data['ordersn'] = false;
             }

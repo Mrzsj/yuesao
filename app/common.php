@@ -268,6 +268,6 @@ function get_star_name($star){
 		if(!empty($res)){
 			return $res['proportion'];
 		}else{
-			return '';
+			return 0;
 		}
 	}

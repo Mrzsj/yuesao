@@ -19,7 +19,7 @@ class Commission extends Permissions
             $success = 0;
             $fail = 0;
             foreach($star as $k => $v){
-                if(empty($v) || !is_numeric($v)){
+                if(!is_numeric($v)){
                     msg(0,'输入值必须为数字');
                 }
                 $v = intval($v);
