@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>订单列表</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <script src="__PUBLIC__/echarts/echarts.min.js"></script>
+    <link rel="stylesheet" href="__PUBLIC__/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="__PUBLIC__/font-awesome/css/font-awesome.min.css" media="all">
+</head>
+<body class="layui-layout-body" style="overflow-y:visible;">
+    <div class="layui-form">
+        <blockquote class="layui-elem-quote quoteBox">
+                <div class="layui-inline" style="margin-left: 1rem;">
+                    <input type="text" placeholder="订单号,姓名或手机号" class="layui-input" id="name">
+                </div>
+                <div class="layui-inline" style="width: 18rem;">
+                    <input type="text" placeholder="请选择下单时间" class="layui-input" id="start_time">
+                </div>
+                <div class="layui-inline">
+                        <select id="region">
+                            <option value="0">请选择地区</option>
+                            <option value="1">福州</option>
+                            <option value="2">马来西亚</option>
+                        </select>
+                </div>
+                <div class="layui-inline">
+                    <select id="status">
+                        <option value="9">请选择订单状态</option>
+                        <option value="0">待付款</option>
+                        <option value="1">已付款</option>
+                        <option value="2">已完成</option>
+                        <option value="3">取消订单</option>
+                        <option value="4">申请退款中</option>
+                        <option value="5">退款完成</option>
+                    </select>
+                </div>
+                <div class="layui-inline" style="margin-left: 1rem;">
+                    <a class="layui-btn  layui-btn-normal" id="search">搜索</a>
+                </div>
+        </blockquote>
+    </div>
+<table class="layui-hide" id="table" lay-filter="table">
+  
+</table>
+</body>
+<script type="text/html" id="buttons">
+    {{# if(d.status == 0){ }}
+    <a class="layui-btn layui-btn-xs" lay-event="pay">确认支付</a>
+        <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="cancel">取消订单</a>
+    {{# } }}
+
+    {{# if(d.status == 1){ }}
+        <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="complete">确认完成</a>
+    {{# } }}
+
+    {{# if(d.status == 2){ }}
+        <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="commission">发放佣金</a>
+    {{# } }}
+
+    {{# if(d.status == 3){ }}
+        <span>订单已取消</span>
+    {{# } }}
+
+    {{# if(d.status == 4){ }}
+        <span>订单已申请退款</span>
+    {{# } }}
+
+    {{# if(d.status == 5){ }}
+        <span>退款完成</span>
+    {{# } }}
+</script>
+<script src="__PUBLIC__/jquery/jquery.min.js"></script>
+<script src="__PUBLIC__/layui/layui.js"></script>
+<script type="text/javascript">
+layui.use(['table','form','layer','laydate'], function(){
+  var table = layui.table;
+  var form = layui.form;
+  var layer = layui.layer;
+  var laydate = layui.laydate;
+  table.render({
+    elem: '#table' //表格id
+    ,url:"{:url('admin/order/list')}"//list接口地址
+    ,cellMinWidth: 80 //全局定义常规单元格的最小宽度
+    ,height: 'full-120',
+    page: true,
+    limits: [15, 25, 45, 60],
+    limit: 15
+    ,cols: [[
+    //align属性是文字在列表中的位置 可选参数left center right
+    //sort属性是排序功能
+    //title是这列的标题
+    //field是取接口的字段值
+    //width是宽度，不填则自动根据值的长度
+      {field:'id', title: 'ID',align: 'center',width:80},
+      {field:'ordersn', title: '订单号',align: 'center',width:180},
+      {field:'name',title: '姓名',align: 'center',width:100},
+      {field:'mobile',title: '手机号',align: 'center',width:120},
+      {field:'remark',title: '备注',align: 'center',width:200},
+      {field:'region',title: '地区',align: 'center',width:120,templet:function(d){
+          if(d.region == 1){
+              return '福州';
+          }else if(d.region == 2){
+              return '马来西亚';
+          }else{
+              return '';
+          }
+      }},
+      {field:'address',title: '地址',align: 'center',width:180},
+      {field:'status',title: '订单状态',align: 'center',width:180,templet:function(d){
+            if(d.status == 0){
+                return '待付款';
+            }else if(d.status == 1){
+                return '<span style="color:green"><b>已付款</b></span>';
+            }else if(d.status == 2){
+                return '<span style="color:blue"><b>已完成</b></span>';
+            }else if(d.status == 3){
+                return '<span style="color:black"><b>已取消订单</b></span>';
+            }else if(d.status == 4){
+                return '<span style="color:#ffb800"><b>申请退款中</b></span>';
+            }else if(d.status == 5){
+                return '<span style="color:#fc764b"><b>退款完成</b></span>';
+            }
+      }},
+      {field:'days',title: '天数',align: 'center',width:180,templet:function(d){
+          return d.days + '天';
+      }},
+      {field:'total_price',title: '总价',align: 'center',width:180},
+      {field:'payable_price',title: '应付价',align: 'center',width:180},
+      {field:'coupon_price',title: '优惠券金额',align: 'center',width:180},
+      {field:'wx_transaction_id',title: '微信支付单号',align: 'center',width:180},
+      {field:'commission',title: '预计佣金',align: 'center',width:180},
+      {field:'start_time',title: '预约时间',align: 'center',width:180},
+      {field:'create_time', title: '下单时间',align: 'center',width:180},
+      {field:'update_time', title: '最后修改时间',align: 'center',width:180},
+      {fixed:'right',title: '操作', align:'center', toolbar: '#buttons',width:180}
+    ]]
+  });
+    laydate.render({ 
+        elem: '#start_time'
+        ,type: 'datetime'
+        ,range: true //或 range: '~' 来自定义分割字符
+    });
+    //监听
+  table.on('tool(table)', function(obj){
+      console.log(obj);
+      //data就是一行的数据
+      var data = obj.data;
+      if(obj.event === 'del'){
+
+      }
+    });
+});
+$('#search').click(function(){
+      //传递where条件实现搜索，并且重载表格数据
+      layui.use('table', function(){
+            var table = layui.table;
+            table.reload('table', { //表格的id
+                url:"{:url('admin/order/list')}",
+                where:{
+                    'name':$('#name').val(),
+                    'start_time':$('#start_time').val(),
+                    'status':$('#status').val(),
+                    'region':$('#region').val(),
+                }
+            });
+      })
+})
+$(document).on('keydown', function(e){
+    if(e.keyCode == 13){
+        $('#search').click();
+    }
+})
+</script>
+</html>
