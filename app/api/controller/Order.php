@@ -102,7 +102,7 @@ class Order{
         $data['matron_proportion'] = star_value($matron['star']);
         $data['commission'] = sprintf("%.2f", $data['payable_price']*(star_value($matron['star'])/100));
         while(!$data['ordersn']){
-            $data['ordersn'] = date('YmdHis').mt_rand(10000,99999);
+            $data['ordersn'] = date('Ymd').mt_rand(10000,99999);
             if(Db::name('order')->where('ordersn',$data['ordersn'])->find()){
                 $data['ordersn'] = false;
             }
