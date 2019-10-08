@@ -200,6 +200,7 @@ class Matron extends Permissions
         $data = input('post.');
         $rule = [
             'address'  => 'require',
+            'nation'  => 'require',
             'year' => 'require|number',
             'households'=>'require|number',
             'age'=>'require|number',
@@ -228,6 +229,7 @@ class Matron extends Permissions
             'native_place.require' => '月嫂籍贯不能为空',
             'price.require'        => '价格不能为空',
             'price.number' => '请输入正确的价格',
+            'nation.require'=>'民族不能为空',
         ];
         $validate = new Validate($rule,$msg);
         if (!$validate->check($data)) {

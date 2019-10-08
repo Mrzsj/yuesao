@@ -212,6 +212,7 @@ class Matron
     }
     public function detail(){
         $id = input('id');
+        $userid = get_token();
         if (empty($id) || !is_numeric($id)) {
             showjson(['status'=>0,'msg'=>'请输入正确的ID']);
         }
@@ -231,6 +232,12 @@ class Matron
         unset($data['avatar_url']);
         unset($data['status']);
         $data['price'] = intval($data['price']);
+        $res = Db::name('matroncollect')->where('user_id',$userid)->where('matron_id',$data['id'])->find();
+        if($res){
+            $data['is_matroncollect'] = 1;
+        }else{
+            $data['is_matroncollect'] = 0;
+        }
         return ['status'=>1,'data'=>$data];
     }
 }
