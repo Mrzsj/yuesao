@@ -52,13 +52,13 @@ class Matroncollect
     }
 
     public function delete(){
-        $id = input('id');
+        $matron_id = input('matron_id');
         $user_id = get_token();
         $Mcollect_model = new Mcollect_model();
-        $res = Db::name('matroncollect')->where('id', $id)->where('user_id', $user_id)->find();
-        if (!empty($id) && is_numeric($id)){
+        $res = Db::name('matroncollect')->where('matron_id', $matron_id)->where('user_id', $user_id)->find();
+        if (!empty($matron_id) && is_numeric($matron_id)){
             if (!empty($res)) {
-                $res = $Mcollect_model->del($id);
+                $res = $Mcollect_model->del($matron_id);
                 if ($res == 1) {
                     showjson(['status' => 1,'msg' => '删除成功']);
                 }else{

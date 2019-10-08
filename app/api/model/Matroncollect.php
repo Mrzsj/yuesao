@@ -52,8 +52,8 @@ class Matroncollect extends Model
         return $data;
     }
 
-    public function del($id){
-        $res = Db::name('matroncollect')->where('id', $id)->delete();
+    public function del($matron_id){
+        $res = Db::name('matroncollect')->where('matron_id', $matron_id)->delete();
         return $res;
     }
 }
