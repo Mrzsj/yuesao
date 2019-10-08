@@ -55,5 +55,22 @@ class Order extends Permissions{
     }
     public function commission(){
         $id = input('id');
+		if (empty($id) || !is_numeric($id)) {
+            msg(0,'请输入正确的id');
+		}
+		$res = Db::name('order')->where('id',$id)->find();
+		if(empty($res) || $res['status'] != 2){
+			msg(0,'订单必须处于待付款状态');
+        }
+        if($res['is_receive'] != 0){
+			msg(0,'这笔订单已经发放过佣金,请勿重复发放');
+        }
+        try {
+            Db::name("order")->where('id',$id)->update(['update_time'=>time(),'is_receive'=>1]);
+            //此处缺少向佣金记录表插入操作
+            msg(1,'操作成功');
+        } catch (Exception $e) {
+            msg(0,'操作失败');
+        }
     }
 }

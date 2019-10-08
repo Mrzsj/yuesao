@@ -38,7 +38,7 @@ class Matroncollect extends Model
         }
     }
 
-    public function add($id){
+    public function add($id,$user_id){
         //获取未收藏月嫂的详情
         $res = Db::name('matron')->where('id', $id)->find();
         //获取已收藏月嫂的详情
@@ -48,7 +48,8 @@ class Matroncollect extends Model
             if (empty($detail)){
                 $insert = [
                     'matron_id' => $id,
-                    'create_time' => time()
+                    'create_time' => time(),
+                    'user_id'=>$user_id,
                 ];
                 $data = Db::name('matroncollect')->insert($insert);
             }

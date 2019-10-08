@@ -27,10 +27,11 @@ class Matroncollect
     }
 
     public function add(){
+        $userid = get_token();
         $id = input('id');
         $Mcollect_model = new Mcollect_model();
         if (!empty($id) && is_numeric($id)) {
-            $data = $Mcollect_model->add($id);
+            $data = $Mcollect_model->add($id,$userid);
             if ($data == 1) {
                 showjson(['status' => 1, 'msg' => '收藏成功']);
             } else {

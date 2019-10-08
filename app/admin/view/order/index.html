@@ -57,8 +57,12 @@
         <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="complete">确认完成</a>
     {{# } }}
 
-    {{# if(d.status == 2){ }}
+    {{# if(d.status == 2 && d.is_receive == 0){ }}
         <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="commission">发放佣金</a>
+    {{# } }}
+
+    {{# if(d.status == 2 && d.is_receive == 1){ }}
+        <span style="color:green">佣金已发放</span>
     {{# } }}
 
     {{# if(d.status == 3){ }}
@@ -177,7 +181,14 @@ layui.use(['table','form','layer','laydate'], function(){
               },'json')
           });
       }else if(obj.event === 'commission'){
-        layer.msg('发放佣金操作');
+        layer.confirm('确认发放这笔订单佣金吗', function(index){
+              $.post("{:url('admin/order/commission')}",{id:data.id},function(res){
+                if (res.status == 1) {
+                    $('#search').click();
+                }
+                layer.msg(res.msg);
+              },'json')
+          });
       }
     });
 });
