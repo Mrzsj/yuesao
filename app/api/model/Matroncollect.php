@@ -39,6 +39,7 @@ class Matroncollect extends Model
     }
 
     public function add($matron_id, $user_id){
+        var_dump($matron_id);exit();
         $res = Db::name('matron')->where('id', $matron_id)->find();
         var_dump($res);exit();
         $data = 0;
