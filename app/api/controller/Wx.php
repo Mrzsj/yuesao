@@ -8,8 +8,8 @@ class Wx
         if(empty($code)){
             msg(0,'code不能为空');
         }
- 		$param['appid'] = 'wxcd417936b51ed32a';    //小程序id
- 		$param['secret'] = '43f4fa48efdf86e43a4a0b093e28189c';    //小程序密钥
+ 		$param['appid'] = config('appid');    //小程序id
+ 		$param['secret'] = config('appsecret');    //小程序密钥
  		$param['js_code'] = define_str_replace($code);
  		$param['grant_type'] = 'authorization_code';
  		$http_key = httpCurl('https://api.weixin.qq.com/sns/jscode2session', $param, 'GET');
@@ -33,7 +33,7 @@ class Wx
         if(empty($iv)){
             msg(0,'iv不能为空');
         }
-        $param['appid'] = 'wxcd417936b51ed32a';    //小程序id
+        $param['appid'] = config('appid');    //小程序id
         $appid = $param['appid'];
         $encrypteData = urldecode($encrypteData);
         $encrypteData = define_str_replace($encrypteData);

@@ -3,10 +3,10 @@ namespace app\api\controller;
 use \think\Db;
 class Pay{
     public function getdata(){
-        $appid="wxcd417936b51ed32a"; //小程序appid
-        $appsecret= "43f4fa48efdf86e43a4a0b093e28189c"; //小程序的secret
-        $MCHID="1455955802"; //商户号id
-        $KEY="abef3c0b40dd00c283551204db78fd77"; //商户号key
+        $appid = config('appid'); //小程序appid
+        $appsecret = config('appsecret'); //小程序的secret
+        $MCHID = config('MCHID'); //商户号id
+        $KEY = config('KEY'); //商户号key
 
         $orderid = input('id');
         $userid = get_token();
@@ -14,7 +14,7 @@ class Pay{
             $orderid = intval($orderid);
             $order_res = Db::name('order')
             ->alias('o')
-            ->field(['o.payable_price','u.openid','o.ordersn'])
+            ->field(['o.payable_price','u.openid','o.ordersn','o.status'])
             ->where('o.id',$orderid)
             ->where('u.id',$userid)
             ->join('user u','u.id=o.user_id')
@@ -24,6 +24,9 @@ class Pay{
             }
         }else{
             msg(0,'请传入id');
+        }
+        if($order_res['status'] != 0){
+            msg(0,'订单已取消或者已付款，请勿重复操作');
         }
         $total_fee = $order_res['payable_price']; //支付金额
         $openid = $order_res['openid']; //用户的Openid
@@ -63,7 +66,9 @@ class Pay{
             $sign_str = ToUrlParams($sdata);
             $sign_str = $sign_str."&key=".$KEY;
             $sdata['paySign'] = strtoupper(md5($sign_str));
-            echo json_encode($sdata);
+            echo json_encode(['status'=>1,'data'=>$sdata,'msg'=>"请求成功"]);
+        }else{
+            echo json_encode(['status'=>0,'data'=>$sdata,'msg'=>'支付异常']);
         }
     }
     public function notify(){
@@ -79,6 +84,6 @@ class Pay{
         echo '<xml>
           <return_code><![CDATA[SUCCESS]]></return_code>
           <return_msg><![CDATA[OK]]></return_msg>
-        </xml>';       
+        </xml>';
     }
 }
