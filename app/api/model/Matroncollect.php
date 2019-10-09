@@ -21,6 +21,7 @@ class Matroncollect extends Model
             ->select();
 
         foreach($list as $k => $v){
+            $list[$k]['price'] = intval($list[$k]['price']);
             if (empty($list[$k]['head_img'])){
                 $list[$k]['head_img'] = Db::name('user')
                     ->join('matron m', 'user.id = m.user_id')
