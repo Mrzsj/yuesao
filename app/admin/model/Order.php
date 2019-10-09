@@ -42,6 +42,9 @@ class Order extends Model{
 			'status'=>$status,
 			'update_time'=>time()
 		];
+		if($status == 1){
+			$data['pay_time'] = time();
+		}
         try {
 			Db::name("order")->where('id',$id)->update($data);
             msg(1,'操作成功');

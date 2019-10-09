@@ -43,7 +43,7 @@ class Matron extends Model{
     public function detail($id){
         return Db::name('matron')
         ->alias('m')
-        ->field(['m.id','m.star','m.introduce','m.head_img','u.name','u.avatar_url','m.age','m.price','m.native_place','m.year','m.label','m.status','m.households'])
+        ->field(['m.id','m.star','m.introduce','m.head_img','u.name','u.avatar_url','m.age','m.price','m.native_place','m.year','m.label','m.status','m.households','m.nation'])
         ->join('user u','u.id=m.user_id')
         ->where('m.id',$id)
         ->order('u.id desc')

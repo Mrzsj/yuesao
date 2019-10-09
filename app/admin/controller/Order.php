@@ -78,7 +78,6 @@ class Order extends Permissions{
         try {
             Db::name("order")->where('id',$id)->update(['update_time'=>time(),'is_receive'=>1]);
             Db::name("commission_log")->insert($data);
-            //此处缺少向佣金记录表插入操作
             Db::commit();
             msg(1,'操作成功');
         } catch (Exception $e) {
