@@ -72,17 +72,20 @@ class Pay{
         }
     }
     public function notify(){
-        $myfile = fopen("notify.txt", "a");
-        fwrite($myfile, 'test');
-        fclose($myfile);
         $data = file_get_contents('php://input');
         $msg = (array)simplexml_load_string($data, 'SimpleXMLElement', LIBXML_NOCDATA);
         if($msg['result_code'] == "SUCCESS") {
             // 支付成功这里要做的操作！
             $myfile = fopen("notify.txt", "a");
-            fwrite($myfile, json_encode($data));
-            fwrite($myfile, json_encode($msg));
+            fwrite($myfile, json_encode($msg)."\n");
             fclose($myfile);
+            $data = [
+                'status'=>1,
+                'update_time'=>time(),
+                'pay_time'=>time(),
+                'wx_transaction_id'=>$msg['transaction_id']
+            ];
+            Db::name('order')->where('ordersn',$msg['out_trade_no'])->update($data);
         }
         echo '<xml>
           <return_code><![CDATA[SUCCESS]]></return_code>
