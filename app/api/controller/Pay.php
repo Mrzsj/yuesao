@@ -92,4 +92,14 @@ class Pay{
           <return_msg><![CDATA[OK]]></return_msg>
         </xml>';
     }
+    public function is_pay(){
+        $orderid = input('id');
+        $userid = get_token();
+        $res = Db::name('order')->where('id',$orderid)->where('user_id',$userid)->find();
+        if(!empty($res) && ($res['status'] == 1 || $res['status'] == 2)){
+            msg(1,'支付成功');
+        }else{
+            msg(0,'未付款');
+        }
+    }
 }
