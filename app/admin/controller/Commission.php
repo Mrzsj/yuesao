@@ -34,6 +34,7 @@ class Commission extends Permissions
         ->where($where)
         ->limit($number,$limit)
         ->order('cl.id desc')
+        ->fetchSql()
         ->select();
         var_dump($data);exit();
         $total = Db::name('commission_log')->field(['count(id)'])->limit($number,$limit)->find();
