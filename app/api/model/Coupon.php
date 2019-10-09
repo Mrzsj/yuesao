@@ -32,7 +32,7 @@ class Coupon extends Model{
     public function my($number,$limit,$userid,$status){
         $status ? $judge_symbol = '>=' : $judge_symbol = '<';
         $data = Db::name('coupon_log')
-        ->field(['title','face_value','type','expire_time','full'])
+        ->field(['title','face_value','type','expire_time','full','id'])
         ->where('status','1')
         ->where('user_id',$userid)
         ->where('expire_time',$judge_symbol,time())

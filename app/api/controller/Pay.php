@@ -41,7 +41,7 @@ class Pay{
         $data['mch_id'] = $MCHID;	//商户号id
         $data['nonce_str'] = md5($MCHID.time()); //验证的支付
         $data['openid'] = $openid; //用户openid
-        $data['body'] = '安徽罗网信息科技有限公司'; //微信支付对应的商家/公司主体名
+        $data['body'] = config('body'); //微信支付对应的商家/公司主体名
         $data['out_trade_no'] = $order_res['ordersn']; //订单号id,用于回调改订单状态
         $data['total_fee'] = $total_fee; //支付金额，单位为分！！
         $data['spbill_create_ip'] = '8.8.8.8'; //验证ip地址，这个不用改随意
