@@ -72,6 +72,9 @@ class Pay{
         }
     }
     public function notify(){
+        $myfile = fopen("notify.txt", "a");
+        fwrite($myfile, 'test');
+        fclose($myfile);
         $data = file_get_contents('php://input');
         $msg = (array)simplexml_load_string($data, 'SimpleXMLElement', LIBXML_NOCDATA);
         if($msg['result_code'] == "SUCCESS") {
