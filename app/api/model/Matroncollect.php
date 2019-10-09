@@ -12,8 +12,8 @@ class Matroncollect extends Model
     public function getList($number, $limit, $user_id){
         $list = Db::name('matroncollect')
             ->alias('mc')
-            ->join('matron m', 'mc.user_id = m.user_id')
-            ->join('user u', 'u.id = mc.user_id')
+            ->join('matron m', 'mc.matron_id = m.id')
+            ->join('user u', 'u.id = m.user_id')
             ->field('u.name, m.id, mc.matron_id, m.head_img, m.price, m.introduce')
             ->where('mc.user_id', $user_id)
             ->order('mc.create_time desc')
