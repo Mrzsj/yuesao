@@ -135,6 +135,13 @@ layui.use(['table','form','layer','laydate'], function(){
       {field:'total_price',title: '总价',align: 'center',width:180},
       {field:'payable_price',title: '应付价',align: 'center',width:180},
       {field:'coupon_price',title: '优惠券金额',align: 'center',width:180},
+      {field:'pay_time',title: '支付时间',align: 'center',width:180,templet:function(d){
+          if(d.pay_time_old == 0){
+              return '未支付';
+          }else{
+              return d.pay_time;
+          }
+      }},
       {field:'wx_transaction_id',title: '微信支付单号',align: 'center',width:180},
       {field:'commission',title: '预计佣金',align: 'center',width:180},
       {field:'start_time',title: '预约时间',align: 'center',width:180},
@@ -212,5 +219,34 @@ $(document).on('keydown', function(e){
         $('#search').click();
     }
 })
+$(function(){
+    var ordersn = getQueryVariable('ordersn');
+    if(ordersn){
+        $('#name').val(ordersn);
+        setTimeout(function(){
+            layui.use('table', function(){
+                var table = layui.table;
+                table.reload('table', { //表格的id
+                    url:"{:url('admin/order/list')}",
+                    where:{
+                            'name':$('#name').val(),
+                            'start_time':$('#start_time').val(),
+                            'status':$('#status').val(),
+                            'region':$('#region').val(),
+                    }
+                });
+            })
+        },200)
+    }
+})
+function getQueryVariable(variable){
+   var query = window.location.search.substring(1);
+   var vars = query.split("&");
+   for (var i=0;i<vars.length;i++) {
+       var pair = vars[i].split("=");
+       if(pair[0] == variable){return pair[1];}
+   }
+   return(false);
+}
 </script>
 </html>

@@ -54,7 +54,9 @@ class Order{
         if($matron['price'] <= 0){
             msg(0,'月嫂价格未设定，不能下单');
         }
-
+        if($matron['user_id'] == $user_id){
+            msg(0,'不能给自己下单');
+        }
         //此处缺少，判断用户选择的月嫂有没有档期安排
 
         if(isset($post['coupon']) && !empty($post['coupon']) && is_numeric($post['coupon'])){

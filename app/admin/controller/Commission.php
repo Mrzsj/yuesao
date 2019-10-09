@@ -9,7 +9,42 @@ class Commission extends Permissions
         return $this->fetch();
     }
     public function index(){
-        echo '佣金列表';
+        return $this->fetch();
+    }
+    public function list(){
+        $page = input('page');
+        $limit = input('limit');
+        $ordersn = input('ordersn');
+        if (empty($page) || !is_numeric($page)) {
+            msg(0,'请输入正确的页码');
+        }
+        if (empty($limit) || !is_numeric($limit)) {
+            msg(0,'请输入正确的条数');
+        }
+        $number = ($page - 1) * $limit;
+        $where = '';
+        if($ordersn){
+            $where .= "cl.ordersn='".$ordersn."'";
+        }
+        $data = Db::name('commission_log')
+        ->alias('cl')
+        ->field(['cl.*','o.name as o_name','o.mobile as o_mobile','u.name as u_name'])
+        ->join('order o','o.id=cl.order_id')
+        ->join('user u','u.id=o.matron_id')
+        ->where($where)
+        ->limit($number,$limit)
+        ->order('cl.id desc')
+        ->select();
+        $total = Db::name('commission_log')->field(['count(id)'])->limit($number,$limit)->find();
+        if($total){
+            $total = $total['count(id)'];
+        }else{
+            $total = 0;
+        }
+        foreach($data as $k =>$v){
+            $data[$k]['create_time'] = date("Y-m-d H:i:s",$v['create_time']);
+        }
+        showjson(['code'=>0,'count'=>$total,'data'=>$data]);
     }
     public function setting_edit(){
         $post = input('post.');

@@ -11,6 +11,8 @@ class Order extends Model{
 			$data[$k]['end_time'] = date('Y-m-d',$v['end_time']);
 			$data[$k]['create_time'] = date('Y-m-d H:i:s',$v['create_time']);
 			$data[$k]['update_time'] = date('Y-m-d H:i:s',$v['update_time']);
+			$data[$k]['pay_time_old'] = $v['pay_time'];
+			$data[$k]['pay_time'] = date('Y-m-d H:i:s',$v['pay_time']);
 		}
 		return $data;
 	}
