@@ -242,6 +242,10 @@ class Matron extends Permissions
         $data['price'] = sprintf("%.2f", $data['price']);
         $id = $data['id'];
         unset($data['id']);
+        unset($data['file']);
+        if(empty($data['head_img'])){
+            unset($data['head_img']);
+        }
         try {
             Db::name('matron')->where('id',$id)->update($data);
             msg(1,'提交成功');

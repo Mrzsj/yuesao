@@ -52,7 +52,10 @@ class Matron extends Model{
     }
     public function getone($id){
         $data = Db::name('matron')
-        ->where('id',$id)
+        ->alias('m')
+        ->field(['m.*','u.avatar_url'])
+        ->join('user u','u.id=m.user_id')
+        ->where('m.id',$id)
         ->find();
         $data['temp'] = unserialize($data['temp']);
         return $data;
