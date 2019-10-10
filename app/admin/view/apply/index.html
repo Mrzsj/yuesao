@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>请假申请</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <script src="__PUBLIC__/echarts/echarts.min.js"></script>
+    <link rel="stylesheet" href="__PUBLIC__/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="__PUBLIC__/font-awesome/css/font-awesome.min.css" media="all">
+</head>
+<body class="layui-layout-body" style="overflow-y:visible;">
+<div class="layui-form">
+    <blockquote class="layui-elem-quote quoteBox">
+        <div class="layui-inline" style="margin-left: 1rem;">
+            <input type="text" placeholder="请输入月嫂名称" class="layui-input" id="name">
+        </div>
+        <div class="layui-inline" style="margin-left: 1rem;">
+            <a class="layui-btn  layui-btn-normal" id="search">搜索</a>
+        </div>
+    </blockquote>
+</div>
+<table class="layui-hide" id="table" lay-filter="table">
+
+</table>
+</body>
+<script src="__PUBLIC__/jquery/jquery.min.js"></script>
+<script src="__PUBLIC__/layui/layui.js"></script>
+<script type="text/javascript">
+    layui.use(['table','form','layer'], function(){
+        var table = layui.table;
+        table.render({
+            elem: '#table', //表格id
+            url:"{:url('admin/apply/lists')}", //list接口地址
+            cellMinWidth: 80, //全局定义常规单元格的最小宽度
+            height: 'full-120',
+            page: true,
+            limits: [15, 25, 45, 60],
+            limit: 15,
+            cols: [[
+                //align属性是文字在列表中的位置 可选参数left center right
+                //sort属性是排序功能
+                //title是这列的标题
+                //field是取接口的字段值
+                //width是宽度，不填则自动根据值的长度
+                {field:'id', title: 'ID',align: 'center',width:80},
+                {field:'user_id',title: '用户id',align: 'center',width:180},
+                {field:'matron_id',title: '月嫂id',align: 'center',width:180},
+                {field:'name',title: '月嫂名称',align: 'center',width:180},
+                {field:'type',title: '类型',align: 'center',width:180,
+                    templet:function(d){
+                        if(d.type == 1){
+                            return '事假';
+                        }else if(d.type == 2){
+                            return '病假';
+                        }
+                    }},
+                {field:'reason', title: '请假事由',align: 'center',width:200},
+                {field:'start_time', title: '开始时间',align: 'center',width:200},
+                {field:'end_time', title: '结束时间',align: 'center',width:200},
+                {field:'create_time', title: '创建时间',align: 'center',width:200},
+            ]]
+        });
+    });
+    $('#search').click(function(){
+        //传递where条件实现搜索，并且重载表格数据
+        layui.use('table', function(){
+            var table = layui.table;
+            table.reload('table', { //表格的id
+                url:"{:url('admin/apply/lists')}",
+                where:{
+                    'name':$('#name').val()
+                }
+            });
+        })
+    });
+    $(document).on('keydown', function(e){
+        if(e.keyCode == 13){
+            $('#search').click();
+        }
+    })
+</script>
+</html>
