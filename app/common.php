@@ -291,7 +291,7 @@ function get_star_name($star){
             $start_time = $v['start_time'];
             $end_time = $v['end_time'];
             while($start_time<$end_time){
-                $data[] = ['date'=>date('Y-m-d',$start_time),'price'=>'已约'];
+                $data[] = ['date'=>date('Y-m-d',$start_time),'price'=>'●'];
                 $start_time += 86400;
             }
 		}
