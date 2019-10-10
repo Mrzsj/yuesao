@@ -44,6 +44,9 @@ class Order{
         if($post['days']<26){
             msg(0,'天数不能小于26天');
         }
+        if(strtotime($post['start_time']) <= time()){
+            msg(0,'预约日期必须从明天以后的日期');
+        }
         $matron = model('admin/matron')->getone($post['matron_id']);
         if(empty($matron)){
             msg(0,'选择的月嫂不存在,请返回重试');
@@ -59,6 +62,13 @@ class Order{
         }
         //此处缺少，判断用户选择的月嫂有没有档期安排
 
+
+
+
+
+
+
+        
         if(isset($post['coupon']) && !empty($post['coupon']) && is_numeric($post['coupon'])){
             $coupon_log_id = intval($post['coupon']);
             $coupon_log = Db::name('coupon_log')->where('id',$coupon_log_id)->where('expire_time','>',time())->where('status','1')->find();
