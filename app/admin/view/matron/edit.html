@@ -21,6 +21,22 @@
     </fieldset>
     <form class="layui-form layui-form-pane">
         <div class="layui-form-item">
+            <label class="layui-form-label">月嫂头像</label>
+            <div class="layui-input-block">
+                <button type="button" class="layui-btn" id="head_img">
+                  <i class="layui-icon">&#xe67c;</i>上传图片
+                </button>
+                <span style="color: red;">*建议图片宽高比为5比2</span>
+            </div>
+          </div>
+          <div class="layui-form-item img">
+            <label class="layui-form-label">预览</label>
+            <div class="layui-input-block">
+                <img src="{if !empty($data['head_img'])}{$data['head_img']}{else}{$data['avatar_url']}{/if}" alt="" id="img_show" style="width: 100px;height: 100px;">
+                <input type="hidden" name="head_img" id="img_val">
+            </div>
+          </div>
+        <div class="layui-form-item">
           <label class="layui-form-label">联系地址</label>
           <div class="layui-input-block">
             <input type="text" name="address" placeholder="请输入月嫂联系地址" class="layui-input" required lay-verify="required" value="{$data['address']}">
@@ -127,5 +143,23 @@
             return false;
         });
     });
+layui.use('upload', function(){
+  var upload = layui.upload;
+  //执行实例
+  var uploadInst = upload.render({
+    elem: '#head_img' //绑定元素
+    ,url: "{:url('admin/upload/img')}"
+    ,done: function(res){
+        console.log(res);
+        if (res.status == 1) {
+            $('#img_show').attr('src',res.path);
+            $('#img_val').val(res.path)
+        }
+    }
+    ,error: function(){
+      //请求异常回调
+    }
+  });
+});
 </script>
 </html>

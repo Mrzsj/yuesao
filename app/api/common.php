@@ -28,3 +28,14 @@ function get_token(){
         exit();
     }
 }
+function order_status_where($status = 0){
+    if($status == 0){
+        return 'o.status=0';
+    }else if($status == 1){
+        return 'o.status=1';
+    }else if($status == 2){
+        return 'o.status=2';
+    }else if($status == 4){
+        return '(o.status=4 or o.status=5)';
+    }
+}

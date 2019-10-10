@@ -123,4 +123,68 @@ class Order{
             return ['status'=>0,'msg'=>'提交订单失败'];  
         }
     }
+    public function refund(){
+        $id = input('id');
+        $user_id = get_token();
+        if (empty($id) || !is_numeric($id)) {
+            msg(0,'请传入正确的id');
+        }
+        $id = intval($id);
+        $data = [
+            'status'=>4,
+            'update_time'=>time()
+        ];
+        $res = Db::name('order')->where('id',$id)->where('user_id',$user_id)->find();
+        if($res){
+           if($res['status'] != 1){
+              msg(0,'该笔订单不是已付款状态，请刷新后重试');
+           } 
+        }else{
+            msg(0,'未查询到订单，请重试');
+        }
+        try {
+            $res = Db::name('order')->where('id',$id)->where('user_id',$user_id)->update($data);
+            if(!empty($data)){
+                return ['status'=>1,'msg'=>'申请成功'];
+            }else{
+                return ['status'=>0,'msg'=>'申请退款失败'];
+            }
+        } catch (\Exception $e) {
+            return ['status'=>0,'msg'=>'申请退款失败'];  
+        }
+    }
+    public function list(){
+        $user_id = get_token();
+        $status = input('status');
+        $where = '';
+        if($status == 0 || $status == 1 || $status == 2 || $status == 4){
+            $where = order_status_where($status);
+        }else{
+            return ['status'=>0,'msg'=>'状态码不正确'];
+        }
+        $data = Db::name('order')
+        ->alias('o')
+        ->field(['u.name','u.avatar_url','m.head_img','o.status','o.payable_price','o.start_time','o.id','o.is_evaluate'])
+        ->join('matron m','m.id=o.matron_id')
+        ->join('user u','m.user_id=u.id')
+        ->where('o.user_id',$user_id)
+        ->where($where)
+        ->select();
+        if(!empty($data)){
+            foreach($data as $k => $v){
+                $data[$k]['start_time'] = date("Y-m-d",$v['start_time']);
+                if($v['head_img']){
+                    $data[$k]['head_url'] = domain_name().$v['head_img'];
+                }else{
+                    $data[$k]['head_url'] = $v['avatar_url'];
+                }
+                unset($data[$k]['avatar_url']);
+                unset($data[$k]['head_img']);
+            }
+            $data = ['status'=>1,'data'=>$data];
+        }else{
+            $data = ['status'=>0,'data'=>$data];
+        }
+        return $data;
+    }
 }
