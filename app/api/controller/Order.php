@@ -60,10 +60,15 @@ class Order{
         if($matron['user_id'] == $user_id){
             msg(0,'不能给自己下单');
         }
+        // $res = Db::name('order')
+        // ->where('matron_id',$post['matron_id'])
+        // ->where('start_time','<=',strtotime($post['start_time']))
+        // ->where('end_time','>=',strtotime($post['start_time']))
+        // ->where('(status=0 or status=1 or status=2 or status=4)')
+        // ->select();
         $res = Db::name('order')
         ->where('matron_id',$post['matron_id'])
-        ->where('start_time','<=',strtotime($post['start_time']))
-        ->where('end_time','>=',strtotime($post['start_time']))
+        ->where('(start_time'.'<='.strtotime($post['start_time']).' and end_time'.'>='.strtotime($post['start_time']).') or (start_time<='.(strtotime($post['start_time']) + 86400*$post['days']).' and end_time>='.(strtotime($post['start_time']) + 86400*$post['days']).")")
         ->where('(status=0 or status=1 or status=2 or status=4)')
         ->select();
         if(!empty($res)){
