@@ -68,7 +68,7 @@ class Order{
         // ->select();
         $res = Db::name('order')
         ->where('matron_id',$post['matron_id'])
-        ->where('(start_time'.'<='.strtotime($post['start_time']).' and end_time'.'>='.strtotime($post['start_time']).') or (start_time<='.(strtotime($post['start_time']) + 86400*$post['days']).' and end_time>='.(strtotime($post['start_time']) + 86400*$post['days']).")")
+        ->where('(start_time'.'<='.strtotime($post['start_time']).' and end_time'.'>='.strtotime($post['start_time']).') or (start_time<='.(strtotime($post['start_time']) + 86400*($post['days']-1)).' and end_time>='.(strtotime($post['start_time']) + 86400*($post['days']-1)).")")
         ->where('(status=0 or status=1 or status=2 or status=4)')
         ->select();
         if(!empty($res)){
@@ -95,7 +95,7 @@ class Order{
         }else{
             msg(0,'优惠券满减金额没有达到订单金额');
         }
-        $end_time = strtotime($post['start_time']) + 86400*$post['days'];
+        $end_time = strtotime($post['start_time']) + 86400*($post['days']-1);
         $data['name'] = $post['name'];
         $data['mobile'] = $post['mobile'];
         $data['matron_id'] = $post['matron_id'];
