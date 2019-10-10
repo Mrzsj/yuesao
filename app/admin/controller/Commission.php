@@ -30,13 +30,13 @@ class Commission extends Permissions
         ->alias('cl')
         ->field(['cl.*','o.name as o_name','o.mobile as o_mobile','u.name as u_name'])
         ->join('order o','o.id=cl.order_id')
-        ->join('user u','u.id=o.matron_id')
+        ->join('matron m','m.id=o.matron_id')
+        ->join('user u','u.id=m.user_id')
         ->where($where)
         ->limit($number,$limit)
         ->order('cl.id desc')
-        ->fetchSql()
         ->select();
-        var_dump($data);exit();
+        //var_dump($data);exit();
         $total = Db::name('commission_log')->field(['count(id)'])->limit($number,$limit)->find();
         if($total){
             $total = $total['count(id)'];
