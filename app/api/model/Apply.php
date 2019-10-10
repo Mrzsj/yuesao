@@ -15,7 +15,8 @@ class Apply
             'status' => 1
         ];
         $list = Db::name('order')->where($where)->select();
-        $data = 0;
+//        $data = 0;
+        $add = [];
         foreach ($list as $k => $v){
             if ((strtotime($start_time) >= $list[$k]['start_time']) && (strtotime($start_time) <= $list[$k]['end_time'])){
                 $add = [
@@ -27,9 +28,9 @@ class Apply
                     'end_time' => strtotime($end_time),
                     'create_time' => time()
                 ];
-                $data = Db::name('apply')->insert($add);
             }
         }
+        $data = Db::name('apply')->insert($add);
         return $data;
     }
 
