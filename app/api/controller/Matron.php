@@ -240,4 +240,30 @@ class Matron
         }
         return ['status'=>1,'data'=>$data];
     }
+    public function time_arrange(){
+        $id = input('id');
+        if (empty($id) || !is_numeric($id)) {
+            showjson(['status'=>0,'msg'=>'请输入正确的ID']);
+        }
+        $id = intval($id);
+        $data = matron_time_arrange($id);
+        if($data){
+            return ['status'=>1,'data'=>$data];
+        }else{
+            return ['status'=>0,'data'=>[]];
+        }
+    }
+    public function my_time_arrange(){
+        $user_id = get_token();
+        $matron = Db::name('matron')->field(['id'])->where('user_id',$user_id)->find();
+        if(!$matron){
+            msg(0,'该用户不存在');
+        }
+        $data = matron_time_arrange($matron['id']);
+        if($data){
+            return ['status'=>1,'data'=>$data];
+        }else{
+            return ['status'=>0,'data'=>[]];
+        }
+    }
 }

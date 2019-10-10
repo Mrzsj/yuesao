@@ -60,15 +60,15 @@ class Order{
         if($matron['user_id'] == $user_id){
             msg(0,'不能给自己下单');
         }
-        //此处缺少，判断用户选择的月嫂有没有档期安排
-
-
-
-
-
-
-
-        
+        $res = Db::name('order')
+        ->where('matron_id',$post['matron_id'])
+        ->where('start_time','<=',strtotime($post['start_time']))
+        ->where('end_time','>=',strtotime($post['start_time']))
+        ->where('(status=0 or status=1 or status=2 or status=4)')
+        ->select();
+        if(!empty($res)){
+            msg(0,'当前预约日期该月嫂有档期安排，请重新选择');
+        }
         if(isset($post['coupon']) && !empty($post['coupon']) && is_numeric($post['coupon'])){
             $coupon_log_id = intval($post['coupon']);
             $coupon_log = Db::name('coupon_log')->where('id',$coupon_log_id)->where('expire_time','>',time())->where('status','1')->find();

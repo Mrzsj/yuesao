@@ -271,3 +271,29 @@ function get_star_name($star){
 			return 0;
 		}
 	}
+	function matron_time_arrange($id){
+		/*应前端要求，参数格式如下，=,=
+        [
+            {'date':'2019-09-01','price':'已约'},
+            {'date':'2019-09-02','price':'已约'},
+            {'date':'2019-09-03','price':'已约'}
+        ]
+		*/
+		$order = \think\Db::name('order')
+        ->field(['start_time','end_time'])
+        ->where('matron_id',$id)
+        ->where("end_time",'>=',strtotime(date('Y-m-').'1'))
+        ->where("start_time",'<=',strtotime(date('Y-m-',strtotime("+1 year")).'30'))
+        ->where('(status=0 or status=1 or status=2 or status=4)')
+        ->select();
+		$data = [];
+		foreach($order as $k => $v){
+            $start_time = $v['start_time'];
+            $end_time = $v['end_time'];
+            while($start_time<=$end_time){
+                $data[] = ['date'=>date('Y-m-d',$start_time),'price'=>'已约'];
+                $start_time += 86400;
+            }
+		}
+		return $data;
+	}
