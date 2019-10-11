@@ -70,7 +70,7 @@
     {{# } }}
 
     {{# if(d.status == 4){ }}
-        <span>申请退款中</span>
+        <a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="refund">退款审核</a>
     {{# } }}
 
     {{# if(d.status == 5){ }}
@@ -197,6 +197,24 @@ layui.use(['table','form','layer','laydate'], function(){
                 layer.msg(res.msg);
               },'json')
           });
+      }else if(obj.event === 'refund'){
+        layer.confirm('确认同意退款吗，拒绝退款，订单将重新变成已付款状态', {
+            btn: ['确认退款','拒绝退款'] //按钮
+            }, function(){
+                $.post("{:url('admin/order/refund')}",{id:data.id,'is_agree':'1'},function(res){
+                if (res.status == 1) {
+                    $('#search').click();
+                }
+                layer.msg(res.msg);
+              },'json')
+            }, function(){
+                $.post("{:url('admin/order/refund')}",{id:data.id,'is_agree':'0'},function(res){
+                if (res.status == 1) {
+                    $('#search').click();
+                }
+                layer.msg(res.msg);
+              },'json')
+        });
       }
     });
 });

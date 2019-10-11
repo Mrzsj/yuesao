@@ -85,4 +85,22 @@ class Order extends Permissions{
             msg(0,'操作失败');
         }
     }
+    public function refund(){
+        $id = input('id');
+        $is_agree = input('is_agree');
+        $data = [
+            'update_time'=>time(),
+        ];
+        if($is_agree){
+            $data['status'] = 5;
+        }else{
+            $data['status'] = 1;
+        }
+        try {
+            Db::name("order")->where('id',$id)->update($data);
+            msg(1,'操作成功');
+        } catch (Exception $e) {
+            msg(0,'操作失败');
+        }
+    }
 }
