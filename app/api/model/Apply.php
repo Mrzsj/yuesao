@@ -32,5 +32,4 @@ class Apply
         }
         return $data;
     }
-
 }
