@@ -179,7 +179,7 @@ class Order{
         }
         $data = Db::name('order')
         ->alias('o')
-        ->field(['u.name','u.avatar_url','m.head_img','o.status','o.payable_price','o.start_time','o.id','o.is_evaluate'])
+        ->field(['u.name','u.avatar_url','m.head_img','o.status','o.payable_price','o.start_time','o.id','o.is_evaluate','o.ordersn','o.days'])
         ->join('matron m','m.id=o.matron_id')
         ->join('user u','m.user_id=u.id')
         ->where('o.user_id',$user_id)
@@ -201,5 +201,82 @@ class Order{
             $data = ['status'=>0,'data'=>$data];
         }
         return $data;
+    }
+    public function evaluate(){
+        $user_id = get_token();
+        $post = input('post.');
+        $rule = [
+            'id'  => 'require|number',
+            'b_nursing'=>'require|in:1,2,3,4,5',
+            'early_education'=>'require|in:1,2,3,4,5',
+            'collocation'=>'require|in:1,2,3,4,5',
+            'feed'=>'require|in:1,2,3,4,5',
+            'm_nursing'=>'require|in:1,2,3,4,5',
+            'communicate'=>'require|in:1,2,3,4,5',
+            'content'=>'require',
+        ];
+        $msg = [
+            'id.require'     => '请传入id',
+            'id.number'     => '请传入正确的id',
+
+            'b_nursing.require' =>'请传入宝宝护理评分',
+            'b_nursing.in'=>'请传入正确的宝宝护理评分',
+
+            'early_education.require' =>'请传入宝宝早教评分',
+            'early_education.in'=>'请传入正确的宝宝早教评分',
+
+            'collocation.require' =>'请传入膳食搭配评分',
+            'collocation.in'=>'请传入正确的膳食搭配评分',
+
+            'feed.require' =>'请传入科学喂养评分',
+            'feed.in'=>'请传入正确的科学喂养评分',
+
+            'm_nursing.require' =>'请传入产妇护理评分',
+            'm_nursing.in'=>'请传入正确的产妇护理评分',
+
+            'communicate.require' =>'请传入沟通技巧评分',
+            'communicate.in'=>'请传入正确的沟通技巧评分',
+
+            'content.require'=>'内容不能为空',
+        ];
+        $validate = new Validate($rule,$msg);
+        if (!$validate->check($post)) {
+            msg(0,$validate->getError());
+        }
+        $id = intval($post['id']);
+        unset($post['id']);
+        $res = Db::name('order')->where('id',$id)->where('user_id',$user_id)->find();
+        if(!$res){
+            msg(0,'订单不存在,请刷新重试');
+        }
+        if($res['status'] != 2){
+            msg(0,'订单必须为已完成');
+        }
+        if($res['is_evaluate'] == 1){
+            msg(0,'订单已评价');
+        }
+        $data = [
+            'b_nursing'=>$post['b_nursing'],
+            'early_education'=>$post['early_education'],
+            'collocation'=>$post['collocation'],
+            'feed'=>$post['feed'],
+            'm_nursing'=>$post['m_nursing'],
+            'communicate'=>$post['communicate'],
+            'content'=>$post['content'],
+            'matron_id'=>$res['matron_id'],
+            'order_id'=>$res['id'],
+            'create_time'=>time(),
+            'update_time'=>time(),
+        ];
+        Db::startTrans();
+        try {
+            Db::name('evaluate')->insert($data);
+            Db::name('order')->where('id',$id)->where('user_id',$user_id)->update(['is_evaluate'=>1,'update_time'=>time()]);
+            Db::commit();
+            msg(1,'评价成功');
+        } catch (\Exception $e) {
+            Db::rollback();
+            msg(0,'评价失败');
+        }
     }
 }

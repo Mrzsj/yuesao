@@ -204,6 +204,7 @@ class Matron
             }else{
                 $data[$k]['head_url'] = $v['avatar_url'];
             }
+            $data[$k]['price'] = intval($v['price']);
             $data[$k]['star_name'] = get_star_name($v['star']);
             unset($data[$k]['head_img']);
             unset($data[$k]['avatar_url']);
