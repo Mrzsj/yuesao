@@ -158,12 +158,8 @@ class Order{
             msg(0,'未查询到订单，请重试');
         }
         try {
-            $res = Db::name('order')->where('id',$id)->where('user_id',$user_id)->update($data);
-            if(!empty($data)){
-                return ['status'=>1,'msg'=>'申请成功'];
-            }else{
-                return ['status'=>0,'msg'=>'申请退款失败'];
-            }
+            Db::name('order')->where('id',$id)->where('user_id',$user_id)->update($data);
+            return ['status'=>1,'msg'=>'申请成功'];
         } catch (\Exception $e) {
             return ['status'=>0,'msg'=>'申请退款失败'];  
         }
@@ -184,6 +180,7 @@ class Order{
         ->join('user u','m.user_id=u.id')
         ->where('o.user_id',$user_id)
         ->where($where)
+        ->order('o.create_time desc')
         ->select();
         if(!empty($data)){
             foreach($data as $k => $v){
@@ -277,6 +274,61 @@ class Order{
         } catch (\Exception $e) {
             Db::rollback();
             msg(0,'评价失败');
+        }
+    }
+    public function matron_list(){
+        $user_id = get_token();
+        $status = input('status');//0历史订单   1当前订单
+        if($status == 1){
+            $status = 1; 
+        }else{
+            $status = 2;
+        }
+        $matron = model('matron')->matron_get($user_id);
+        if(empty($matron)){
+            msg(-2,'您还不是月嫂，请申请入驻');
+        }
+        $data = Db::name('order')
+        ->alias('o')
+        ->field(['o.name','o.mobile','o.ordersn','o.address','o.start_time','o.days','o.payable_price','o.commission','o.is_receive','o.remark','u.avatar_url','o.id'])
+        ->join('user u','o.user_id=u.id')
+        ->where('o.matron_id',$matron['id'])
+        ->where('o.status',$status)
+        ->select();
+        if(!empty($data)){
+            foreach($data as $k => $v){
+                $data[$k]['start_time'] = date('Y-m-d',$v['start_time']); 
+            }
+            $data = ['status'=>1,'data'=>$data];
+        }else{
+            $data = ['status'=>0,'data'=>[]];
+        }
+        return $data;
+    }
+    public function cancel(){
+        $id = input('id');
+        $user_id = get_token();
+        if (empty($id) || !is_numeric($id)) {
+            msg(0,'请传入正确的id');
+        }
+        $id = intval($id);
+        $data = [
+            'status'=>3,
+            'update_time'=>time()
+        ];
+        $res = Db::name('order')->where('id',$id)->where('user_id',$user_id)->find();
+        if($res){
+           if($res['status'] != 0){
+              msg(0,'该笔订单不是待付款状态，请刷新后重试');
+           } 
+        }else{
+            msg(0,'未查询到订单，请重试');
+        }
+        try {
+            Db::name('order')->where('id',$id)->where('user_id',$user_id)->update($data);
+            return ['status'=>1,'msg'=>'取消订单成功'];
+        } catch (\Exception $e) {
+            return ['status'=>0,'msg'=>'取消订单失败'];  
         }
     }
 }

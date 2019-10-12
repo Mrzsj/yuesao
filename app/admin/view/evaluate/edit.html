@@ -10,6 +10,11 @@
     <script src="__PUBLIC__/echarts/echarts.min.js"></script>
     <link rel="stylesheet" href="__PUBLIC__/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="__PUBLIC__/font-awesome/css/font-awesome.min.css" media="all">
+    <style>
+      .layui-form-item{
+        margin-bottom: 0;
+      }
+    </style>
 </head>
 <body class="layui-layout-body" style="overflow-y:visible;">
     <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
@@ -54,7 +59,7 @@
             <div id="communicate"></div>
           </div>
         </div>
-        <div class="layui-form-item layui-form-text">
+        <div class="layui-form-item layui-form-text" style="margin-bottom: 15px;">
           <label class="layui-form-label">评价内容</label>
           <div class="layui-input-block">
             <textarea placeholder="请输入评价内容" class="layui-textarea" id="content">{$data['content']}</textarea>
