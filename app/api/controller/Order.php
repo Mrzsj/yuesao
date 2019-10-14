@@ -175,7 +175,7 @@ class Order{
         }
         $data = Db::name('order')
         ->alias('o')
-        ->field(['u.name','u.avatar_url','m.head_img','o.status','o.payable_price','o.start_time','o.id','o.is_evaluate','o.ordersn','o.days'])
+        ->field(['u.name','u.avatar_url','m.head_img','o.status','o.payable_price','o.start_time','o.id','o.is_evaluate','o.ordersn','o.days','o.mobile','o.address'])
         ->join('matron m','m.id=o.matron_id')
         ->join('user u','m.user_id=u.id')
         ->where('o.user_id',$user_id)
