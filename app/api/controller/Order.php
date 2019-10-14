@@ -175,7 +175,7 @@ class Order{
         }
         $data = Db::name('order')
         ->alias('o')
-        ->field(['u.name','u.avatar_url','m.head_img','o.status','o.payable_price','o.start_time','o.id','o.is_evaluate','o.ordersn','o.days','o.mobile','o.address'])
+        ->field(['u.name','u.avatar_url','m.head_img','o.status','o.payable_price','o.start_time','o.id','o.is_evaluate','o.ordersn','o.days'])
         ->join('matron m','m.id=o.matron_id')
         ->join('user u','m.user_id=u.id')
         ->where('o.user_id',$user_id)
@@ -330,5 +330,32 @@ class Order{
         } catch (\Exception $e) {
             return ['status'=>0,'msg'=>'取消订单失败'];  
         }
+    }
+    public function evaluate_detail(){
+        $id = input('id');
+        $user_id = get_token();
+        if (empty($id) || !is_numeric($id)) {
+            msg(0,'请传入正确的id');
+        }
+        $id = intval($id);
+        $data = Db::name('order')
+        ->alias('o')
+        ->field(['o.days','o.id','o.name','o.mobile','o.address','u.name as m_name','m.head_img','u.avatar_url'])
+        ->join('matron m','m.id=o.matron_id')
+        ->join('user u','m.user_id=u.id')
+        ->where('o.id',$id)
+        ->where('o.user_id',$user_id)
+        ->find();
+        if(empty($data)){
+            msg(0,'订单不存在');
+        }
+        if(!empty($data['head_img'])){
+            $data['head_url'] = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]" . str_replace("\\",'/',$res['head_img']);
+        }else{
+            $data['head_url'] = $data['avatar_url'];
+        }
+        unset($data['head_img']);
+        unset($data['avatar_url']);
+        return ['status'=>1,'data'=>$data];
     }
 }
