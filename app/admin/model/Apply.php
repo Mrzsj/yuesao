@@ -25,20 +25,6 @@ class Apply extends Model
         return $data;
     }
 
-    /*public function detail($ordersn){
-        $data = Db::name('apply')
-            ->alias('a')
-            ->join('user u', 'u.id = a.user_id')
-            ->join('order o', 'o.matron_id = a.matron_id')
-            ->field('u.name, o.ordersn, a.*')
-            ->where('o.ordersn', $ordersn)
-            ->find();
-        $data['start_time'] = date('Y-m-d H:i:s', $data['start_time']);
-        $data['end_time'] = date('Y-m-d H:i:s', $data['end_time']);
-        $data['create_time'] = date('Y-m-d H:i:s', $data['create_time']);
-        return $data;
-    }*/
-
     public function search($number, $limit, $q){
         $data = Db::name('apply')
             ->alias('a')

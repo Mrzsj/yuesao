@@ -34,18 +34,4 @@ class Apply extends Permissions
         showjson(['code' => 0,'count' => $count,'data' => $list]);
     }
 
-    /*public function detail(){
-        $ordersn = input('ordersn');
-        if (empty($ordersn)) {
-            msg(0,'缺少参数');
-        }
-        $Apply_model = new Apply_model();
-        $data = $Apply_model->detail($ordersn);
-        if(!empty($data)){
-            return ['status'=>1, 'data'=>showjson($data)];
-        }else{
-            return ['status'=>0, 'msg'=>'该请假申请不存在'];
-        }
-    }*/
-
 }
