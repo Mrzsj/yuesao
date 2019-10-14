@@ -5,6 +5,9 @@ class Index
 {
     public function index()
     {
-        return ['status'=>1,'msg'=>'请求成功'];
+        $url = domain_name().'/admin';
+        header('HTTP/1.1 301 Moved Permanently');
+        header("location:$url");
+        exit();
     }
 }

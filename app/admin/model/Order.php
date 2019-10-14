@@ -5,7 +5,15 @@ use \think\Model;
 use \think\Db;
 class Order extends Model{
 	public static function getlist($number,$limit,$where='',$name=''){
-		$data = Db::name('order')->order('id desc')->where($where)->where('name|mobile|ordersn','like','%'.$name.'%')->limit($number,$limit)->select();
+		$data = Db::name('order')
+		->alias('o')
+		->field(['o.*'])
+		->join('user u','u.id=o.user_id')
+		->order('o.id desc')
+		->where($where)
+		->where('o.name|o.mobile|o.ordersn|u.openid','like','%'.$name.'%')
+		->limit($number,$limit)
+		->select();
 		foreach($data as $k => $v){
             $data[$k]['start_time'] = date('Y-m-d',$v['start_time']);
 			$data[$k]['end_time'] = date('Y-m-d',$v['end_time']);
@@ -17,8 +25,14 @@ class Order extends Model{
 		return $data;
 	}
 	public static function total($where='',$name=''){
-		$data = Db::name('order')->field('count(id)')->where($where)->where('name|mobile|ordersn','like','%'.$name.'%')->find();
-		return $data['count(id)'];
+		$data = Db::name('order')
+		->alias('o')
+		->field('count(o.id)')
+		->join('user u','u.id=o.user_id')
+		->where($where)
+		->where('o.name|o.mobile|o.ordersn|u.openid','like','%'.$name.'%')
+		->find();
+		return $data['count(o.id)'];
 	}	
 	public static function del($id){
 		$res = Db::name('coupon')->where('id',$id)->delete();

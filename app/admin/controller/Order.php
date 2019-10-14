@@ -23,21 +23,21 @@ class Order extends Permissions{
         if(!empty($start_time)){
             $time_arr = explode(' - ',$start_time);
             if(count($time_arr) == 2 && strtotime($time_arr[0]) && strtotime($time_arr[1])){
-                $where .= 'create_time between '. strtotime($time_arr[0]) . ' and ' . strtotime($time_arr[1]);
+                $where .= 'o.create_time between '. strtotime($time_arr[0]) . ' and ' . strtotime($time_arr[1]);
             }
         }
         if(is_numeric($status) && $status != '9'){
             if(!empty($where)){
-                $where .= " and status=".$status;
+                $where .= " and o.status=".$status;
             }else{
-                $where = "status=".$status;
+                $where = "o.status=".$status;
             }
         }
         if(!empty($region) && is_numeric($region)){
             if(!empty($where)){
-                 $where .= " and region=".$region;
+                 $where .= " and o.region=".$region;
             }else{
-                $where = "region=".$region;
+                $where = "o.region=".$region;
             }
         }
         $data = model('order')->getlist($number,$limit,$where,$name);

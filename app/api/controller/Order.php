@@ -350,7 +350,7 @@ class Order{
             msg(0,'订单不存在');
         }
         if(!empty($data['head_img'])){
-            $data['head_url'] = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]" . str_replace("\\",'/',$res['head_img']);
+            $data['head_url'] = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]" . str_replace("\\",'/',$data['head_img']);
         }else{
             $data['head_url'] = $data['avatar_url'];
         }
