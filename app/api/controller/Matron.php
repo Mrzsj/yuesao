@@ -239,6 +239,8 @@ class Matron
         }else{
             $data['is_matroncollect'] = 0;
         }
+        $data['evaluate_num'] = model('matron')->evaluate_num($data['id']);
+        $data['evaluate_list'] = model('matron')->evaluate_list($data['id']);
         return ['status'=>1,'data'=>$data];
     }
     public function time_arrange(){
