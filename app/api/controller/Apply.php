@@ -25,7 +25,7 @@ class Apply
             $data = 0;
             foreach ($list as $k => $v){
                 if ((strtotime($start_time) >= $list[$k]['start_time']) && (strtotime($start_time) <= $list[$k]['end_time']) && (strtotime($start_time) <= strtotime($end_time))){
-                    $data = $Apply_model->add($user_id, $type, $reason, $start_time, $end_time);
+                    $data = $Apply_model->add($user_id, $list[$k]['matron_id'], $list[$k]['ordersn'], $type, $reason, $start_time, $end_time);
                 }else{
                     showjson(['status' => 0,'msg' => '开始时间不可大于结束时间 && 开始时间必须在订单时间范围之内']);
                 }
