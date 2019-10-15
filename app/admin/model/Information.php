@@ -30,7 +30,7 @@ class Information extends Model
         return $data['count(id)'];
     }
 
-    public function edit($id, $sort, $img, $title, $content){
+    public function edit($id, $sort, $img, $title, $content,$text){
         //入库操作
         if (!empty($id)){
             $update = [
@@ -38,7 +38,8 @@ class Information extends Model
                 'img' => $img,
                 'title' => $title,
                 'content' => $content,
-                'update_time' => time()
+                'update_time' => time(),
+                'text'=>$text
             ];
             $res = Db::name('information')->where('id', $id)->update($update);
         }else{
@@ -48,7 +49,8 @@ class Information extends Model
                 'title' => $title,
                 'content' => $content,
                 'update_time' => time(),
-                'create_time' => time()
+                'create_time' => time(),
+                'text'=>$text
             ];
             $res = Db::name('information')->insert($insert);
         }

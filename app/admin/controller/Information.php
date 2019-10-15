@@ -40,6 +40,7 @@ class Information extends Permissions
         $img = input('head_img');
         $title = input('title');
         $content = input('content');
+        $text = input('text');
         if (empty($img)) {
             return ['status'=>0,'msg'=>'请上传图片'];
         }
@@ -52,14 +53,14 @@ class Information extends Permissions
 
         $Information_model = new Information_model();
         if (!empty($id) && is_numeric($id)) {  //修改
-            $res = $Information_model->edit($id, $sort, $img, $title, $content);
+            $res = $Information_model->edit($id, $sort, $img, $title, $content,$text);
             if ($res == 1) {  //返回值是影响行数
                 showjson(['status'=>1,'msg'=>'修改成功']);
             }else{
                 showjson(['status'=>0,'msg'=>'修改失败']);
             }
         }else{  //添加
-            $res = $Information_model->edit('', $sort, $img, $title, $content);
+            $res = $Information_model->edit('', $sort, $img, $title, $content,$text);
             if ($res == 1) {
                 showjson(['status'=>1,'msg'=>'添加成功']);
             }else{
