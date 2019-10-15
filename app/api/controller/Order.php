@@ -278,11 +278,11 @@ class Order{
     }
     public function matron_list(){
         $user_id = get_token();
-        $status = input('status');//0历史订单   1当前订单
+        $status = input('status');//1历史订单   0当前订单
         if($status == 1){
-            $status = 1; 
+            $status = 2; 
         }else{
-            $status = 2;
+            $status = 1;
         }
         $matron = model('matron')->matron_get($user_id);
         if(empty($matron)){
