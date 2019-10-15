@@ -30,6 +30,7 @@ class Apply
                     showjson(['status' => 0,'msg' => '开始时间不可大于结束时间 && 开始时间必须在订单时间范围之内']);
                 }
             }
+            var_dump($data);exit();
             if ($data == 1) {
                 showjson(['status' => 1, 'msg' => '申请成功']);
             } else {
