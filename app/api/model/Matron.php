@@ -54,15 +54,15 @@ class Matron extends Model{
         ->field(['avg(b_nursing) as b_nursing','avg(early_education) as early_education','avg(collocation) as collocation','avg(feed) as feed','avg(m_nursing) as m_nursing','avg(communicate) as communicate'])
         ->where('matron_id',$matron_id)
         ->find();
-        if(empty($evaluate)){
+        if(empty($evaluate['b_nursing'])){
             return [
-                'b_nursing'=>3.0,
-                'early_education'=>3.0,
-                'collocation'=>3.0,
-                'feed'=>3.0,
-                'm_nursing'=>3.0,
-                'communicate'=>3.0,
-                'total'=>3.0
+                'b_nursing'=>'5.0',
+                'early_education'=>'5.0',
+                'collocation'=>'5.0',
+                'feed'=>'5.0',
+                'm_nursing'=>'5.0',
+                'communicate'=>'5.0',
+                'total'=>'5.0'
             ];
         }
         $evaluate['b_nursing'] = number_format($evaluate['b_nursing'], 1);
