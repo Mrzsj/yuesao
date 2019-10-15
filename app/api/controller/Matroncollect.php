@@ -47,8 +47,6 @@ class Matroncollect
         }else{
             showjson(['status' => 0,'msg' => 'id不合法']);
         }
-
-
     }
 
     public function delete(){

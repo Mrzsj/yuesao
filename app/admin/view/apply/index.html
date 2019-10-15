@@ -26,6 +26,9 @@
 
 </table>
 </body>
+<script type="text/html" id="buttons">
+    <a class="layui-btn layui-btn-xs" lay-event="show">查看订单</a>
+</script>
 <script src="__PUBLIC__/jquery/jquery.min.js"></script>
 <script src="__PUBLIC__/layui/layui.js"></script>
 <script type="text/javascript">
@@ -45,11 +48,12 @@
                 //title是这列的标题
                 //field是取接口的字段值
                 //width是宽度，不填则自动根据值的长度
-                {field:'id', title: 'ID',align: 'center',width:180},
-                {field:'user_id',title: '用户id',align: 'center',width:180},
-                {field:'matron_id',title: '月嫂id',align: 'center',width:180},
-                {field:'name',title: '月嫂名称',align: 'center',width:180},
-                {field:'type',title: '类型',align: 'center',width:180,
+                {field:'id', title: 'ID',align: 'center',width:100},
+                {field:'user_id',title: '用户id',align: 'center',width:120},
+                {field:'matron_id',title: '月嫂id',align: 'center',width:120},
+                {field:'ordersn',title: '订单号',align: 'center',width:180},
+                {field:'name',title: '月嫂名称',align: 'center',width:150},
+                {field:'type',title: '类型',align: 'center',width:150,
                     templet:function(d){
                         if(d.type == 1){
                             return '事假';
@@ -57,11 +61,26 @@
                             return '病假';
                         }
                     }},
-                {field:'reason', title: '请假事由',align: 'center',width:200},
-                {field:'start_time', title: '开始时间',align: 'center',width:200},
-                {field:'end_time', title: '结束时间',align: 'center',width:200},
-                {field:'create_time', title: '创建时间',align: 'center',width:200},
+                {field:'reason', title: '请假事由',align: 'center',width:180},
+                {field:'start_time', title: '开始时间',align: 'center',width:180},
+                {field:'end_time', title: '结束时间',align: 'center',width:180},
+                {field:'create_time', title: '创建时间',align: 'center',width:180},
+                {fixed:'right',title: '操作', align:'center', toolbar: '#buttons',width:180}
             ]]
+        });
+        table.on('tool(table)', function(obj){
+            console.log(obj);
+            //data就是一行的数据
+            var data = obj.data;
+            if(obj.event === 'show'){
+                var index = layer.open({
+                    type: 2,
+                    content: "{:url('admin/order/index')}"+'?ordersn='+data.ordersn,
+                    maxmin: true,
+                    title:'查看订单'
+                });
+                layer.full(index);
+            }
         });
     });
     $('#search').click(function(){

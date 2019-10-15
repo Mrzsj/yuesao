@@ -32,6 +32,12 @@ class Matroncollect extends Model
             }else{
                 $list[$k]['head_img'] = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]" . str_replace("\\",'/',$v['head_img']);
             }
+            $evaluate_num = model('matron')->evaluate_num($v['matron_id']);
+            if(empty($evaluate_num)){
+                $list[$k]['total_num'] = 0.0;
+            }else{
+                $list[$k]['total_num'] = $evaluate_num['total'];
+            }
         }
         if(!empty($list)){
             return $list;
