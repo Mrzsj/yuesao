@@ -25,14 +25,14 @@
                   <ul class="layui-row layui-col-space10 layui-this">
                     <li class="layui-col-xs6">
                       <a lay-href="" class="layadmin-backlog-body">
-                        <h3>会员</h3>
-                        <p><cite>{$web.user_num}</cite></p>
+                        <h3>最新消息</h3>
+                        <p><cite>{$data['information']}</cite></p>
                       </a>
                     </li>
                     <li class="layui-col-xs6">
                       <a lay-href="" class="layadmin-backlog-body">
-                        <h3>文章</h3>
-                        <p><cite>{$web.article_num}</cite></p>
+                        <h3>月嫂数量</h3>
+                        <p><cite>{$data['information']}</cite></p>
                       </a>
                     </li>
                     <li class="layui-col-xs6">
@@ -119,25 +119,17 @@
                 </td>
               </tr>
               <tr>
-                <td>基于框架</td>
+                <td>技术支持</td>
                 <td>
-                 layui-v2.2.5 / thinkphp-v{$info.tp} 
+                  安徽犇犇牛网络科技有限公司
                </td>
-              </tr>
-              <tr>
-                <td>主要特色</td>
-                <td>适配强 / 高颜值 / 清爽 / 简洁</td>
-              </tr>
-              <tr>
-                <td>下载交流</td>
-                <td>适配强 / 高颜值 / 清爽 / 简洁</td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
 
-      <div class="layui-card">
+      <div class="layui-card" style="display: none;">
         <div class="layui-card-header">
           官方公告
         </div>

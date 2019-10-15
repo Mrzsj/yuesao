@@ -15,9 +15,11 @@ class Commission
         if(!$data){
             return ['status'=>0,'data'=>[]];
         }
+        $total = 0;
         foreach($data as $k => $v){
             $data[$k]['create_time'] = date("Y-m-d",$v['create_time']);
+            $total += $v['commission']; 
         }
-        return ['status'=>1,'data'=>$data];
+        return ['status'=>1,'data'=>$data,'total'=>$total];
     }
 }

@@ -86,6 +86,27 @@ class Main extends Permissions
 
         $this->assign('web',$web);
 
+
+
+        $data = [];
+        $information = Db::name('information')->field(['count(id) as count'])->find();
+        $matron = Db::name('matron')->field(['count(id) as count'])->find();
+        $audit_matron = Db::name('matron')->field(['count(id) as count'])->find();
+        $commission_log = Db::name('commission_log')->field(['count(id) as count'])->find();
+        $apply = Db::name('apply')->field(['count(id) as count'])->find();
+        $evaluate = Db::name('evaluate')->field(['count(id) as count'])->find();
+        $order = Db::name('order')->field(['count(id) as count'])->find();
+        $order_refund = Db::name('order')->where('status',4)->field(['count(id) as count'])->find();
+        $data['information'] = $information['count'];
+        $data['matron'] = $matron['count'];
+        $data['audit_matron'] = $audit_matron['count'];
+        $data['commission_log'] = $commission_log['count'];
+        $data['apply'] = $apply['count'];
+        $data['evaluate'] = $evaluate['count'];
+        $data['order'] = $order['count'];
+        $data['order_refund'] = $order_refund['count'];
+        $this->assign('data',$data);
+        print_r($data);exit();
         return $this->fetch();
     }
 }
