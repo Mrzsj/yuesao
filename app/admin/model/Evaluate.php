@@ -1,4 +1,12 @@
 <?php
+/*
+ * @Author: 傍晚升起的太阳
+ * @QQ: 1250201168
+ * @email: wuruiwm@qq.com
+ * @Date: 2019-10-11 15:03:05
+ * @LastEditors: 傍晚升起的太阳
+ * @LastEditTime: 2019-10-11 15:03:05
+ */
 namespace app\admin\model;
 
 use \think\Model;

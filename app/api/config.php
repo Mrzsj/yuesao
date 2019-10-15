@@ -1,4 +1,12 @@
 <?php
+/*
+ * @Author: 傍晚升起的太阳
+ * @QQ: 1250201168
+ * @email: wuruiwm@qq.com
+ * @Date: 2019-09-19 08:56:04
+ * @LastEditors: 傍晚升起的太阳
+ * @LastEditTime: 2019-10-15 17:07:11
+ */
 //配置文件
 return [
     // 默认输出类型
@@ -22,5 +30,5 @@ return [
     'appsecret'=>'43f4fa48efdf86e43a4a0b093e28189c',
     'MCHID'=>'1455955802',
     'KEY'=>'abef3c0b40dd00c283551204db78fd77',
-    'body'=>'安徽罗网信息科技有限公司',
+    'body'=>'安徽犇犇牛网络科技有限公司',
 ];

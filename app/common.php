@@ -1,4 +1,12 @@
 <?php
+/*
+ * @Author: 傍晚升起的太阳
+ * @QQ: 1250201168
+ * @email: wuruiwm@qq.com
+ * @Date: 2019-09-19 08:56:04
+ * @LastEditors: 傍晚升起的太阳
+ * @LastEditTime: 2019-10-15 17:06:03
+ */
 // 应用公共文件
 /**
  * 根据附件表的id返回url地址

@@ -1,4 +1,12 @@
 <?php
+/*
+ * @Author: 傍晚升起的太阳
+ * @QQ: 1250201168
+ * @email: wuruiwm@qq.com
+ * @Date: 2019-10-08 09:46:22
+ * @LastEditors: 傍晚升起的太阳
+ * @LastEditTime: 2019-10-08 09:46:22
+ */
 namespace app\admin\model;
 
 use \think\Model;
@@ -9,9 +17,11 @@ class Order extends Model{
 		->alias('o')
 		->field(['o.*'])
 		->join('user u','u.id=o.user_id')
+		->join('matron m','m.id=o.matron_id')
+		->join('user m_u','m.user_id=m_u.id')
 		->order('o.id desc')
 		->where($where)
-		->where('o.name|o.mobile|o.ordersn|u.openid','like','%'.$name.'%')
+		->where('o.name|o.mobile|o.ordersn|u.openid|m_u.openid|m_u.name','like','%'.$name.'%')
 		->limit($number,$limit)
 		->select();
 		foreach($data as $k => $v){
@@ -29,8 +39,10 @@ class Order extends Model{
 		->alias('o')
 		->field('count(o.id)')
 		->join('user u','u.id=o.user_id')
+		->join('matron m','m.id=o.matron_id')
+		->join('user m_u','m.user_id=m_u.id')
 		->where($where)
-		->where('o.name|o.mobile|o.ordersn|u.openid','like','%'.$name.'%')
+		->where('o.name|o.mobile|o.ordersn|u.openid|m_u.openid|m_u.name','like','%'.$name.'%')
 		->find();
 		return $data['count(o.id)'];
 	}	
