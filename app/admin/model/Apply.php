@@ -12,7 +12,8 @@ class Apply extends Model
     public function getList($number, $limit){
         $data = Db::name('apply')
             ->alias('a')
-            ->join('user u', 'u.id = a.user_id')
+            ->join('matron m', 'm.id = a.matron_id')
+            ->join('user u', 'u.id = m.user_id')
             ->field('u.name, a.*')
             ->limit($number, $limit)
             ->order('create_time desc')

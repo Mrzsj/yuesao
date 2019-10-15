@@ -8,9 +8,8 @@ use think\Db;
 
 class Apply
 {
-    public function add($user_id, $matron_id, $ordersn, $type, $reason, $start_time, $end_time){
+    public function add($matron_id, $ordersn, $type, $reason, $start_time, $end_time){
         $add = [
-            'user_id' => $user_id,
             'matron_id' => $matron_id,
             'ordersn' => $ordersn,
             'type' => $type,

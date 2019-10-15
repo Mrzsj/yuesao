@@ -29,14 +29,14 @@ class Apply
 
                 if (strtotime($start_time) <= strtotime($end_time)){
                     if (empty($list)){
-                        $data = $Apply_model->add($user_id, $res['id'], '', $type, $reason, $start_time, $end_time);
+                        $data = $Apply_model->add($res['id'], '', $type, $reason, $start_time, $end_time);
                         if ($data == 1) {
                             showjson(['status' => 1, 'msg' => '提交成功']);
                         } else {
                             showjson(['status' => 0, 'msg' => '提交失败']);
                         }
                     }else{
-                        $data = $Apply_model->add($user_id, $res['id'], $list['ordersn'], $type, $reason, $start_time, $end_time);
+                        $data = $Apply_model->add($res['id'], $list['ordersn'], $type, $reason, $start_time, $end_time);
                         if ($data == 1) {
                             showjson(['status' => 1, 'msg' => '提交成功']);
                         } else {
