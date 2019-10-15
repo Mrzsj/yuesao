@@ -20,6 +20,7 @@ class Commission
             $data[$k]['create_time'] = date("Y-m-d",$v['create_time']);
             $total += $v['commission']; 
         }
+        $total = sprintf("%01.2f", $total);
         if(explode('.',$total)[1] == '00'){
             $total = explode('.',$total)[0];
         }
