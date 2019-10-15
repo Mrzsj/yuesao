@@ -26,6 +26,7 @@ class Apply
                     ->where('(start_time'.'<='.strtotime($start_time).' and end_time'.'>='.strtotime($start_time).') or (start_time<='.(strtotime($end_time)).' and end_time>='.(strtotime($end_time)).")")
                     ->where('(status=0 or status=1 or status=2 or status=4)')
                     ->find();
+                var_dump($list);exit();
                 if (strtotime($start_time) <= strtotime($end_time)){
                     if (empty($list)){
                         $data = $Apply_model->add($user_id, $res['id'], '', $type, $reason, $start_time, $end_time);
