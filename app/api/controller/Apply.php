@@ -17,13 +17,18 @@ class Apply
         $reason = input('reason');
         $Apply_model = new Apply_model();
         if (!empty($type) && is_numeric($type)){
-            $where = [
-                'user_id' => $user_id,
-                'status' => 1
-            ];
-            $list = Db::name('order')->where($where)->select();
+            $res = Db::name('matron')->where('user_id', $user_id)->find();
+            $list = Db::name('order')->where('matron_id', $res['id'])->select();
+            if (empty($list)){
+                $data = $Apply_model->add($user_id, $res['id'], '', $type, $reason, $start_time, $end_time);
+                if ($data == 1) {
+                    showjson(['status' => 1, 'msg' => '申请成功']);
+                } else {
+                    showjson(['status' => 0, 'msg' => '申请失败']);
+                }
+            }
             foreach ($list as $k => $v){
-                if ((strtotime($start_time) >= $list[$k]['start_time']) && (strtotime($start_time) <= $list[$k]['end_time']) && (strtotime($start_time) <= strtotime($end_time))){
+                if (strtotime($start_time) <= strtotime($end_time)){
                     $data = $Apply_model->add($user_id, $list[$k]['matron_id'], $list[$k]['ordersn'], $type, $reason, $start_time, $end_time);
                     if ($data == 1) {
                         showjson(['status' => 1, 'msg' => '申请成功']);
@@ -31,7 +36,7 @@ class Apply
                         showjson(['status' => 0, 'msg' => '申请失败']);
                     }
                 }else{
-                    showjson(['status' => 0,'msg' => '开始时间不可大于结束时间 && 开始时间必须在订单时间范围之内']);
+                    showjson(['status' => 0,'msg' => '开始时间不可大于结束时间']);
                 }
             }
         }else{
