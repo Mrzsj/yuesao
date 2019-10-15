@@ -31,16 +31,16 @@ class Apply
                     if (empty($list)){
                         $data = $Apply_model->add($user_id, $res['id'], '', $type, $reason, $start_time, $end_time);
                         if ($data == 1) {
-                            showjson(['status' => 1, 'msg' => '申请成功']);
+                            showjson(['status' => 1, 'msg' => '提交成功']);
                         } else {
-                            showjson(['status' => 0, 'msg' => '申请失败']);
+                            showjson(['status' => 0, 'msg' => '提交失败']);
                         }
                     }else{
                         $data = $Apply_model->add($user_id, $res['id'], $list['ordersn'], $type, $reason, $start_time, $end_time);
                         if ($data == 1) {
-                            showjson(['status' => 1, 'msg' => '申请成功']);
+                            showjson(['status' => 1, 'msg' => '提交成功']);
                         } else {
-                            showjson(['status' => 0, 'msg' => '申请失败']);
+                            showjson(['status' => 0, 'msg' => '提交失败']);
                         }
                     }
                 }else{
