@@ -27,7 +27,7 @@
 </table>
 </body>
 <script type="text/html" id="buttons">
-    <a class="layui-btn layui-btn-xs" lay-event="show">查看订单</a>
+    <a class="layui-btn layui-btn-xs" lay-event="show">查看该用户订单</a>
 </script>
 <script id="imgs" type="text/html">
     <div>
@@ -85,7 +85,7 @@
                     type: 2,
                     content: "{:url('admin/order/index')}"+'?ordersn='+data.openid,
                     maxmin: true,
-                    title:'查看订单'
+                    title:'查看该用户订单'
                 });
                 layer.full(index);
             }
