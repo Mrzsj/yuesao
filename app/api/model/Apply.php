@@ -17,21 +17,17 @@ class Apply
         $list = Db::name('order')->where($where)->select();
         $data = 0;
         foreach ($list as $k => $v){
-            if ((strtotime($start_time) >= $list[$k]['start_time']) && (strtotime($start_time) <= $list[$k]['end_time']) && (strtotime($start_time) <= strtotime($end_time))){
-                $add = [
-                    'user_id' => $list[$k]['user_id'],
-                    'matron_id' => $list[$k]['matron_id'],
-                    'ordersn' => $list[$k]['ordersn'],
-                    'type' => $type,
-                    'reason' => $reason,
-                    'start_time' => strtotime($start_time),
-                    'end_time' => strtotime($end_time),
-                    'create_time' => time()
-                ];
-                $data = Db::name('apply')->insert($add);
-            }else{
-
-            }
+            $add = [
+                'user_id' => $list[$k]['user_id'],
+                'matron_id' => $list[$k]['matron_id'],
+                'ordersn' => $list[$k]['ordersn'],
+                'type' => $type,
+                'reason' => $reason,
+                'start_time' => strtotime($start_time),
+                'end_time' => strtotime($end_time),
+                'create_time' => time()
+            ];
+            $data = Db::name('apply')->insert($add);
         }
         return $data;
     }
