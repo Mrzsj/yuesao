@@ -27,7 +27,11 @@
 </table>
 </body>
 <script type="text/html" id="buttons">
+    {{# if(d.ordersn){  }}
     <a class="layui-btn layui-btn-xs" lay-event="show">查看订单</a>
+    {{# }else{  }}
+    <span>暂无关联订单</span>
+    {{# }  }}
 </script>
 <script src="__PUBLIC__/jquery/jquery.min.js"></script>
 <script src="__PUBLIC__/layui/layui.js"></script>
@@ -51,7 +55,6 @@
                 {field:'id', title: 'ID',align: 'center',width:100},
                 {field:'user_id',title: '用户id',align: 'center',width:120},
                 {field:'matron_id',title: '月嫂id',align: 'center',width:120},
-                {field:'ordersn',title: '订单号',align: 'center',width:180},
                 {field:'name',title: '月嫂名称',align: 'center',width:150},
                 {field:'type',title: '类型',align: 'center',width:150,
                     templet:function(d){
