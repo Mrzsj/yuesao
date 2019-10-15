@@ -25,6 +25,7 @@ class Apply
             foreach ($list as $k => $v){
                 if ((strtotime($start_time) >= $list[$k]['start_time']) && (strtotime($start_time) <= $list[$k]['end_time']) && (strtotime($start_time) <= strtotime($end_time))){
                     $data = $Apply_model->add($user_id, $list[$k]['matron_id'], $list[$k]['ordersn'], $type, $reason, $start_time, $end_time);
+                    var_dump($data);exit();
                     if ($data == 1) {
                         showjson(['status' => 1, 'msg' => '申请成功']);
                     } else {
