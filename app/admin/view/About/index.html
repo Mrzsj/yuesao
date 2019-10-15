@@ -12,38 +12,34 @@
     <link rel="stylesheet" href="__PUBLIC__/font-awesome/css/font-awesome.min.css" media="all">
 </head>
 <body class="layui-layout-body" style="overflow-y:visible;">
-<div class="layui-form-item layui-form-text">
-    <label class="layui-form-label">内容</label>
-    <div class="layui-input-block">
-        <textarea name="desc" placeholder="" required  lay-verify="required" id="content" style="height: 25rem; width: 90%; margin-top: 50px">{$data['content']}</textarea>
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                <legend>
+                    编辑关于我们
+                </legend>
+            </fieldset>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">内容</label>
+            <div class="layui-input-block">
+                <textarea name="desc" placeholder="请输入内容" class="layui-textarea"  id="content" style="width: 60%;height: 20rem;">{$data['content']}</textarea>
+            </div>
     </div>
-</div>
-<div class="layui-form-item">
-    <div class="layui-input-block">
-        <button class="layui-btn" id="submit">立即提交</button>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" id="submit">立即提交</button>
+        </div>
     </div>
-</div>
 </div>
 </body>
-<script id="content" name="content" type="text/plain">
-  这里写你的初始化内容
-</script>
-<script type="text/javascript" src="__PUBLIC__/ueditor/ueditor.config.js"></script>
-<!-- 编辑器源码文件 -->
-<script type="text/javascript" src="__PUBLIC__/ueditor/ueditor.all.js"></script>
-<script type="text/javascript" src="__PUBLIC__/ueditor/lang/zh-cn/zh-cn.js"></script>
-<!-- 实例化编辑器 -->
-<script type="text/javascript">
-    var ue = UE.getEditor('content');
-</script>
 <script src="/static/public/jquery/jquery.min.js"></script>
 <script src="/static/public/layui/layui.js"></script>
 <script>
+    layui.use(['layer'], function(){
+        var layer = layui.layer;
+    });
     $('#submit').click(function(){
         var data = {
-            content:UE.getEditor('content').getContent()
+            content:$('#content').val(),
         };
-        //console.log(data);return;
         var url = "{:url('admin/about/edit')}";
         $.post(url,data,function(res){
             layer.msg(res.msg);
