@@ -106,7 +106,6 @@ class Main extends Permissions
         $data['order'] = $order['count'];
         $data['order_refund'] = $order_refund['count'];
         $this->assign('data',$data);
-        print_r($data);exit();
         return $this->fetch();
     }
 }

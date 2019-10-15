@@ -17,7 +17,7 @@
       <div class="layui-row layui-col-space15">
         <div class="layui-col-md6">
           <div class="layui-card">
-            <div class="layui-card-header">网站数据</div>
+            <div class="layui-card-header">数据统计</div>
             <div class="layui-card-body">
 
               <div class="layui-carousel layadmin-carousel layadmin-backlog" lay-anim="" lay-indicator="inside" lay-arrow="none" style="width: 100%; height: 280px;">
@@ -43,8 +43,8 @@
                     </li>
                     <li class="layui-col-xs6">
                       <a lay-href="" class="layadmin-backlog-body">
-                        <h3>留言</h3>
-                        <p><cite>{$web.message_num}</cite></p>
+                        <h3>佣金记录</h3>
+                        <p><cite>{$data['commission_log']}</cite></p>
                       </a>
                     </li>
                   </ul>
@@ -55,7 +55,7 @@
         </div>
         <div class="layui-col-md6">
           <div class="layui-card">
-            <div class="layui-card-header">待办事项</div>
+            <div class="layui-card-header"></div>
             <div class="layui-card-body">
 
               <div class="layui-carousel layadmin-carousel layadmin-backlog" lay-anim="" lay-indicator="inside" lay-arrow="none" style="width: 100%; height: 280px;">
@@ -63,26 +63,26 @@
                   <ul class="layui-row layui-col-space10 layui-this">
                     <li class="layui-col-xs6">
                       <a lay-href="" class="layadmin-backlog-body">
-                        <h3>黑名单</h3>
-                        <p><cite>{$web.ip_ban}</cite></p>
+                        <h3>请假记录</h3>
+                        <p><cite>{$data['apply']}</cite></p>
                       </a>
                     </li>
                     <li class="layui-col-xs6">
                       <a lay-href="" class="layadmin-backlog-body">
-                        <h3>待审文章</h3>
-                        <p><cite>{$web.status_article}</cite></p>
+                        <h3>评价记录</h3>
+                        <p><cite>{$data['evaluate']}</cite></p>
                       </a>
                     </li>
                     <li class="layui-col-xs6">
                       <a lay-href="" class="layadmin-backlog-body">
-                        <h3>待审文件</h3>
-                        <p><cite>{$web.status_file}</cite></p>
+                        <h3>订单总数</h3>
+                        <p><cite>{$data['order']}</cite></p>
                       </a>
                     </li>
                     <li class="layui-col-xs6">
                       <a lay-href="" class="layadmin-backlog-body">
-                        <h3>待处理留言</h3>
-                        <p><cite>{$web.look_message}</cite></p>
+                        <h3>申请退款中</h3>
+                        <p><cite>{$data['order_refund']}</cite></p>
                       </a>
                     </li>
                   </ul>
@@ -129,12 +129,12 @@
         </div>
       </div>
 
-      <div class="layui-card" style="display: none;">
+      <div class="layui-card">
         <div class="layui-card-header">
-          官方公告
+          公告
         </div>
         <div class="layui-card-body layui-text layadmin-text">
-          <p>搭载的是国内最受欢迎的两大框架Layui和ThinkPHP，ThinkPHP的大道至简和Layui的简而全在理念上可谓是不谋而合，两大框架结合所产生的结果就是将WEB开发精简到了极致。</p>
+          <p>欢迎使用月嫂管理系统</p>
         </div>
       </div>
 
