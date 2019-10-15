@@ -29,6 +29,8 @@ class Apply
                     'create_time' => time()
                 ];
                 $data = Db::name('apply')->insert($add);
+            }else{
+
             }
         }
         return $data;
