@@ -6,6 +6,7 @@ use \think\Validate;
 class Coupon
 {
     public function list(){
+        $userid = get_token();
         $page = input('page');
         $limit = input('limit');
         if (empty($page) || !is_numeric($page)) {
@@ -15,7 +16,7 @@ class Coupon
             msg(0,'请输入正确的条数');
         }
         $number = ($page - 1) * $limit;
-        $data = model('coupon')->getlist($number,$limit);
+        $data = model('coupon')->getlist($number,$limit,$userid);
         return $data ? ['status'=>1,'data'=>$data] : ['status'=>0,'data'=>[]];
     }
     public function receive(){
