@@ -5,7 +5,7 @@
  * @email: wuruiwm@qq.com
  * @Date: 2019-09-21 15:05:55
  * @LastEditors: 傍晚升起的太阳
- * @LastEditTime: 2019-10-15 17:08:19
+ * @LastEditTime: 2019-10-16 10:32:00
  */
 namespace app\api\controller;
 
@@ -236,7 +236,11 @@ class Matron
         }
         $data['star_name'] = get_star_name($data['star']);
         $data['label'] = preg_replace("/\s(?=\s)/","\\1",$data['label']);
-        $data['label'] = explode(' ',$data['label']);
+        $label = explode(' ',$data['label']);
+        if(empty($label) || empty($label[0])){
+            $label = [];
+        }
+        $data['label'] = $label;
         unset($data['head_img']);
         unset($data['avatar_url']);
         unset($data['status']);
