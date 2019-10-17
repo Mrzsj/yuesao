@@ -1,3 +1,11 @@
+<!--
+ * @Author: 傍晚升起的太阳
+ * @QQ: 1250201168
+ * @Email: wuruiwm@qq.com
+ * @Date: 2019-09-19 08:56:04
+ * @LastEditors: 傍晚升起的太阳
+ * @LastEditTime: 2019-10-17 11:51:07
+ -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,6 +31,7 @@
             </ul>
             <ul class="layui-nav layui-layout-right kit-nav">
                 <li class="layui-nav-item"><a href="javascript:;" id="tag" style="color:#333;"><i class="fa fa-tag" aria-hidden="true"></i></a></li>
+                <li class="layui-nav-item" onclick="fullScreen();"><a href="javascript:;" style="color:#333;"><i class="layui-icon layui-icon-screen-full" aria-hidden="true"></i></a></li>
                 <li class="layui-nav-item" style="background-color: transparent !important;">
                     <a href="javascript:;" id="color" style="color:#333;" class="refresh">皮肤<span class="layui-badge-dot"></span></a>
                     </a>
@@ -35,3 +44,15 @@
                 <li class="layui-nav-item"><a href="javascript:;"  id="logout" style="color:#333;"><span><i class="fa fa-sign-out" aria-hidden="true"></i> 退了</span></a></li>
             </ul>
         </div>
+        <script>
+        function fullScreen() {
+            var el = document.documentElement;
+            var rfs = el.requestFullScreen || el.webkitRequestFullScreen || el.mozRequestFullScreen || el.msRequestFullScreen;
+            if (typeof rfs !== "undefined" && rfs) {
+                rfs.call(el);
+            } else if (typeof window.ActiveXObject !== "undefined") {
+                var wscript = new ActiveXObject("WScript.Shell");
+                    wscript.SendKeys("{F11}");
+            }
+        }
+    </script>
