@@ -5,7 +5,7 @@
  * @email: wuruiwm@qq.com
  * @Date: 2019-09-24 09:50:27
  * @LastEditors: 傍晚升起的太阳
- * @LastEditTime: 2019-10-17 14:04:40
+ * @LastEditTime: 2019-10-17 14:08:41
  */
 namespace app\api\controller;
 
@@ -15,7 +15,7 @@ class Coupon
 {
     public function list(){
         $token = \think\Request::instance()->header('token');
-        $userid = think\Cache::get($token);
+        $userid = \think\Cache::get($token);
         if(empty($userid) || !is_numeric($userid)){
             $userid = false;
         }
