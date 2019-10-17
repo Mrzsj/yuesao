@@ -5,7 +5,7 @@
  * @email: wuruiwm@qq.com
  * @Date: 2019-09-24 10:21:37
  * @LastEditors: 傍晚升起的太阳
- * @LastEditTime: 2019-10-17 14:13:36
+ * @LastEditTime: 2019-10-17 15:00:55
  */
 namespace app\api\model;
 
@@ -38,7 +38,7 @@ class Coupon extends Model{
                     $data[$k]['is_receive'] = 0;
                 }
                 unset($data[$k]['l_id']);
-            } 
+            }
         }
         return $data;
     }
