@@ -5,7 +5,7 @@
  * @email: wuruiwm@qq.com
  * @Date: 2019-09-24 09:50:27
  * @LastEditors: 傍晚升起的太阳
- * @LastEditTime: 2019-09-24 09:50:27
+ * @LastEditTime: 2019-10-17 14:04:40
  */
 namespace app\api\controller;
 
@@ -14,7 +14,11 @@ use \think\Validate;
 class Coupon
 {
     public function list(){
-        $userid = get_token();
+        $token = \think\Request::instance()->header('token');
+        $userid = think\Cache::get($token);
+        if(empty($userid) || !is_numeric($userid)){
+            $userid = false;
+        }
         $page = input('page');
         $limit = input('limit');
         if (empty($page) || !is_numeric($page)) {

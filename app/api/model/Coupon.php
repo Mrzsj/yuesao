@@ -5,7 +5,7 @@
  * @email: wuruiwm@qq.com
  * @Date: 2019-09-24 10:21:37
  * @LastEditors: 傍晚升起的太阳
- * @LastEditTime: 2019-10-15 17:07:42
+ * @LastEditTime: 2019-10-17 14:07:01
  */
 namespace app\api\model;
 
@@ -24,15 +24,21 @@ class Coupon extends Model{
         // ->order('c.id desc')
         // ->limit($number,$limit)
         // ->select();
-        $sql = "SELECT `c`.`id`,`c`.`title`,`c`.`face_value`,`c`.`type`,`c`.`validity_time`,`c`.`full`,l.id as l_id FROM `coupon` `c` LEFT JOIN (select * from coupon_log where user_id=".$userid.") `l` ON `c`.`id`=`l`.`coupon_id` WHERE  `c`.`status` = '1'  AND `c`.`start_time` < ".time()."  AND `c`.`end_time` > ".time()." ORDER BY `c`.`id` DESC LIMIT ".$number.",".$limit;
+        if($userid){
+            $sql = "SELECT `c`.`id`,`c`.`title`,`c`.`face_value`,`c`.`type`,`c`.`validity_time`,`c`.`full`,l.id as l_id FROM `coupon` `c` LEFT JOIN (select * from coupon_log where user_id=".$userid.") `l` ON `c`.`id`=`l`.`coupon_id` WHERE  `c`.`status` = '1'  AND `c`.`start_time` < ".time()."  AND `c`.`end_time` > ".time()." ORDER BY `c`.`id` DESC LIMIT ".$number.",".$limit; 
+        }else{
+            $sql = "SELECT `c`.`id`,`c`.`title`,`c`.`face_value`,`c`.`type`,`c`.`validity_time`,`c`.`full`,l.id as l_id FROM `coupon` `c` LEFT JOIN (select * from coupon_log) `l` ON `c`.`id`=`l`.`coupon_id` WHERE  `c`.`status` = '1'  AND `c`.`start_time` < ".time()."  AND `c`.`end_time` > ".time()." ORDER BY `c`.`id` DESC LIMIT ".$number.",".$limit;
+        }
         $data = Db::query($sql);
-        foreach($data as $k => $v){
-            if(!empty($v['l_id'])){
-                $data[$k]['is_receive'] = 1;
-            }else{
-                $data[$k]['is_receive'] = 0;
-            }
-            unset($data[$k]['l_id']);
+        if($userid){
+            foreach($data as $k => $v){
+                if(!empty($v['l_id'])){
+                    $data[$k]['is_receive'] = 1;
+                }else{
+                    $data[$k]['is_receive'] = 0;
+                }
+                unset($data[$k]['l_id']);
+            } 
         }
         return $data;
     }
