@@ -20,9 +20,6 @@ class Information
         $number = ($page - 1) * $limit;
         $Information_model = new Information_model();
         $list = $Information_model->getList($number, $limit);
-        foreach ($list as $k => $v){
-            $list[$k]['content'] = ueditor_img_src($v['content']);
-        }
         if(!empty($list)){
             return ['status'=>1, 'data'=>$list];
         }else{
