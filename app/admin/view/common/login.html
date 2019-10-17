@@ -1,3 +1,11 @@
+<!--
+ * @Author: 傍晚升起的太阳
+ * @QQ: 1250201168
+ * @Email: wuruiwm@qq.com
+ * @Date: 2019-09-19 08:56:04
+ * @LastEditors: 傍晚升起的太阳
+ * @LastEditTime: 2019-10-17 08:57:00
+ -->
 <!DOCTYPE html>
 <html>
   <head>
@@ -24,15 +32,15 @@
     <div class="layadmin-user-login-box layadmin-user-login-body layui-form">
       <form class="layui-form" id="login">
         <div class="layui-form-item">
-          <label class="layadmin-user-login-icon layui-icon layui-icon-username" for="LAY-user-login-username"><i class="fa fa-user"></i></label>
+          <label class="layadmin-user-login-icon layui-icon" for="LAY-user-login-username"><i class="fa fa-user"></i></label>
           <input type="text" name="name" lay-verify="required" autocomplete="off" placeholder="用户名" class="layui-input" {notempty name="usermember"}value="{$usermember}"{/notempty}>
         </div>
         <div class="layui-form-item">
-          <label class="layadmin-user-login-icon layui-icon layui-icon-password" for="LAY-user-login-password"><i class="fa fa-unlock-alt"></i></label>
+          <label class="layadmin-user-login-icon layui-icon" for="LAY-user-login-password"><i class="fa fa-unlock-alt"></i></label>
           <input type="password" name="password" lay-verify="required" autocomplete="off" placeholder="密码" class="layui-input">
         </div>
         <div class="layui-form-item">
-          <label class="layadmin-user-login-icon layui-icon layui-icon-password" for="LAY-user-login-password"><i class="fa fa-code"></i></label>
+          <label class="layadmin-user-login-icon layui-icon" for="LAY-user-login-password"><i class="fa fa-code"></i></label>
           <input type="text" name="captcha" lay-verify="required" autocomplete="off" placeholder="验证码" class="layui-input" style="width:62%;float: left;margin-right:11px;"><img src="{:captcha_src()}" alt="captcha" onclick="this.src='{:captcha_src()}?seed='+Math.random()" height="36" id="captcha" style="margin-top: 1px" />
         </div>
         <div class="layui-form-item">

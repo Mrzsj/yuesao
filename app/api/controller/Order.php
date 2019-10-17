@@ -5,7 +5,7 @@
  * @email: wuruiwm@qq.com
  * @Date: 2019-09-29 09:36:12
  * @LastEditors: 傍晚升起的太阳
- * @LastEditTime: 2019-09-29 09:36:12
+ * @LastEditTime: 2019-10-16 11:09:02
  */
 namespace app\api\controller;
 use \think\Db;
@@ -15,7 +15,7 @@ class Order{
         $user_id = get_token();
         $post = input('post.');
         $rule = [
-            'name'  => 'require|chs',
+            'name'  => 'require',
             'mobile' => 'require|number',
             'matron_id'=>'require|number',
             'address'=>'require',
@@ -24,7 +24,6 @@ class Order{
         ];
         $msg = [
             'name.require' => '请输入姓名',
-            'name.chs'=>'姓名只能为汉字',
             'mobile.require'     => '请输入手机号',
             'mobile.number'     => '请输入正确的手机号',
             'matron_id.require'   => '请传入月嫂id',
