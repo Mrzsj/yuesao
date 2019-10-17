@@ -1,3 +1,11 @@
+<!--
+ * @Author: 傍晚升起的太阳
+ * @QQ: 1250201168
+ * @Email: wuruiwm@qq.com
+ * @Date: 2019-10-08 09:51:25
+ * @LastEditors: 傍晚升起的太阳
+ * @LastEditTime: 2019-10-17 09:37:12
+ -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,8 +22,8 @@
 <body class="layui-layout-body" style="overflow-y:visible;">
     <div class="layui-form">
         <blockquote class="layui-elem-quote quoteBox">
-                <div class="layui-inline" style="margin-left: 1rem;width: 26rem;">
-                    <input type="text" placeholder="订单号,下单姓名,下单手机号,月嫂姓名,用户openid,月嫂openid" class="layui-input" id="name">
+                <div class="layui-inline" style="margin-left: 1rem;width: 16rem;">
+                    <input type="text" placeholder="订单号,下单姓名,下单手机号,月嫂姓名" class="layui-input" id="name">
                 </div>
                 <div class="layui-inline" style="width: 18rem;">
                     <input type="text" placeholder="请选择下单时间" class="layui-input" id="start_time">
@@ -101,6 +109,7 @@ layui.use(['table','form','layer','laydate'], function(){
     //width是宽度，不填则自动根据值的长度
       {field:'id', title: 'ID',align: 'center',width:80},
       {field:'ordersn', title: '订单号',align: 'center',width:180},
+      {field:'m_name',title: '月嫂姓名',align: 'center',width:100},
       {field:'name',title: '姓名',align: 'center',width:100},
       {field:'mobile',title: '手机号',align: 'center',width:120},
       {field:'remark',title: '备注',align: 'center',width:200},

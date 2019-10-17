@@ -5,7 +5,7 @@
  * @email: wuruiwm@qq.com
  * @Date: 2019-10-08 09:46:22
  * @LastEditors: 傍晚升起的太阳
- * @LastEditTime: 2019-10-08 09:46:22
+ * @LastEditTime: 2019-10-17 09:34:31
  */
 namespace app\admin\model;
 
@@ -15,7 +15,7 @@ class Order extends Model{
 	public static function getlist($number,$limit,$where='',$name=''){
 		$data = Db::name('order')
 		->alias('o')
-		->field(['o.*'])
+		->field(['o.*','m_u.name as m_name'])
 		->join('user u','u.id=o.user_id')
 		->join('matron m','m.id=o.matron_id')
 		->join('user m_u','m.user_id=m_u.id')
