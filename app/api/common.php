@@ -5,7 +5,7 @@
  * @email: wuruiwm@qq.com
  * @Date: 2019-09-19 08:56:04
  * @LastEditors: 傍晚升起的太阳
- * @LastEditTime: 2019-10-18 10:51:04
+ * @LastEditTime: 2019-10-18 10:56:55
  */
 function getRandomChar($length){
     $str = null;
@@ -29,7 +29,7 @@ function insert_token($userid){
 function get_token(){
     $token = \think\Request::instance()->header('token');
     if(empty($token)){
-        echo json_encode(['status'=>-1,'msg'=>'请登录后重试']);
+        echo json_encode(['status'=>-1,'msg'=>'当前游客状态,请登录']);
         exit();
     }
     $userid = think\Cache::get($token);
