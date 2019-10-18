@@ -5,7 +5,7 @@
  * @email: wuruiwm@qq.com
  * @Date: 2019-09-21 15:05:55
  * @LastEditors: 傍晚升起的太阳
- * @LastEditTime: 2019-10-16 10:32:00
+ * @LastEditTime: 2019-10-18 11:16:51
  */
 namespace app\api\controller;
 
@@ -227,7 +227,7 @@ class Matron
         }
         $data = model('matron')->detail($id);
         if(empty($data) || $data['status'] == 0){
-            return ['status'=>0,'msg'=>'请求出错,请刷新重试'];
+            return ['status'=>0,'msg'=>'该月嫂不存在'];
         }
         if(!empty($data['head_img'])){
             $data['head_url'] = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]" .str_replace("\\",'/',$data['head_img']);
