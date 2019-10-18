@@ -5,7 +5,7 @@
  * @email: wuruiwm@qq.com
  * @Date: 2019-09-19 08:56:04
  * @LastEditors: 傍晚升起的太阳
- * @LastEditTime: 2019-10-18 10:13:53
+ * @LastEditTime: 2019-10-18 10:16:57
  */
 // 应用公共文件
 /**
@@ -133,10 +133,10 @@ function msg($status,$msg){
     exit();
 }
 function ueditor_img_src($content = ''){
-	return str_replace('<img src="','<img src="'.(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]",$content);
-	// $content = str_replace('<img src="','<img src="'.(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]",$content);
-	// $content = str_replace("<img ", "<img style='max-width:100%;height:auto;'", $content);
-	// return $content;
+	//return str_replace('<img src="','<img src="'.(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]",$content);
+	$content = str_replace('<img src="','<img src="'.(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]",$content);
+	$content = str_replace("<img ", "<img style='max-width:100%;height:auto;'", $content);
+	return $content;
 }
 function get_star_name($star){
     if($star == 2){
