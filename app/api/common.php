@@ -5,7 +5,7 @@
  * @email: wuruiwm@qq.com
  * @Date: 2019-09-19 08:56:04
  * @LastEditors: 傍晚升起的太阳
- * @LastEditTime: 2019-10-15 17:07:56
+ * @LastEditTime: 2019-10-18 10:51:04
  */
 function getRandomChar($length){
     $str = null;
@@ -28,11 +28,15 @@ function insert_token($userid){
 }
 function get_token(){
     $token = \think\Request::instance()->header('token');
+    if(empty($token)){
+        echo json_encode(['status'=>-1,'msg'=>'请登录后重试']);
+        exit();
+    }
     $userid = think\Cache::get($token);
     if(!empty($userid) && is_numeric($userid)){
         return $userid;
     }else{
-        echo json_encode(['status'=>-1,'msg'=>'token失效，请重新登陆']);
+        echo json_encode(['status'=>-1,'msg'=>'登录失效，请重新登陆']);
         exit();
     }
 }
