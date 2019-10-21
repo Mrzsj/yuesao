@@ -5,7 +5,7 @@
  * @email: wuruiwm@qq.com
  * @Date: 2019-09-19 08:56:04
  * @LastEditors: 傍晚升起的太阳
- * @LastEditTime: 2019-09-19 08:56:04
+ * @LastEditTime: 2019-10-21 15:54:05
  */
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
@@ -18,7 +18,12 @@
 // +----------------------------------------------------------------------
 if($_SERVER['HTTP_HOST'] == 'ys.nikm.cn'){
     $mysql_config['hostname'] = '127.0.0.1';
+    $mysql_config['password'] = 'ys';
+}else if($_SERVER['HTTP_HOST'] == 'ys.luowangtech.club'){
+    $mysql_config['hostname'] = '127.0.0.1';
+    $mysql_config['password'] = 'JkA7RZPkSKa8ELAB';
 }else{
+    $mysql_config['password'] = 'ys';
     $mysql_config['hostname'] = '192.168.18.173';
 }
 return [
