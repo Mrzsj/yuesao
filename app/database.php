@@ -5,7 +5,7 @@
  * @email: wuruiwm@qq.com
  * @Date: 2019-09-19 08:56:04
  * @LastEditors: 傍晚升起的太阳
- * @LastEditTime: 2019-10-21 15:54:05
+ * @LastEditTime: 2019-10-21 16:03:50
  */
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
@@ -36,7 +36,7 @@ return [
     // 用户名
     'username'        => 'ys',
     // 密码
-    'password'        => 'ys',
+    'password'        => $mysql_config['password'],
     // 端口
     'hostport'        => '3306',
     // 连接dsn
